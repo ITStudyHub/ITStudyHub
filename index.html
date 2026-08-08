@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITStudyHub - Your Complete IT Learning & Study Hub</title>
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & THEMING SYSTEM
+           ========================================================================== */
+        :root {
+            --primary-color: #032b43;
+            --secondary-color: #0a4b75;
+            --accent-color: #00a8e8;
+            --bg-color: #081119;
+            --surface-color: #12212f;
+            --surface-hover: #1a3247;
+            --text-color: #f0f6fc;
+            --text-muted: #8b9eb0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(8, 17, 25, 0.8);
+            
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 20px rgba(0, 168, 232, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --surface-color: #ffffff;
+            --surface-hover: #f1f5f9;
+            --text-color: #0f172a;
+            --text-muted: #64748b;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 0 20px rgba(var(--accent-rgb), 0.3);
+        }
+
+        [data-color-preset="purple"] { --primary-color: #2e1065; --secondary-color: #4c1d95; --accent-color: #a855f7; --shadow-glow: 0 0 20px rgba(168, 85, 247, 0.2); }
+        [data-color-preset="green"] { --primary-color: #022c22; --secondary-color: #064e3b; --accent-color: #34d399; --shadow-glow: 0 0 20px rgba(52, 211, 153, 0.2); }
+        [data-color-preset="crimson"] { --primary-color: #450a0a; --secondary-color: #7f1d1d; --accent-color: #fb7185; --shadow-glow: 0 0 20px rgba(251, 113, 133, 0.2); }
+        [data-color-preset="orange"] { --primary-color: #431407; --secondary-color: #7c2d12; --accent-color: #fb923c; --shadow-glow: 0 0 20px rgba(251, 146, 60, 0.2); }
+        [data-color-preset="cyan"] { --primary-color: #083344; --secondary-color: #164e63; --accent-color: #22d3ee; --shadow-glow: 0 0 20px rgba(34, 211, 238, 0.2); }
+
+        /* ==========================================================================
+           2. GLOBAL STYLES & RESET
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; transition: background-color 0.3s, color 0.3s; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        button { border: none; background: none; cursor: pointer; font-family: inherit; color: inherit; }
+        ul { list-style: none; }
+        
+        h1, h2, h3, h4 { font-weight: 700; line-height: 1.2; margin-bottom: 0.5em; color: var(--text-color); }
+        p { color: var(--text-muted); margin-bottom: 1em; }
+        svg { width: 24px; height: 24px; fill: currentColor; }
+
+        /* ==========================================================================
+           3. LAYOUT & COMPONENTS
+           ========================================================================== */
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        
+        header { position: sticky; top: 0; z-index: 1000; background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); padding: 12px 0; transition: var(--transition); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 1.5rem; font-weight: 800; color: var(--accent-color); cursor: pointer; }
+        .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent-color), var(--secondary-color)); border-radius: 8px; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; }
+        
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-link { font-weight: 600; font-size: 1rem; position: relative; padding: 8px 0; color: var(--text-color); transition: color 0.2s; cursor: pointer; }
+        .nav-link:hover, .nav-link.active { color: var(--accent-color); }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent-color); transition: width 0.3s; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+        .nav-actions { display: flex; align-items: center; gap: 16px; }
+        .icon-btn { padding: 8px; border-radius: 50%; transition: var(--transition); background: var(--surface-color); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; position: relative; }
+        .icon-btn:hover { background: var(--surface-hover); color: var(--accent-color); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+        .badge { position: absolute; top: -5px; right: -5px; background: var(--accent-color); color: var(--bg-color); font-size: 0.7rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        .mobile-menu-btn { display: none; }
+        @media (max-width: 900px) {
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--surface-color); flex-direction: column; padding: 20px; box-shadow: var(--shadow-md); border-bottom: 1px solid var(--border-color); }
+            .nav-links.show { display: flex; }
+            .mobile-menu-btn { display: flex; }
+        }
+
+        .hero { padding: 80px 0; position: relative; overflow: hidden; text-align: center; }
+        .hero-bg-shapes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; opacity: 0.6; }
+        .shape { position: absolute; filter: blur(60px); border-radius: 50%; }
+        .shape-1 { top: -20%; left: -10%; width: 500px; height: 500px; background: var(--primary-color); }
+        .shape-2 { bottom: -20%; right: -10%; width: 400px; height: 400px; background: var(--secondary-color); }
+        .shape-3 { top: 20%; left: 50%; width: 300px; height: 300px; background: var(--accent-color); opacity: 0.2; transform: translateX(-50%); }
+
+        .hero h1 { font-size: 4rem; margin-bottom: 16px; background: linear-gradient(to right, var(--text-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.25rem; max-width: 600px; margin: 0 auto 32px; }
+        .btn-group { display: flex; gap: 16px; justify-content: center; }
+        
+        .btn { padding: 12px 24px; border-radius: var(--radius-md); font-weight: 600; font-size: 1rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--accent-color); color: #000; box-shadow: var(--shadow-glow); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(var(--accent-rgb), 0.4); background: #fff; }
+        .btn-outline { border: 2px solid var(--border-color); background: var(--surface-color); color: var(--text-color); }
+        .btn-outline:hover { border-color: var(--accent-color); color: var(--accent-color); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 48px; }
+        .stat-card { background: var(--surface-color); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center; transition: var(--transition); }
+        .stat-card:hover { transform: translateY(-5px); border-color: var(--accent-color); box-shadow: var(--shadow-md); }
+        .stat-value { font-size: 2.5rem; font-weight: 800; color: var(--accent-color); line-height: 1; margin-bottom: 8px; }
+        .stat-label { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; }
+        .section-title { font-size: 2rem; margin: 0; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 48px; }
+        
+        .card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; transition: var(--transition); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent-color); box-shadow: var(--shadow-glow); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+        .card-title { font-size: 1.25rem; margin-bottom: 8px; color: var(--text-color); }
+        .card-meta { display: flex; gap: 12px; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; flex-wrap: wrap; }
+        .meta-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--bg-color); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border-color); }
+        .card-action { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        
+        .progress-bar { width: 100%; height: 6px; background: var(--bg-color); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--secondary-color), var(--accent-color)); width: 45%; border-radius: 3px; }
+
+        .accordion { margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; background: var(--surface-color); transition: var(--transition); }
+        .accordion-header { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; background: var(--surface-color); transition: background 0.2s; }
+        .accordion-header:hover { background: var(--surface-hover); }
+        .accordion-icon { transition: transform 0.3s; }
+        .accordion.open .accordion-icon { transform: rotate(180deg); color: var(--accent-color); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: var(--bg-color); }
+        .accordion.open .accordion-content { max-height: 1000px; border-top: 1px solid var(--border-color); }
+        .accordion-inner { padding: 24px; }
+
+        .resource-list { display: flex; flex-direction: column; gap: 12px; }
+        .resource-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-md); transition: var(--transition); }
+        .resource-item:hover { border-color: var(--accent-color); background: var(--surface-hover); }
+        .resource-info { display: flex; align-items: center; gap: 12px; }
+        .resource-icon { width: 40px; height: 40px; border-radius: 8px; background: var(--bg-color); display: flex; align-items: center; justify-content: center; color: var(--accent-color); }
+        .resource-title { font-weight: 600; margin: 0; font-size: 0.95rem; }
+        .resource-meta { font-size: 0.75rem; color: var(--text-muted); }
+        .resource-actions { display: flex; gap: 8px; }
+
+        .tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border-color); margin-bottom: 24px; overflow-x: auto; padding-bottom: 8px; }
+        .tab-btn { padding: 10px 20px; font-weight: 600; color: var(--text-muted); border-radius: var(--radius-md); transition: var(--transition); white-space: nowrap; }
+        .tab-btn:hover { color: var(--text-color); background: var(--surface-hover); }
+        .tab-btn.active { background: var(--accent-color); color: #000; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+
+        .breadcrumbs { margin-bottom: 24px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted); }
+        .crumb { cursor: pointer; transition: color 0.2s; }
+        .crumb:hover { color: var(--accent-color); }
+        .crumb-separator { opacity: 0.5; }
+        .crumb.active { color: var(--text-color); font-weight: 600; cursor: default; }
+
+        .search-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: flex; flex-direction: column; align-items: center; padding-top: 100px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .search-overlay.active { opacity: 1; pointer-events: all; }
+        .search-container { width: 90%; max-width: 800px; background: var(--surface-color); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-glow); transform: translateY(-20px); transition: transform 0.3s; }
+        .search-overlay.active .search-container { transform: translateY(0); }
+        .search-input-wrapper { display: flex; align-items: center; gap: 16px; border-bottom: 2px solid var(--accent-color); padding-bottom: 12px; margin-bottom: 24px; }
+        .search-input { width: 100%; background: transparent; border: none; outline: none; font-size: 1.5rem; color: var(--text-color); font-family: var(--font-main); }
+        .search-results { max-height: 60vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .close-search { position: absolute; top: 24px; right: 24px; color: white; cursor: pointer; }
+
+        .theme-panel { position: fixed; top: 80px; right: 24px; width: 300px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-md); z-index: 1500; transform: translateX(120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; }
+        .theme-panel.active { transform: translateX(0); opacity: 1; }
+        .theme-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+        .theme-btn { height: 40px; border-radius: var(--radius-md); border: 2px solid transparent; cursor: pointer; transition: transform 0.2s; }
+        .theme-btn:hover { transform: scale(1.05); }
+        .theme-btn.active { border-color: var(--text-color); }
+        .toggle-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); }
+        
+        .pdf-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 3000; display: none; flex-direction: column; }
+        .pdf-modal.active { display: flex; animation: slideUp 0.4s ease; }
+        .pdf-header { background: var(--surface-color); padding: 12px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .pdf-viewer-area { flex: 1; background: #1a202c; display: flex; width: 100%; height: calc(100vh - 60px); }
+        .pdf-viewer-area iframe { width: 100%; height: 100%; border: none; }
+
+        footer { background: var(--surface-color); border-top: 1px solid var(--border-color); padding: 60px 0 24px; margin-top: 80px; text-align: center; }
+        .footer-logo { font-size: 1.5rem; font-weight: bold; color: var(--accent-color); margin-bottom: 16px; }
+        .footer-links { display: flex; justify-content: center; gap: 24px; margin: 24px 0; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-muted); transition: color 0.2s; }
+        .footer-links a:hover { color: var(--accent-color); }
+        
+        .hidden { display: none !important; }
+        .text-accent { color: var(--accent-color); }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        .view-section { animation: fadeIn 0.4s ease; }
+        mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 0 2px; border-radius: 2px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <div class="logo" onclick="app.navigate('home')">
+                <div class="logo-icon">IT</div>
+                ITStudyHub
+            </div>
+            
+            <nav class="nav-links" id="main-nav">
+                <div class="nav-link active" onclick="app.navigate('home')">Home</div>
+                <div class="nav-link" onclick="app.navigate('semesters')">Semesters</div>
+                <div class="nav-link" onclick="app.navigate('bookmarks')">Bookmarks</div>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="icon-btn" onclick="app.toggleSearch()" aria-label="Search">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                </button>
+                <button class="icon-btn" onclick="app.navigate('bookmarks')" aria-label="Bookmarks">
+                    <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+                    <span class="badge" id="bookmark-count">0</span>
+                </button>
+                <button class="icon-btn" onclick="app.toggleThemePanel()" aria-label="Customize Theme">
+                    <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                </button>
+                <button class="icon-btn mobile-menu-btn" onclick="app.toggleMobileMenu()">
+                    <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="theme-panel" id="theme-panel">
+        <h3>Theme Customization</h3>
+        <p style="font-size: 0.85rem; margin-bottom: 10px;">Select your primary accent color.</p>
+        <div class="theme-options">
+            <button class="theme-btn" style="background: #00a8e8;" onclick="app.setThemePreset('ocean')" title="Ocean Blue"></button>
+            <button class="theme-btn" style="background: #a855f7;" onclick="app.setThemePreset('purple')" title="Royal Purple"></button>
+            <button class="theme-btn" style="background: #34d399;" onclick="app.setThemePreset('green')" title="Emerald Green"></button>
+            <button class="theme-btn" style="background: #fb7185;" onclick="app.setThemePreset('crimson')" title="Crimson"></button>
+            <button class="theme-btn" style="background: #fb923c;" onclick="app.setThemePreset('orange')" title="Orange"></button>
+            <button class="theme-btn" style="background: #22d3ee;" onclick="app.setThemePreset('cyan')" title="Cyan"></button>
+        </div>
+        <div class="toggle-wrapper">
+            <span>Dark Mode</span>
+            <button class="icon-btn" id="dark-mode-toggle" onclick="app.toggleDarkMode()"></button>
+        </div>
+    </div>
+
+    <div class="search-overlay" id="search-overlay">
+        <svg class="close-search" viewBox="0 0 24 24" onclick="app.toggleSearch()" style="width:32px;height:32px;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <svg viewBox="0 0 24 24" style="color:var(--accent-color);"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" class="search-input" id="search-input" placeholder="Search subjects, units, notes..." autocomplete="off">
+            </div>
+            <div class="search-results" id="search-results">
+                <div class="empty-state">Start typing to search across active semesters and subjects.</div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container" id="app-content" style="min-height: 70vh;"></main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">ITStudyHub</div>
+            <p>“Learn • Practice • Prepare • Succeed”</p>
+            <div class="footer-links">
+                <a href="#" onclick="app.navigate('home'); return false;">Home</a>
+                <a href="#" onclick="app.navigate('semesters'); return false;">Semesters</a>
+                <a href="#" onclick="app.navigate('bookmarks'); return false;">Bookmarks</a>
+                <a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;">Back to Top</a>
+            </div>
+            <p style="font-size: 0.85rem; opacity: 0.7;">&copy; 2026 ITStudyHub. All Rights Reserved. Designed for IT/CS Students.</p>
+        </div>
+    </footer>
+
+    <div class="pdf-modal" id="pdf-modal">
+        <div class="pdf-header">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <h3 id="pdf-title" style="margin:0; font-size:1.1rem; color:var(--text-color);">Document Viewer</h3>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <a id="pdf-open-tab" href="#" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem;">Open in New Tab</a>
+                <button class="icon-btn" onclick="app.closePDF()" style="background: rgba(255,0,0,0.1); color: #ef4444; border:none;">
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="pdf-viewer-area">
+            <iframe id="pdf-frame" src="" title="PDF Viewer"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const app = {
+            data: { semesters: [] },
+            state: {
+                currentView: 'home',
+                bookmarks: JSON.parse(localStorage.getItem('itsh_bookmarks')) || [],
+                recentlyViewed: JSON.parse(localStorage.getItem('itsh_recent')) || [],
+                theme: localStorage.getItem('itsh_theme') || 'ocean',
+                isDark: localStorage.getItem('itsh_dark') === 'true' || false
+            },
+
+            init() {
+                this.generateCustomData();
+                this.applyTheme();
+                this.updateBookmarkCount();
+                this.navigate('home');
+                this.setupEventListeners();
+            },
+
+            generateCustomData() {
+                const subjectsWithJournal = [
+                    "INTRODUCTION TO PROGRAMMING-I",
+                    "WEB DESIGNING-I",
+                    "OFFICE AUTOMATION TOOLS",
+                    "INTRODUCTION TO PROGRAMMING-II",
+                    "WEB DESIGNING-II",
+                    "MULTIMEDIA AND ANIMATION",
+                    "DATA STRUCTURE",
+                    "OBJECT ORIENTED CONCEPTS AND PROGRAMMING",
+                    "DATABASE MANAGEMENT SYSTEM"
+                ];
+
+                const semesterData = [
+                    {
+                        id: 'sem-1',
+                        name: 'Semester 1',
+                        description: 'Core introductory IT subjects.',
+                        subjects: [
+                            "INTRODUCTION TO PROGRAMMING-I",
+                            "WEB DESIGNING-I",
+                            "OFFICE AUTOMATION TOOLS",
+                            "FUNDAMENTAL OF MATHEMATICS",
+                            "COMMUNICATION SKILLS",
+                            "COMPUTER MAINTENANCE AND TROUBLESHOOTING",
+                            "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA"
+                        ]
+                    },
+                    {
+                        id: 'sem-2',
+                        name: 'Semester 2',
+                        description: 'Intermediate concepts and programming foundation.',
+                        subjects: [
+                            "INTRODUCTION TO PROGRAMMING-II",
+                            "WEB DESIGNING-II",
+                            "MULTIMEDIA AND ANIMATION",
+                            "FINANCIAL ACCOUNTING",
+                            "EFFECTIVE WRITING SKILLS",
+                            "INFORMATION TECHNOLOGY",
+                            "PROFESSIONAL ETHICS"
+                        ]
+                    },
+                    {
+                        id: 'sem-3',
+                        name: 'Semester 3',
+                        description: 'Data structure, database and AI concepts.',
+                        subjects: [
+                            "DATA STRUCTURE",
+                            "OBJECT ORIENTED CONCEPTS AND PROGRAMMING",
+                            "DATABASE MANAGEMENT SYSTEM",
+                            "INTRODUCTION TO ARTIFICIAL INTELLIGENCE",
+                            "EMPLOYABILITY SKILLS-I",
+                            "SYSTEM ANALYSIS AND DESIGN",
+                            "INDIAN KNOWLEDGE SYSTEMS IN COMPUTING"
+                        ]
+                    }
+                ];
+
+                this.data.semesters = semesterData.map((s, semIdx) => {
+                    return {
+                        id: s.id,
+                        name: s.name,
+                        description: s.description,
+                        subjects: s.subjects.map((subName, subIdx) => {
+                            const subId = `sub-${semIdx + 1}-${subIdx + 1}`;
+                            const hasJournal = subjectsWithJournal.includes(subName);
+                            const isGitaSubject = subName === "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA";
+
+                            let unitsList = [];
+                            if (isGitaSubject) {
+                                unitsList = [{
+                                    id: `unit-${semIdx + 1}-${subIdx + 1}-all`,
+                                    name: `All Units Notes (Unit 1 to 5)`,
+                                    resources: [
+                                        { 
+                                            id: `res-n-${semIdx + 1}-${subIdx + 1}-all`, 
+                                            title: `PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA - Complete Notes (All Units 1-5).pdf`, 
+                                            type: "Notes PDF",
+                                            // Same folder direct path with exact filename
+                                            url: `PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA - Complete Notes (All Units 1-5).pdf` 
+                                        }
+                                    ]
+                                }];
+                            } else {
+                                unitsList = [1, 2, 3, 4, 5].map(uNum => ({
+                                    id: `unit-${semIdx + 1}-${subIdx + 1}-${uNum}`,
+                                    name: `Unit ${uNum}: ${subName} Notes`,
+                                    resources: [
+                                        { 
+                                            id: `res-n-${semIdx + 1}-${subIdx + 1}-${uNum}`, 
+                                            title: `${subName} - Unit ${uNum} Notes`, 
+                                            type: "Notes PDF",
+                                            url: `${subId}-unit${uNum}-notes.pdf` 
+                                        },
+                                        { 
+                                            id: `res-p-${semIdx + 1}-${subIdx + 1}-${uNum}`, 
+                                            title: `${subName} - Unit ${uNum} Presentation`, 
+                                            type: "Presentation PDF",
+                                            url: `${subId}-unit${uNum}-ppt.pdf` 
+                                        }
+                                    ]
+                                }));
+                            }
+
+                            return {
+                                id: subId,
+                                semId: s.id,
+                                name: subName,
+                                hasJournal: hasJournal,
+                                units: unitsList,
+                                academic: {
+                                    assignments: [
+                                        { id: `ass-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Assignment 1.pdf`, type: "PDF", date: "Aug 15, 2026", url: `${subId}-assignment1.pdf` },
+                                        { id: `ass-${semIdx + 1}-${subIdx + 1}-2`, title: `${subName} - Assignment 2.pdf`, type: "PDF", date: "Sep 20, 2026", url: `${subId}-assignment2.pdf` }
+                                    ],
+                                    journals: hasJournal ? [
+                                        { id: `jou-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Practical Journal.pdf`, type: "PDF", date: "Nov 01, 2026", url: `${subId}-journal.pdf` }
+                                    ] : [],
+                                    papers: [
+                                        { id: `pap-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Previous Year Paper (2025).pdf`, type: "PDF", date: "Dec 2025", url: `${subId}-paper2025.pdf` }
+                                    ]
+                                }
+                            };
+                        })
+                    };
+                });
+            },
+
+            navigate(view, param = null, param2 = null) {
+                this.state.currentView = view;
+                const content = document.getElementById('app-content');
+                content.innerHTML = ''; 
+                
+                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                switch(view) {
+                    case 'home':
+                        if(document.querySelector('.nav-link:nth-child(1)')) document.querySelector('.nav-link:nth-child(1)').classList.add('active');
+                        this.renderHome(content);
+                        break;
+                    case 'semesters':
+                        if(document.querySelector('.nav-link:nth-child(2)')) document.querySelector('.nav-link:nth-child(2)').classList.add('active');
+                        this.renderSemesterList(content);
+                        break;
+                    case 'semester-detail':
+                        this.renderSemesterDetail(content, param);
+                        this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
+                        break;
+                    case 'subject-detail':
+                        this.renderSubjectDetail(content, param, param2);
+                        this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
+                        break;
+                    case 'bookmarks':
+                        if(document.querySelector('.nav-link:nth-child(3)')) document.querySelector('.nav-link:nth-child(3)').classList.add('active');
+                        this.renderBookmarks(content);
+                        break;
+                }
+            },
+
+            renderHome(container) {
+                let html = `
+                    <div class="hero view-section">
+                        <div class="hero-bg-shapes">
+                            <div class="shape shape-1"></div>
+                            <div class="shape shape-2"></div>
+                            <div class="shape shape-3"></div>
+                        </div>
+                        <h1>Welcome to ITStudyHub</h1>
+                        <p>Your Complete IT Learning & Study Hub. Access premium study materials, unit-wise notes, assignments, and previous papers.</p>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="app.navigate('semesters')">
+                                Explore Semesters
+                                <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid view-section">
+                        <div class="stat-card">
+                            <div class="stat-value">${this.data.semesters.length}</div>
+                            <div class="stat-label">Active Semesters</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">21</div>
+                            <div class="stat-label">Total Subjects</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">101</div>
+                            <div class="stat-label">Study Units</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${this.state.bookmarks.length}</div>
+                            <div class="stat-label">Bookmarks</div>
+                        </div>
+                    </div>
+
+                    <div class="section-header view-section">
+                        <h2 class="section-title">Academic Semesters</h2>
+                    </div>
+                    <div class="grid view-section" id="home-sems"></div>
+                `;
+                container.innerHTML = html;
+                this.renderSemesterCards(document.getElementById('home-sems'));
+            },
+
+            renderSemesterList(container) {
+                container.innerHTML = `
+                    <div class="breadcrumbs view-section" style="margin-top:24px;">
+                        <span class="crumb" onclick="app.navigate('home')">Home</span>
+                        <span class="crumb-separator">/</span>
+                        <span class="crumb active">Semesters</span>
+                    </div>
+                    <div class="section-header view-section">
+                        <h2 class="section-title">All Semesters</h2>
+                        <p>Select your current semester to access subjects and assignment PDFs.</p>
+                    </div>
+                    <div class="grid view-section" id="list-sems"></div>
+                `;
+                this.renderSemesterCards(document.getElementById('list-sems'));
+            },
+
+            renderSemesterCards(wrapper) {
+                let html = '';
+                this.data.semesters.forEach(sem => {
+                    html += `
+                        <div class="card cursor-pointer" onclick="app.navigate('semester-detail', '${sem.id}')">
+                            <div class="card-header">
+                                <h3 class="card-title">${sem.name}</h3>
+                                ${this.getBookmarkBtnTemplate(sem.id, sem.name, 'Semester')}
+                            </div>
+                            <p style="font-size: 0.9rem;">${sem.description}</p>
+                            <div class="card-meta">
+                                <span class="meta-tag">${sem.subjects.length} Subjects</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 50%"></div></div>
+                            <div class="card-action">
+                                <span class="text-accent" style="font-weight:600; font-size:0.9rem;">View Subjects &rarr;</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                wrapper.innerHTML = html;
+            },
+
+            renderSemesterDetail(container, semId) {
+                const sem = this.data.semesters.find(s => s.id === semId);
+                if(!sem) return;
+
+                let html = `
+                    <div class="breadcrumbs view-section" style="margin-top:24px;">
+                        <span class="crumb" onclick="app.navigate('home')">Home</span>
+                        <span class="crumb-separator">/</span>
+                        <span class="crumb" onclick="app.navigate('semesters')">Semesters</span>
+                        <span class="crumb-separator">/</span>
+                        <span class="crumb active">${sem.name}</span>
+                    </div>
+                    <div class="section-header view-section">
+                        <div>
+                            <h2 class="section-title">${sem.name} Subjects</h2>
+                            <p>${sem.subjects.length} Subjects available in this semester.</p>
+                        </div>
+                    </div>
+                    <div class="grid view-section">
+                `;
+
+                sem.subjects.forEach(sub => {
+                    html += `
+                        <div class="card cursor-pointer" onclick="app.navigate('subject-detail', '${sem.id}', '${sub.id}')">
+                            <div class="card-header">
+                                <h3 class="card-title">${sub.name}</h3>
+                                ${this.getBookmarkBtnTemplate(sub.id, sub.name, 'Subject')}
+                            </div>
+                            <div class="card-meta">
+                                <span class="meta-tag">${sub.units.length} ${sub.units.length === 1 ? 'Combined PDF' : 'Units'}</span>
+                                <span class="meta-tag">PDF Assignments</span>
+                                ${sub.hasJournal ? '<span class="meta-tag" style="border-color:var(--accent-color);">Practical Journal</span>' : ''}
+                            </div>
+                            <div class="card-action">
+                                <span class="text-accent" style="font-weight:600; font-size:0.9rem;">Open Subject Dashboard &rarr;</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+                container.innerHTML = html;
+            },
+
+            renderSubjectDetail(container, semId, subId) {
+                const sem = this.data.semesters.find(s => s.id === semId);
+                const sub = sem ? sem.subjects.find(s => s.id === subId) : null;
+                if(!sub) return;
+
+                let html = `
+                    <div class="breadcrumbs view-section" style="margin-top:24px;">
+                        <span class="crumb" onclick="app.navigate('home')">Home</span>
+                        <span class="crumb-separator">/</span>
+                        <span class="crumb" onclick="app.navigate('semesters')">Semesters</span>
+                        <span class="crumb-separator">/</span>
+                        <span class="crumb" onclick="app.navigate('semester-detail', '${sem.id}')">${sem.name}</span>
+                        <span class="crumb-separator">/</span>
+                        <span class="crumb active">${sub.name}</span>
+                    </div>
+                    
+                    <div class="section-header view-section">
+                        <div>
+                            <h2 class="section-title">${sub.name}</h2>
+                            <p>Subject Dashboard: Study Material & PDF Assignments</p>
+                        </div>
+                        ${this.getBookmarkBtnTemplate(sub.id, sub.name, 'Subject')}
+                    </div>
+
+                    <div class="tabs view-section">
+                        <button class="tab-btn active" onclick="app.switchTab(this, 'tab-units')">Syllabus & Units (${sub.units.length})</button>
+                        <button class="tab-btn" onclick="app.switchTab(this, 'tab-assignments')">Assignments PDFs</button>
+                        ${sub.hasJournal ? '<button class="tab-btn" onclick="app.switchTab(this, \'tab-journals\')">Practical Journal</button>' : ''}
+                        <button class="tab-btn" onclick="app.switchTab(this, 'tab-papers')">Previous Papers</button>
+                    </div>
+
+                    <div id="tab-units" class="tab-content active view-section">
+                `;
+
+                sub.units.forEach(unit => {
+                    html += `
+                        <div class="accordion open">
+                            <div class="accordion-header" onclick="app.toggleAccordion(this)">
+                                <span>${unit.name}</span>
+                                <svg class="accordion-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-inner resource-list">
+                    `;
+                    unit.resources.forEach(res => {
+                        html += this.getResourceHTML(res);
+                    });
+                    html += `</div></div></div>`;
+                });
+
+                html += `</div>`;
+
+                html += `
+                    <div id="tab-assignments" class="tab-content view-section"><div class="resource-list">
+                        ${sub.academic.assignments.length ? sub.academic.assignments.map(a => this.getResourceHTML(a)).join('') : '<div class="empty-state">No assignments available.</div>'}
+                    </div></div>
+                `;
+
+                if (sub.hasJournal) {
+                    html += `
+                        <div id="tab-journals" class="tab-content view-section"><div class="resource-list">
+                            ${sub.academic.journals.length ? sub.academic.journals.map(j => this.getResourceHTML(j)).join('') : '<div class="empty-state">No journals available.</div>'}
+                        </div></div>
+                    `;
+                }
+
+                html += `
+                    <div id="tab-papers" class="tab-content view-section"><div class="resource-list">
+                        ${sub.academic.papers.length ? sub.academic.papers.map(p => this.getResourceHTML(p)).join('') : '<div class="empty-state">No previous papers available.</div>'}
+                    </div></div>
+                `;
+
+                container.innerHTML = html;
+            },
+
+            getResourceHTML(res) {
+                const icon = '<svg viewBox="0 0 24 24"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM14 12h1V8h-1v4z"/></svg>';
+                const pdfUrl = res.url || '#';
+                
+                return `
+                    <div class="resource-item">
+                        <div class="resource-info">
+                            <div class="resource-icon">${icon}</div>
+                            <div>
+                                <h4 class="resource-title">${res.title}</h4>
+                                <div class="resource-meta">${res.type} ${res.date ? '| ' + res.date : ''}</div>
+                            </div>
+                        </div>
+                        <div class="resource-actions">
+                            ${this.getBookmarkBtnTemplate(res.id, res.title, 'Resource', pdfUrl)}
+                            <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem;" onclick="app.openPDF('${res.title.replace(/'/g, "\\'")}', '${pdfUrl.replace(/'/g, "\\'")}')">
+                                View PDF
+                            </button>
+                        </div>
+                    </div>
+                `;
+            },
+
+            renderBookmarks(container) {
+                let html = `
+                    <div class="section-header view-section" style="margin-top:24px;">
+                        <h2 class="section-title">Your Bookmarks</h2>
+                    </div>
+                    <div class="grid view-section">
+                `;
+
+                if(this.state.bookmarks.length === 0) {
+                    html = html.replace('<div class="grid view-section">', '') + `
+                        <div class="empty-state view-section">
+                            <svg viewBox="0 0 24 24" style="width:64px;height:64px;color:var(--border-color);margin-bottom:16px;"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+                            <h3>No bookmarks yet</h3>
+                            <p>Click the bookmark icon on subjects or resources to save them here.</p>
+                            <button class="btn btn-primary" style="margin-top:16px;" onclick="app.navigate('semesters')">Browse Semesters</button>
+                        </div>
+                    `;
+                } else {
+                    this.state.bookmarks.forEach(bm => {
+                        html += `
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">${bm.title}</h3>
+                                    ${this.getBookmarkBtnTemplate(bm.id, bm.title, bm.type, bm.url)}
+                                </div>
+                                <div class="card-meta"><span class="meta-tag">${bm.type}</span></div>
+                                <div class="card-action">
+                                    <span class="text-accent cursor-pointer" style="font-weight:600; font-size:0.9rem;" onclick="app.resolveBookmarkAction('${bm.id}', '${bm.url || ''}')">Open &rarr;</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += `</div>`;
+                }
+                container.innerHTML = html;
+            },
+
+            resolveBookmarkAction(id, url) {
+                if(id.startsWith('sem-')) this.navigate('semester-detail', id);
+                else if(id.startsWith('sub-')) {
+                    const semId = id.split('-').slice(0,2).join('-');
+                    this.navigate('subject-detail', semId, id);
+                }
+                else {
+                    const bm = this.state.bookmarks.find(b => b.id === id);
+                    this.openPDF(bm ? bm.title : "PDF Document", url || bm?.url);
+                }
+            },
+
+            switchTab(btn, targetId) {
+                const parent = btn.parentElement;
+                parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const container = parent.parentElement;
+                container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(targetId).classList.add('active');
+            },
+
+            toggleAccordion(header) {
+                const accordion = header.parentElement;
+                accordion.classList.toggle('open');
+            },
+
+            openPDF(title, pdfUrl) {
+                const modal = document.getElementById('pdf-modal');
+                const frame = document.getElementById('pdf-frame');
+                const tabBtn = document.getElementById('pdf-open-tab');
+
+                document.getElementById('pdf-title').innerText = title;
+                
+                // Properly encode filename with spaces and parentheses for browser compatibility
+                const finalUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
+                
+                frame.src = finalUrl;
+                tabBtn.href = finalUrl;
+
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            },
+
+            closePDF() {
+                const modal = document.getElementById('pdf-modal');
+                const frame = document.getElementById('pdf-frame');
+                modal.classList.remove('active');
+                frame.src = ''; 
+                document.body.style.overflow = '';
+            },
+
+            getBookmarkBtnTemplate(id, title, type, url = '') {
+                const isBookmarked = this.state.bookmarks.some(b => b.id === id);
+                const fill = isBookmarked ? 'currentColor' : 'none';
+                return `
+                    <button class="icon-btn" onclick="event.stopPropagation(); app.toggleBookmark('${id}', '${title.replace(/'/g, "\\'")}', '${type}', '${url.replace(/'/g, "\\'")}')" title="Bookmark">
+                        <svg viewBox="0 0 24 24" style="fill: ${fill}; stroke: currentColor; stroke-width: 2;"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+                    </button>
+                `;
+            },
+            toggleBookmark(id, title, type, url = '') {
+                const index = this.state.bookmarks.findIndex(b => b.id === id);
+                if(index > -1) {
+                    this.state.bookmarks.splice(index, 1);
+                } else {
+                    this.state.bookmarks.push({ id, title, type, url });
+                }
+                localStorage.setItem('itsh_bookmarks', JSON.stringify(this.state.bookmarks));
+                this.updateBookmarkCount();
+                
+                if(this.state.currentView === 'bookmarks') {
+                    this.renderBookmarks(document.getElementById('app-content'));
+                } else {
+                    this.navigate(this.state.currentView, 
+                        this.state.currentView === 'subject-detail' ? id.split('-').slice(0,2).join('-') : 
+                        (this.state.currentView === 'semester-detail' ? id : null), 
+                        this.state.currentView === 'subject-detail' ? id : null);
+                }
+            },
+            updateBookmarkCount() {
+                document.getElementById('bookmark-count').innerText = this.state.bookmarks.length;
+            },
+
+            toggleSearch() {
+                const overlay = document.getElementById('search-overlay');
+                overlay.classList.toggle('active');
+                if(overlay.classList.contains('active')) {
+                    setTimeout(() => document.getElementById('search-input').focus(), 100);
+                }
+            },
+            performSearch(query) {
+                const resultsContainer = document.getElementById('search-results');
+                if(!query || query.length < 2) {
+                    resultsContainer.innerHTML = '<div class="empty-state">Start typing to search...</div>';
+                    return;
+                }
+                
+                query = query.toLowerCase();
+                let results = [];
+
+                this.data.semesters.forEach(sem => {
+                    if(sem.name.toLowerCase().includes(query)) results.push({ type: 'Semester', title: sem.name, id: sem.id, link: `app.navigate('semester-detail', '${sem.id}')` });
+                    
+                    sem.subjects.forEach(sub => {
+                        if(sub.name.toLowerCase().includes(query)) results.push({ type: 'Subject', title: sub.name, id: sub.id, link: `app.navigate('subject-detail', '${sem.id}', '${sub.id}')` });
+                        
+                        sub.units.forEach(unit => {
+                            if(unit.name.toLowerCase().includes(query)) {
+                                results.push({ type: 'Unit', title: `${unit.name} (${sub.name})`, id: unit.id, link: `app.navigate('subject-detail', '${sem.id}', '${sub.id}')` });
+                            }
+                            unit.resources.forEach(res => {
+                                if(res.title.toLowerCase().includes(query)) {
+                                    results.push({ type: 'Resource', title: res.title, id: res.id, link: `app.openPDF('${res.title.replace(/'/g, "\\'")}', '${(res.url || '').replace(/'/g, "\\'")}')` });
+                                }
+                            });
+                        });
+                    });
+                });
+
+                if(results.length === 0) {
+                    resultsContainer.innerHTML = '<div class="empty-state">No results found for "'+query+'"</div>';
+                    return;
+                }
+
+                let html = '';
+                results.slice(0, 20).forEach(res => {
+                    const regex = new RegExp(`(${query})`, "gi");
+                    const highlightedTitle = res.title.replace(regex, "<mark>$1</mark>");
+                    
+                    html += `
+                        <div class="resource-item cursor-pointer" onclick="${res.link}; app.toggleSearch();">
+                            <div class="resource-info">
+                                <div>
+                                    <h4 class="resource-title" style="margin-bottom:4px;">${highlightedTitle}</h4>
+                                    <div class="resource-meta">${res.type}</div>
+                                </div>
+                            </div>
+                            <span class="text-accent">&rarr;</span>
+                        </div>
+                    `;
+                });
+                resultsContainer.innerHTML = html;
+            },
+
+            toggleThemePanel() {
+                document.getElementById('theme-panel').classList.toggle('active');
+            },
+            setThemePreset(presetName) {
+                document.documentElement.setAttribute('data-color-preset', presetName);
+                this.state.theme = presetName;
+                localStorage.setItem('itsh_theme', presetName);
+                
+                document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    if(btn.title.toLowerCase().includes(presetName.substring(0,3))) btn.classList.add('active');
+                });
+            },
+            toggleDarkMode() {
+                this.state.isDark = !this.state.isDark;
+                localStorage.setItem('itsh_dark', this.state.isDark);
+                this.applyTheme();
+            },
+            applyTheme() {
+                if(this.state.isDark) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.getElementById('dark-mode-toggle').innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7c.18 0 .36.02.54.04-1.25.96-2.04 2.47-2.04 4.16 0 2.87 2.33 5.2 5.2 5.2 1.69 0 3.2-.79 4.16-2.04.02.18.04.36.04.54 0 3.86-3.14 7-7 7z"/></svg>';
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    document.getElementById('dark-mode-toggle').innerHTML = '<svg viewBox="0 0 24 24"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8 11h2v-2.95h-2V21.5zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8zM12 5.5c-3.59 0-6.5 2.91-6.5 6.5s2.91 6.5 6.5 6.5 6.5-2.91 6.5-6.5-2.91-6.5-6.5-6.5zm0 11c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5z"/></svg>';
+                }
+                this.setThemePreset(this.state.theme);
+            },
+
+            addToRecent(item) {
+                this.state.recentlyViewed = this.state.recentlyViewed.filter(i => i.id !== item.id);
+                this.state.recentlyViewed.unshift(item);
+                if(this.state.recentlyViewed.length > 5) this.state.recentlyViewed.pop();
+                localStorage.setItem('itsh_recent', JSON.stringify(this.state.recentlyViewed));
+            },
+
+            getSemesterName(id) { return this.data.semesters.find(s => s.id === id)?.name || ''; },
+            getSubjectName(semId, subId) { return this.data.semesters.find(s => s.id === semId)?.subjects.find(sub => sub.id === subId)?.name || ''; },
+            toggleMobileMenu() {
+                document.getElementById('main-nav').classList.toggle('show');
+            },
+            
+            setupEventListeners() {
+                const searchInput = document.getElementById('search-input');
+                let debounceTimer;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => this.performSearch(e.target.value), 300);
+                });
+
+                document.addEventListener('click', (e) => {
+                    const themePanel = document.getElementById('theme-panel');
+                    if(themePanel.classList.contains('active') && !themePanel.contains(e.target) && !e.target.closest('[onclick="app.toggleThemePanel()"]')) {
+                        themePanel.classList.remove('active');
+                    }
+                    const nav = document.getElementById('main-nav');
+                    if(nav.classList.contains('show') && !nav.contains(e.target) && !e.target.closest('.mobile-menu-btn')) {
+                        nav.classList.remove('show');
+                    }
+                });
+            }
+        };
+
+        const style = document.createElement('style');
+        style.textContent = '.cursor-pointer { cursor: pointer; }';
+        document.head.appendChild(style);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
+    </script>
+</body>
+</html>
