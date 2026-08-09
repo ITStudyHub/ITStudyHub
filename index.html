@@ -839,7 +839,7 @@
             openPDF(title, pdfUrl) {
     const modal = document.getElementById('pdf-modal');
     const frame = document.getElementById('pdf-frame');
-    
+    const tabBtn = document.getElementById('pdf-open-tab');
     
     document.getElementById('pdf-title').innerText = title;
     const finalUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
@@ -860,7 +860,7 @@
     } else {
         // Desktop / PC mate original system
         frame.src = finalUrl;
-    
+        tabBtn.href = finalUrl;
     }
 
     modal.classList.add('active');
