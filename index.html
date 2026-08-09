@@ -837,25 +837,35 @@
             },
 
             openPDF(title, pdfUrl) {
-                const modal = document.getElementById('pdf-modal');
-                const frame = document.getElementById('pdf-frame');
-                const tabBtn = document.getElementById('pdf-open-tab');
+    const modal = document.getElementById('pdf-modal');
+    const frame = document.getElementById('pdf-frame');
+    const tabBtn = document.getElementById('pdf-open-tab');
+    
+    document.getElementById('pdf-title').innerText = title;
+    const finalUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
 
-                document.getElementById('pdf-title').innerText = title;
-                
-                const finalUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
-                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                if (isMobile) {
-                      window.open(finalUrl, '_blank');
-                      return; 
-                }
-                
-                frame.src = finalUrl;
-                tabBtn.href = finalUrl;
+    // Mobile check kare chhe
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            },
+    if (isMobile && finalUrl !== '') {
+        // Website LIVE hovathi aapne Google Viewer no upyog kari shakiye chhiye
+        // Aa tamara live GitHub PDF path ne absolute URL ma convert karse
+        const absoluteUrl = new URL(finalUrl, window.location.href).href;
+        
+        // Google Docs Viewer ni link banavse
+        const googleViewerUrl = 'https://docs.google.com/gview?url=' + encodeURIComponent(absoluteUrl) + '&embedded=true';
+        
+        frame.src = googleViewerUrl;
+        tabBtn.href = absoluteUrl; // "Open in New Tab" button mate original link
+    } else {
+        // Desktop / PC mate original system
+        frame.src = finalUrl;
+        tabBtn.href = finalUrl;
+    }
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+},
 
             closePDF() {
                 const modal = document.getElementById('pdf-modal');
