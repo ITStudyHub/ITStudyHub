@@ -844,6 +844,11 @@
                 document.getElementById('pdf-title').innerText = title;
                 
                 const finalUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile) {
+                      window.open(finalUrl, '_blank');
+                      return; 
+                }
                 
                 frame.src = finalUrl;
                 tabBtn.href = finalUrl;
