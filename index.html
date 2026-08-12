@@ -257,8 +257,7 @@
             .theme-panel { top: 70px; right: 10px; width: calc(100vw - 20px); }
 
             /* PDF Modal Header */
-            .pdf-header { padding: 10px 12px; flex-direction: column; gap: 8px; align-items: flex-start; }
-            .pdf-header > div { width: 100%; justify-content: space-between; }
+            .pdf-header { padding: 10px 12px; flex-direction: row; justify-content: space-between; align-items: center; }
         }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -353,7 +352,6 @@
                 <h3 id="pdf-title" style="margin:0; font-size:1.1rem; color:var(--text-color);">Document Viewer</h3>
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
-                <a id="pdf-open-tab" href="#" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem;">Open in New Tab</a>
                 <button class="icon-btn" onclick="app.closePDF()" style="background: rgba(255,0,0,0.1); color: #ef4444; border:none;">
                     <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                 </button>
@@ -450,6 +448,7 @@
                             const subId = `sub-${semIdx + 1}-${subIdx + 1}`;
                             const hasJournal = subjectsWithJournal.includes(subName);
                             const isGitaSubject = subName === "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA";
+                            const isSadSubject = subName === "SYSTEM ANALYSIS AND DESIGN";
 
                             let unitsList = [];
                             if (isGitaSubject) {
@@ -466,24 +465,34 @@
                                     ]
                                 }];
                             } else {
-                                unitsList = [1, 2, 3, 4, 5].map(uNum => ({
-                                    id: `unit-${semIdx + 1}-${subIdx + 1}-${uNum}`,
-                                    name: `Unit ${uNum}: ${subName} Notes`,
-                                    resources: [
-                                        { 
-                                            id: `res-n-${semIdx + 1}-${subIdx + 1}-${uNum}`, 
-                                            title: `${subName} - Unit ${uNum} Notes`, 
-                                            type: "Notes PDF",
-                                            url: `${subId}-unit${uNum}-notes.pdf` 
-                                        },
-                                        { 
-                                            id: `res-p-${semIdx + 1}-${subIdx + 1}-${uNum}`, 
-                                            title: `${subName} - Unit ${uNum} Presentation`, 
-                                            type: "Presentation PDF",
-                                            url: `${subId}-unit${uNum}-ppt.pdf` 
-                                        }
-                                    ]
-                                }));
+                                unitsList = [1, 2, 3, 4, 5].map(uNum => {
+                                    let notesUrl = `${subId}-unit${uNum}-notes.pdf`;
+                                    let pptUrl = `${subId}-unit${uNum}-ppt.pdf`;
+
+                                    if (isSadSubject && uNum === 1) {
+                                        notesUrl = 'sad.pdf';
+                                        pptUrl = 'sad.pdf';
+                                    }
+
+                                    return {
+                                        id: `unit-${semIdx + 1}-${subIdx + 1}-${uNum}`,
+                                        name: `Unit ${uNum}: ${subName} Notes`,
+                                        resources: [
+                                            { 
+                                                id: `res-n-${semIdx + 1}-${subIdx + 1}-${uNum}`, 
+                                                title: `${subName} - Unit ${uNum} Notes`, 
+                                                type: "Notes PDF",
+                                                url: notesUrl 
+                                            },
+                                            { 
+                                                id: `res-p-${semIdx + 1}-${subIdx + 1}-${uNum}`, 
+                                                title: `${subName} - Unit ${uNum} Presentation`, 
+                                                type: "Presentation PDF",
+                                                url: pptUrl 
+                                            }
+                                        ]
+                                    };
+                                });
                             }
 
                             return {
@@ -494,7 +503,7 @@
                                 units: unitsList,
                                 academic: {
                                     assignments: [
-                                        { id: `ass-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Assignment 1.pdf`, type: "PDF", date: "Aug 15, 2026", url: '${subId}-PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA - Complete Notes (All Units 1-5).pdf' },
+                                        { id: `ass-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Assignment 1.pdf`, type: "PDF", date: "Aug 15, 2026", url: `${subId}-assignment1.pdf` },
                                         { id: `ass-${semIdx + 1}-${subIdx + 1}-2`, title: `${subName} - Assignment 2.pdf`, type: "PDF", date: "Sep 20, 2026", url: `${subId}-assignment2.pdf` }
                                     ],
                                     journals: hasJournal ? [
@@ -517,7 +526,6 @@
                 
                 document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
                 
-                // Close mobile navbar on navigation
                 document.getElementById('main-nav').classList.remove('show');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -839,14 +847,21 @@
             openPDF(title, pdfUrl) {
                 const modal = document.getElementById('pdf-modal');
                 const frame = document.getElementById('pdf-frame');
-                const tabBtn = document.getElementById('pdf-open-tab');
                 
                 document.getElementById('pdf-title').innerText = title;
-                const finalUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
+                let finalUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
 
-                // Option 2: Direct PDF URL load karein bina Google Docs Viewer ke (Top-right external icon remove ho jayega)
-                frame.src = finalUrl;
-                tabBtn.href = finalUrl;
+                // Mobile check
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                if (isMobile && finalUrl !== '') {
+                    const absoluteUrl = new URL(finalUrl, window.location.href).href;
+                    // embedded=true ke saath #toolbar=0 lagane se external open icon hide ho jata hai
+                    const googleViewerUrl = 'https://docs.google.com/gview?url=' + encodeURIComponent(absoluteUrl) + '&embedded=true#toolbar=0';
+                    frame.src = googleViewerUrl;
+                } else {
+                    frame.src = finalUrl ? `${finalUrl}#toolbar=0&navpanes=0` : '';
+                }
 
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
