@@ -254,12 +254,37 @@
         
         .view-section { animation: fadeIn 0.4s ease; }
         mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 0 2px; border-radius: 2px; }
+
+        /* --- ADVANCED BACK BUTTON STYLES --- */
+.back-btn {
+    display: none; /* શરૂઆતમાં છુપાયેલું રહેશે */
+    margin-right: 12px;
+    background: linear-gradient(135deg, var(--surface-color), var(--surface-hover));
+    transition: var(--transition);
+}
+
+.back-btn:hover {
+    transform: translateX(-5px); /* પાછળ જવાનો એનિમેશન ઇફેક્ટ */
+    color: var(--accent-color);
+    box-shadow: var(--shadow-glow);
+}
+
+@media (max-width: 600px) {
+    .back-btn {
+        margin-right: 8px;
+        width: 36px;
+        height: 36px;
+    }
+}
     </style>
 </head>
 <body>
 
     <header>
         <div class="container nav-wrapper">
+    <button class="icon-btn back-btn" id="back-btn" onclick="app.goBack()" aria-label="Go Back">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    </button>
             <div class="logo" onclick="app.navigate('home')">
                 <div class="logo-icon">IT</div>
                 ITStudyHub
@@ -357,7 +382,11 @@
         const app = {
             data: { semesters: [] },
             state: {
-                currentView: 'home',
+             //   currentView: 'home',
+    currentView: 'home',
+    currentParam: null, // નવું ઉમેરો
+    currentParam2: null, // નવું ઉમેરો
+    historyStack: [], // નવું ઉમેરો (પેજ યાદ રાખવા માટે)
                 bookmarks: JSON.parse(localStorage.getItem('itsh_bookmarks')) || [],
                 recentlyViewed: JSON.parse(localStorage.getItem('itsh_recent')) || [],
                 theme: localStorage.getItem('itsh_theme') || 'ocean',
@@ -500,38 +529,106 @@
                 });
             },
 
-            navigate(view, param = null, param2 = null) {
-                this.state.currentView = view;
-                const content = document.getElementById('app-content');
-                content.innerHTML = ''; 
+          //  navigate(view, param = null, param2 = null) {
+            //    this.state.currentView = view;
+              //  const content = document.getElementById('app-content');
+               // content.innerHTML = ''; 
                 
-                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-                document.getElementById('main-nav').classList.remove('show');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+               // document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+               // document.getElementById('main-nav').classList.remove('show');
+               // window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                switch(view) {
-                    case 'home':
-                        if(document.querySelector('.nav-link:nth-child(1)')) document.querySelector('.nav-link:nth-child(1)').classList.add('active');
-                        this.renderHome(content);
-                        break;
-                    case 'semesters':
-                        if(document.querySelector('.nav-link:nth-child(2)')) document.querySelector('.nav-link:nth-child(2)').classList.add('active');
-                        this.renderSemesterList(content);
-                        break;
-                    case 'semester-detail':
-                        this.renderSemesterDetail(content, param);
-                        this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
-                        break;
-                    case 'subject-detail':
-                        this.renderSubjectDetail(content, param, param2);
-                        this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
-                        break;
-                    case 'bookmarks':
-                        if(document.querySelector('.nav-link:nth-child(3)')) document.querySelector('.nav-link:nth-child(3)').classList.add('active');
-                        this.renderBookmarks(content);
-                        break;
-                }
-            },
+             //   switch(view) {
+               //     case 'home':
+                 //       if(document.querySelector('.nav-link:nth-child(1)')) document.querySelector('.nav-link:nth-child(1)').classList.add('active');
+                   //     this.renderHome(content);
+                     //   break;
+                    //case 'semesters':
+                      //  if(document.querySelector('.nav-link:nth-child(2)')) document.querySelector('.nav-link:nth-child(2)').classList.add('active');
+                        //this.renderSemesterList(content);
+                        //break;
+                    //case 'semester-detail':
+                      //  this.renderSemesterDetail(content, param);
+                        //this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
+                        //break;
+                    //case 'subject-detail':
+                      //  this.renderSubjectDetail(content, param, param2);
+                        //this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
+                        //break;
+                    //case 'bookmarks':
+                        //if(document.querySelector('.nav-link:nth-child(3)')) document.querySelector('.nav-link:nth-child(3)').classList.add('active');
+                      //  this.renderBookmarks(content);
+                        //break;
+            //    }
+           // },
+
+            navigate(view, param = null, param2 = null, isGoingBack = false) {
+    // હિસ્ટ્રી સેવ કરવાનું લોજીક
+    if (!isGoingBack && this.state.currentView) {
+        this.state.historyStack.push({
+            view: this.state.currentView,
+            param: this.state.currentParam,
+            param2: this.state.currentParam2
+        });
+    }
+    
+    this.state.currentView = view;
+    this.state.currentParam = param;
+    this.state.currentParam2 = param2;
+
+    // બેક બટન બતાવવું કે છુપાવવું તેનું લોજીક
+    const backBtn = document.getElementById('back-btn');
+    if (backBtn) {
+        if (this.state.historyStack.length > 0 && view !== 'home') {
+            backBtn.style.display = 'flex';
+        } else {
+            backBtn.style.display = 'none';
+        }
+    }
+
+    const content = document.getElementById('app-content');
+    content.innerHTML = '';
+    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    document.getElementById('main-nav').classList.remove('show'); 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    switch(view) {
+        case 'home':
+            if(document.querySelector('.nav-link:nth-child(1)'))
+                document.querySelector('.nav-link:nth-child(1)').classList.add('active');
+            this.renderHome(content);
+            break;
+        case 'semesters':
+            if(document.querySelector('.nav-link:nth-child(2)'))
+                document.querySelector('.nav-link:nth-child(2)').classList.add('active');
+            this.renderSemesterList(content);
+            break;
+        case 'semester-detail':
+            this.renderSemesterDetail(content, param);
+            this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
+            break;
+        case 'subject-detail':
+            this.renderSubjectDetail(content, param, param2);
+            this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
+            break;
+        case 'bookmarks':
+            if(document.querySelector('.nav-link:nth-child(3)'))
+                document.querySelector('.nav-link:nth-child(3)').classList.add('active');
+            this.renderBookmarks(content);
+            break;
+    }
+},
+
+        goBack() {
+    if (this.state.historyStack.length > 0) {
+        // છેલ્લું પેજ કાઢો અને તેના પર પાછા જાવ
+        const previous = this.state.historyStack.pop();
+        this.navigate(previous.view, previous.param, previous.param2, true);
+    } else {
+        // જો હિસ્ટ્રી ન હોય તો હોમ પેજ પર જાવ
+        this.navigate('home');
+    }
+},
 
             renderHome(container) {
                 let html = `
