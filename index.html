@@ -681,135 +681,69 @@
                 });
             },
 
-//            navigate(view, param = null, param2 = null, isGoingBack = false) {
-  //              if (!isGoingBack && this.state.currentView) {
-    //                this.state.historyStack.push({
-      //                  view: this.state.currentView,
-        //                param: this.state.currentParam,
-          //              param2: this.state.currentParam2
-            //        });
-              //  }
-                
-//                this.state.currentView = view;
-  //              this.state.currentParam = param;
-    //            this.state.currentParam2 = param2;
-
-      //          const backBtn = document.getElementById('back-btn');
-        //        if (backBtn) {
-          //          if (this.state.historyStack.length > 0 && view !== 'home') {
-            //            backBtn.style.display = 'flex';
-              //      } else {
-                //        backBtn.style.display = 'none';
-                  //  }
-//                }
-
-  //              const content = document.getElementById('app-content');
-    //            content.innerHTML = '';
-      //          document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-        //        document.getElementById('main-nav').classList.remove('show'); 
-          //      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            //    switch(view) {
-              //      case 'home':
-                //        if(document.querySelector('.nav-link:nth-child(1)'))
-                  //          document.querySelector('.nav-link:nth-child(1)').classList.add('active');
-                    //    this.renderHome(content);
-                      //  break;
- //                   case 'semesters':
-   //                     if(document.querySelector('.nav-link:nth-child(2)'))
-     //                       document.querySelector('.nav-link:nth-child(2)').classList.add('active');
-       //                 this.renderSemesterList(content);
-         //               break;
-           //         case 'semester-detail':
-             //           this.renderSemesterDetail(content, param);
-               //         this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
-                 //       break;
-                   // case 'subject-detail':
-                     //   this.renderSubjectDetail(content, param, param2);
-                       // this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
-//                        break;
-  //                  case 'bookmarks':
-    //                    if(document.querySelector('.nav-link:nth-child(3)'))
-      //                      document.querySelector('.nav-link:nth-child(3)').classList.add('active');
-        //                this.renderBookmarks(content);
-          //              break;
-            //    }
-          //  },
-
             navigate(view, param = null, param2 = null, isGoingBack = false) {
-  if (!isGoingBack && this.state.currentView) {
-    this.state.historyStack.push({
-      view: this.state.currentView,
-      param: this.state.currentParam,
-      param2: this.state.currentParam2
-    });
-    // NAVI LINE: Mobile history push karva mate
-    history.pushState({ appView: view }, '', window.location.href);
-  }
-  this.state.currentView = view;
-  this.state.currentParam = param;
-  this.state.currentParam2 = param2;
+                if (!isGoingBack && this.state.currentView) {
+                    this.state.historyStack.push({
+                        view: this.state.currentView,
+                        param: this.state.currentParam,
+                        param2: this.state.currentParam2
+                    });
+                }
+                
+                this.state.currentView = view;
+                this.state.currentParam = param;
+                this.state.currentParam2 = param2;
 
-  const backBtn = document.getElementById('back-btn');
-  if (backBtn) {
-    if (this.state.historyStack.length > 0 && view !== 'home') {
-      backBtn.style.display = 'flex';
-    } else {
-      backBtn.style.display = 'none';
-    }
-  }
-  
-  const content = document.getElementById('app-content');
-  content.innerHTML = '';
-  document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-  const mainNav = document.getElementById('main-nav');
-  if(mainNav) mainNav.classList.remove('show');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+                const backBtn = document.getElementById('back-btn');
+                if (backBtn) {
+                    if (this.state.historyStack.length > 0 && view !== 'home') {
+                        backBtn.style.display = 'flex';
+                    } else {
+                        backBtn.style.display = 'none';
+                    }
+                }
 
-  switch(view) {
-    case 'home':
-      if(document.querySelector('.nav-link:nth-child(1)'))
-        document.querySelector('.nav-link:nth-child(1)').classList.add('active');
-      this.renderHome(content);
-      break;
-    case 'semesters':
-      if(document.querySelector('.nav-link:nth-child(2)'))
-        document.querySelector('.nav-link:nth-child(2)').classList.add('active');
-      this.renderSemesterList(content);
-      break;
-    case 'semester-detail':
-      this.renderSemesterDetail(content, param);
-      this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
-      break;
-    case 'subject-detail':
-      this.renderSubjectDetail(content, param, param2);
-      this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
-      break;
-    case 'bookmarks':
-      if(document.querySelector('.nav-link:nth-child(3)'))
-        document.querySelector('.nav-link:nth-child(3)').classList.add('active');
-      this.renderBookmarks(content);
-      break;
-  }
-},
+                const content = document.getElementById('app-content');
+                content.innerHTML = '';
+                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+                document.getElementById('main-nav').classList.remove('show'); 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
 
-         //   goBack() {
-           //     if (this.state.historyStack.length > 0) {
-             //       const previous = this.state.historyStack.pop();
-              //      this.navigate(previous.view, previous.param, previous.param2, true);
-              //  } else {
-            //        this.navigate('home');
-             //   }
-           // },
-
+                switch(view) {
+                    case 'home':
+                        if(document.querySelector('.nav-link:nth-child(1)'))
+                            document.querySelector('.nav-link:nth-child(1)').classList.add('active');
+                        this.renderHome(content);
+                        break;
+                    case 'semesters':
+                        if(document.querySelector('.nav-link:nth-child(2)'))
+                            document.querySelector('.nav-link:nth-child(2)').classList.add('active');
+                        this.renderSemesterList(content);
+                        break;
+                    case 'semester-detail':
+                        this.renderSemesterDetail(content, param);
+                        this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
+                        break;
+                    case 'subject-detail':
+                        this.renderSubjectDetail(content, param, param2);
+                        this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
+                        break;
+                    case 'bookmarks':
+                        if(document.querySelector('.nav-link:nth-child(3)'))
+                            document.querySelector('.nav-link:nth-child(3)').classList.add('active');
+                        this.renderBookmarks(content);
+                        break;
+                }
+           },
+            
             goBack() {
-  if (this.state.historyStack.length > 0) {
-    // Browser nu native back trigger karo
-    history.back();
-  } else {
-    this.navigate('home');
-  }
-},
+                if (this.state.historyStack.length > 0) {
+                    const previous = this.state.historyStack.pop();
+                    this.navigate(previous.view, previous.param, previous.param2, true);
+                } else {
+                    this.navigate('home');
+                }
+            },
 
             renderHome(container) {
                 let html = `
@@ -1295,27 +1229,13 @@
                     }
                 });
 
-   //             window.addEventListener('popstate', (e) => {
-     //               if (this.state.isPdfOpen) {
-       //                 this.closePDF(true);
-         //           }
-           //     });
-      //      }
-     //   };
-
-                // NAVU POPSTATE LOGIC (PDF and Web Pages banne mate)
-  window.addEventListener('popstate', (e) => {
-    if (this.state.isPdfOpen) {
-      this.closePDF(true);
-    } else if (this.state.historyStack.length > 0) {
-      // Mobile nu hardware back button dabave tyare previous page (Home/Semesters) par javu
-      const previous = this.state.historyStack.pop();
-      this.navigate(previous.view, previous.param, previous.param2, true);
-    } else {
-       this.navigate('home', null, null, true);
-    }
-  });
-};
+                window.addEventListener('popstate', (e) => {
+                    if (this.state.isPdfOpen) {
+                        this.closePDF(true);
+                   }
+                });
+            }
+        };
 
         const style = document.createElement('style');
         style.textContent = '.cursor-pointer { cursor: pointer; }';
