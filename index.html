@@ -276,37 +276,36 @@
             }
         }
 
-        /* --- MOBILE SWIPE-TO-BACK GESTURE (Custom) --- */
-.android-swipe-back {
-  position: fixed;
-  top: 50%;
-  left: -70px; /* Initially hidden screen ni bahar */
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  background-color: #2b2e36; /* Photo sathe match thato dark background */
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  z-index: 9999;
-  pointer-events: none; /* Touch event website par pass thava deva mate */
-  opacity: 0;
-  transition: opacity 0.2s ease, left 0.1s linear;
-}
+        /* --- MOBILE SWIPE-TO-BACK GESTURE --- */
+        .android-swipe-back {
+            position: fixed;
+            top: 50%;
+            left: -70px;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            background-color: #2b2e36;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease, left 0.1s linear;
+        }
 
-.android-swipe-back svg {
-  width: 24px;
-  height: 24px;
-  fill: #e8eaed; /* Photo sathe match thato light arrow color */
-}
+        .android-swipe-back svg {
+            width: 24px;
+            height: 24px;
+            fill: #e8eaed;
+        }
 
-/* Jab complete thai tyare animation */
-.android-swipe-back.active {
-  transform: translateY(-50%) scale(1.1);
-  background-color: #3b3e46;
-}
+        .android-swipe-back.active {
+            transform: translateY(-50%) scale(1.1);
+            background-color: #3b3e46;
+        }
     </style>
 </head>
 <body>
@@ -329,7 +328,7 @@
 
             <div class="nav-actions">
                 <button class="icon-btn" onclick="app.toggleSearch()" aria-label="Search">
-                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 </button>
                 <button class="icon-btn" onclick="app.navigate('bookmarks')" aria-label="Bookmarks">
                     <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
@@ -446,168 +445,148 @@
 
                 const customPdfMap = {
                     "INTRODUCTION TO PROGRAMMING-I": [
-    { name: "UNIT 1", file: "IPUNIT 1.PDF" },
-    { name: "UNIT 2", file: "IPUNIT 2.PDF" },
-    { name: "UNIT 3", file: "IPUNIT 3.PDF" },
-    { name: "UNIT 4", file: "IPUNIT 4.PDF" },
-    { name: "UNIT 5", file: "IPUNIT 5.PDF" }
-],
-
-"WEB DESIGNING-I": [
-    { name: "UNIT 1", file: "WDUNIT 1.PDF" },
-    { name: "UNIT 2", file: "WDUNIT 2.PDF" },
-    { name: "UNIT 3", file: "WDUNIT 3.PDF" },
-    { name: "UNIT 4", file: "WDUNIT 4.PDF" },
-    { name: "UNIT 5", file: "WDUNIT 5.PDF" }
-],
-
-"OFFICE AUTOMATION TOOLS": [
-    { name: "UNIT 1", file: "OATUNIT 1.PDF" },
-    { name: "UNIT 2", file: "OATUNIT 2.PDF" },
-    { name: "UNIT 3", file: "OATUNIT 3.PDF" },
-    { name: "UNIT 4", file: "OATUNIT 4.PDF" },
-    { name: "UNIT 5", file: "OATUNIT 5.PDF" }
-],
-
-"FUNDAMENTAL OF MATHEMATICS": [
-    { name: "UNIT 1", file: "FMUNIT 1.PDF" },
-    { name: "UNIT 2", file: "FMUNIT 2.PDF" },
-    { name: "UNIT 3", file: "FMUNIT 3.PDF" },
-    { name: "UNIT 4", file: "FMUNIT 4.PDF" },
-    { name: "UNIT 5", file: "FMUNIT 5.PDF" }
-],
-
-"COMMUNICATION SKILLS": [
-    { name: "UNIT 1", file: "CSUNIT 1.PDF" },
-    { name: "UNIT 2", file: "CSUNIT 2.PDF" },
-    { name: "UNIT 3", file: "CSUNIT 3.PDF" },
-    { name: "UNIT 4", file: "CSUNIT 4.PDF" },
-    { name: "UNIT 5", file: "CSUNIT 5.PDF" }
-],
-
-"COMPUTER MAINTENANCE AND TROUBLESHOOTING": [
-    { name: "UNIT 1", file: "CMTUNIT 1.PDF" },
-    { name: "UNIT 2", file: "CMTUNIT 2.PDF" },
-    { name: "UNIT 3", file: "CMTUNIT 3.PDF" },
-    { name: "UNIT 4", file: "CMTUNIT 4.PDF" },
-    { name: "UNIT 5", file: "CMTUNIT 5.PDF" }
-],
-
-"PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA": [
-    { name: "ALL UNITS", file: "PMBUNITALL.PDF" }
-],
-
-"INTRODUCTION TO PROGRAMMING-II": [
-    { name: "UNIT 1", file: "IP2UNIT 1.PDF" },
-    { name: "UNIT 2", file: "IP2UNIT 2.PDF" },
-    { name: "UNIT 3", file: "IP2UNIT 3.PDF" },
-    { name: "UNIT 4", file: "IP2UNIT 4.PDF" },
-    { name: "UNIT 5", file: "IP2UNIT 5.PDF" }
-],
-
-"WEB DESIGNING-II": [
-    { name: "UNIT 1", file: "WD2UNIT 1.PDF" },
-    { name: "UNIT 2", file: "WD2UNIT 2.PDF" },
-    { name: "UNIT 3", file: "WD2UNIT 3.PDF" },
-    { name: "UNIT 4", file: "WD2UNIT 4.PDF" },
-    { name: "UNIT 5", file: "WD2UNIT 5.PDF" }
-],
-
-"MULTIMEDIA AND ANIMATION": [
-    { name: "UNIT 1", file: "MAUNIT 1.PDF" },
-    { name: "UNIT 2", file: "MAUNIT 2.PDF" },
-    { name: "UNIT 3", file: "MAUNIT 3.PDF" },
-    { name: "UNIT 4", file: "MAUNIT 4.PDF" },
-    { name: "UNIT 5", file: "MAUNIT 5.PDF" }
-],
-
-"FINANCIAL ACCOUNTING": [
-    { name: "UNIT 1", file: "FAUNIT 1.PDF" },
-    { name: "UNIT 2", file: "FAUNIT 2.PDF" },
-    { name: "UNIT 3", file: "FAUNIT 3.PDF" },
-    { name: "UNIT 4", file: "FAUNIT 4.PDF" },
-    { name: "UNIT 5", file: "FAUNIT 5.PDF" }
-],
-
-"EFFECTIVE WRITING SKILLS": [
-    { name: "UNIT 1", file: "EWSUNIT 1.PDF" },
-    { name: "UNIT 2", file: "EWSUNIT 2.PDF" },
-    { name: "UNIT 3", file: "EWSUNIT 3.PDF" },
-    { name: "UNIT 4", file: "EWSUNIT 4.PDF" },
-    { name: "UNIT 5", file: "EWSUNIT 5.PDF" }
-],
-
-"INFORMATION TECHNOLOGY": [
-    { name: "UNIT 1", file: "ITUNIT 1.PDF" },
-    { name: "UNIT 2", file: "ITUNIT 2.PDF" },
-    { name: "UNIT 3", file: "ITUNIT 3.PDF" },
-    { name: "UNIT 4", file: "ITUNIT 4.PDF" },
-    { name: "UNIT 5", file: "ITUNIT 5.PDF" }
-],
-
-"PROFESSIONAL ETHICS": [
-    { name: "UNIT 1", file: "PEUNIT 1.PDF" },
-    { name: "UNIT 2", file: "PEUNIT 2.PDF" },
-    { name: "UNIT 3", file: "PEUNIT 3.PDF" },
-    { name: "UNIT 4", file: "PEUNIT 4.PDF" },
-    { name: "UNIT 5", file: "PEUNIT 5.PDF" }
-],
-
-"DATA STRUCTURE": [
-    { name: "UNIT 1", file: "DSUNIT 1.PDF" },
-    { name: "UNIT 2", file: "DSUNIT 2.PDF" },
-    { name: "UNIT 3", file: "DSUNIT 3.PDF" },
-    { name: "UNIT 4", file: "DSUNIT 4.PDF" },
-    { name: "UNIT 5", file: "DSUNIT 5.PDF" }
-],
-
-"OBJECT ORIENTED CONCEPTS AND PROGRAMMING": [
-    { name: "UNIT 1", file: "OOPUNIT 1.PDF" },
-    { name: "UNIT 2", file: "OOPUNIT 2.PDF" },
-    { name: "UNIT 3", file: "OOPUNIT 3.PDF" },
-    { name: "UNIT 4", file: "OOPUNIT 4.PDF" },
-    { name: "UNIT 5", file: "OOPUNIT 5.PDF" }
-],
-
-"DATABASE MANAGEMENT SYSTEM": [
-    { name: "UNIT 1", file: "DMSUNIT 1.PDF" },
-    { name: "UNIT 2", file: "DMSUNIT 2.PDF" },
-    { name: "UNIT 3", file: "DMSUNIT 3.PDF" },
-    { name: "UNIT 4", file: "DMSUNIT 4.PDF" },
-    { name: "UNIT 5", file: "DMSUNIT 5.PDF" }
-],
-
-"INTRODUCTION TO ARTIFICIAL INTELLIGENCE": [
-    { name: "UNIT 1", file: "AIUNIT 1.PDF" },
-    { name: "UNIT 2", file: "AIUNIT 2.PDF" },
-    { name: "UNIT 3", file: "AIUNIT 3.PDF" },
-    { name: "UNIT 4", file: "AIUNIT 4.PDF" },
-    { name: "UNIT 5", file: "AIUNIT 5.PDF" }
-],
-
-"EMPLOYABILITY SKILLS-I": [
-    { name: "UNIT 1", file: "ESUNIT 1.PDF" },
-    { name: "UNIT 2", file: "ESUNIT 2.PDF" },
-    { name: "UNIT 3", file: "ESUNIT 3.PDF" },
-    { name: "UNIT 4", file: "ESUNIT 4.PDF" },
-    { name: "UNIT 5", file: "ESUNIT 5.PDF" }
-],
-
-"SYSTEM ANALYSIS AND DESIGN": [
-    { name: "UNIT 1", file: "SADUNIT 1.pdf" },
-    { name: "UNIT 2", file: "SADUNIT 2.PDF" },
-    { name: "UNIT 3", file: "SADUNIT 3.PDF" },
-    { name: "UNIT 4", file: "SADUNIT 4.PDF" },
-    { name: "UNIT 5", file: "SADUNIT 5.PDF" }
-],
-
-"INDIAN KNOWLEDGE SYSTEMS IN COMPUTING": [
-    { name: "UNIT 1", file: "IKSUNIT 1.PDF" },
-    { name: "UNIT 2", file: "ISKUNIT 2.PDF" },
-    { name: "UNIT 3", file: "ISKUNIT 3.PDF" },
-    { name: "UNIT 4", file: "ISKUNIT 4.PDF" },
-    { name: "UNIT 5", file: "ISKUNIT 5.PDF" }
-]
+                        { name: "UNIT 1", file: "IPUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "IPUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "IPUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "IPUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "IPUNIT 5.PDF" }
+                    ],
+                    "WEB DESIGNING-I": [
+                        { name: "UNIT 1", file: "WDUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "WDUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "WDUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "WDUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "WDUNIT 5.PDF" }
+                    ],
+                    "OFFICE AUTOMATION TOOLS": [
+                        { name: "UNIT 1", file: "OATUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "OATUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "OATUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "OATUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "OATUNIT 5.PDF" }
+                    ],
+                    "FUNDAMENTAL OF MATHEMATICS": [
+                        { name: "UNIT 1", file: "FMUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "FMUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "FMUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "FMUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "FMUNIT 5.PDF" }
+                    ],
+                    "COMMUNICATION SKILLS": [
+                        { name: "UNIT 1", file: "CSUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "CSUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "CSUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "CSUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "CSUNIT 5.PDF" }
+                    ],
+                    "COMPUTER MAINTENANCE AND TROUBLESHOOTING": [
+                        { name: "UNIT 1", file: "CMTUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "CMTUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "CMTUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "CMTUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "CMTUNIT 5.PDF" }
+                    ],
+                    "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA": [
+                        { name: "ALL UNITS", file: "PMBUNITALL.PDF" }
+                    ],
+                    "INTRODUCTION TO PROGRAMMING-II": [
+                        { name: "UNIT 1", file: "IP2UNIT 1.PDF" },
+                        { name: "UNIT 2", file: "IP2UNIT 2.PDF" },
+                        { name: "UNIT 3", file: "IP2UNIT 3.PDF" },
+                        { name: "UNIT 4", file: "IP2UNIT 4.PDF" },
+                        { name: "UNIT 5", file: "IP2UNIT 5.PDF" }
+                    ],
+                    "WEB DESIGNING-II": [
+                        { name: "UNIT 1", file: "WD2UNIT 1.PDF" },
+                        { name: "UNIT 2", file: "WD2UNIT 2.PDF" },
+                        { name: "UNIT 3", file: "WD2UNIT 3.PDF" },
+                        { name: "UNIT 4", file: "WD2UNIT 4.PDF" },
+                        { name: "UNIT 5", file: "WD2UNIT 5.PDF" }
+                    ],
+                    "MULTIMEDIA AND ANIMATION": [
+                        { name: "UNIT 1", file: "MAUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "MAUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "MAUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "MAUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "MAUNIT 5.PDF" }
+                    ],
+                    "FINANCIAL ACCOUNTING": [
+                        { name: "UNIT 1", file: "FAUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "FAUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "FAUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "FAUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "FAUNIT 5.PDF" }
+                    ],
+                    "EFFECTIVE WRITING SKILLS": [
+                        { name: "UNIT 1", file: "EWSUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "EWSUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "EWSUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "EWSUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "EWSUNIT 5.PDF" }
+                    ],
+                    "INFORMATION TECHNOLOGY": [
+                        { name: "UNIT 1", file: "ITUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "ITUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "ITUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "ITUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "ITUNIT 5.PDF" }
+                    ],
+                    "PROFESSIONAL ETHICS": [
+                        { name: "UNIT 1", file: "PEUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "PEUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "PEUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "PEUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "PEUNIT 5.PDF" }
+                    ],
+                    "DATA STRUCTURE": [
+                        { name: "UNIT 1", file: "DSUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "DSUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "DSUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "DSUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "DSUNIT 5.PDF" }
+                    ],
+                    "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": [
+                        { name: "UNIT 1", file: "OOPUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "OOPUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "OOPUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "OOPUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "OOPUNIT 5.PDF" }
+                    ],
+                    "DATABASE MANAGEMENT SYSTEM": [
+                        { name: "UNIT 1", file: "DMSUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "DMSUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "DMSUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "DMSUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "DMSUNIT 5.PDF" }
+                    ],
+                    "INTRODUCTION TO ARTIFICIAL INTELLIGENCE": [
+                        { name: "UNIT 1", file: "AIUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "AIUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "AIUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "AIUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "AIUNIT 5.PDF" }
+                    ],
+                    "EMPLOYABILITY SKILLS-I": [
+                        { name: "UNIT 1", file: "ESUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "ESUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "ESUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "ESUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "ESUNIT 5.PDF" }
+                    ],
+                    "SYSTEM ANALYSIS AND DESIGN": [
+                        { name: "UNIT 1", file: "SADUNIT 1.pdf" },
+                        { name: "UNIT 2", file: "SADUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "SADUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "SADUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "SADUNIT 5.PDF" }
+                    ],
+                    "INDIAN KNOWLEDGE SYSTEMS IN COMPUTING": [
+                        { name: "UNIT 1", file: "IKSUNIT 1.PDF" },
+                        { name: "UNIT 2", file: "ISKUNIT 2.PDF" },
+                        { name: "UNIT 3", file: "ISKUNIT 3.PDF" },
+                        { name: "UNIT 4", file: "ISKUNIT 4.PDF" },
+                        { name: "UNIT 5", file: "ISKUNIT 5.PDF" }
+                    ]
                 };
 
                 const semesterData = [
@@ -971,7 +950,7 @@
             },
 
             getResourceHTML(res) {
-                const icon = '<svg viewBox="0 0 24 24"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM14 12h1V8h-1v4z"/></svg>';
+                const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
                 const pdfUrl = res.url || '#';
                 
                 return `
@@ -1063,15 +1042,9 @@
                 
                 document.getElementById('pdf-title').innerText = title;
                 const finalUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
-                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-                let targetViewerUrl = finalUrl;
-                if (isMobile && finalUrl !== '') {
-                    const absoluteUrl = new URL(finalUrl, window.location.href).href;
-                    targetViewerUrl = 'https://docs.google.com/gview?url=' + encodeURIComponent(absoluteUrl) + '&embedded=true';
-                }
-
-                wrapper.innerHTML = `<iframe id="pdf-frame" src="${targetViewerUrl}" title="PDF Viewer"></iframe>`;
+                /* Local / Direct File View: Standard Browser Engine */
+                wrapper.innerHTML = `<iframe id="pdf-frame" src="${finalUrl}" title="PDF Viewer"></iframe>`;
 
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
@@ -1273,69 +1246,62 @@
         });
 
         // Swipe Gesture Detection Setup
-const setupSwipeToBack = () => {
-  // Arrow element create kari ne screen par add karvo
-  const swipeIndicator = document.createElement('div');
-  swipeIndicator.className = 'android-swipe-back';
-  swipeIndicator.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>';
-  document.body.appendChild(swipeIndicator);
+        const setupSwipeToBack = () => {
+            const swipeIndicator = document.createElement('div');
+            swipeIndicator.className = 'android-swipe-back';
+            swipeIndicator.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>';
+            document.body.appendChild(swipeIndicator);
 
-  let touchStartX = 0;
-  let touchEndX = 0;
-  const edgeThreshold = 40; // Screen ni edge thi 40px ni andar j swipe detect thase
-  const swipeRequired = 80; // Back karva mate ketlu aagad aavvu padse
-  let isSwiping = false;
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const edgeThreshold = 40;
+            const swipeRequired = 80;
+            let isSwiping = false;
 
-  document.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    // Jo touch ekdum edge thi start thai to j swipe chalu karo
-    if (touchStartX < edgeThreshold) {
-      isSwiping = true;
-    }
-  }, { passive: true });
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                if (touchStartX < edgeThreshold) {
+                    isSwiping = true;
+                }
+            }, { passive: true });
 
-  document.addEventListener('touchmove', (e) => {
-    if (!isSwiping) return;
-    
-    let currentX = e.changedTouches[0].screenX;
-    let distance = currentX - touchStartX;
+            document.addEventListener('touchmove', (e) => {
+                if (!isSwiping) return;
+                
+                let currentX = e.changedTouches[0].screenX;
+                let distance = currentX - touchStartX;
 
-    // Arrow ne aagad lavvu and opacity vadharvi
-    if (distance > 10 && distance < 120) {
-      swipeIndicator.style.opacity = '1';
-      swipeIndicator.style.left = (distance - 40) + 'px';
-      
-      // Jo enough distance cross thai jay to visual feedback aapvo
-      if (distance >= swipeRequired) {
-        swipeIndicator.classList.add('active');
-      } else {
-        swipeIndicator.classList.remove('active');
-      }
-    }
-  }, { passive: true });
+                if (distance > 10 && distance < 120) {
+                    swipeIndicator.style.opacity = '1';
+                    swipeIndicator.style.left = (distance - 40) + 'px';
+                    
+                    if (distance >= swipeRequired) {
+                        swipeIndicator.classList.add('active');
+                    } else {
+                        swipeIndicator.classList.remove('active');
+                    }
+                }
+            }, { passive: true });
 
-  document.addEventListener('touchend', (e) => {
-    if (!isSwiping) return;
-    touchEndX = e.changedTouches[0].screenX;
-    let distance = touchEndX - touchStartX;
+            document.addEventListener('touchend', (e) => {
+                if (!isSwiping) return;
+                touchEndX = e.changedTouches[0].screenX;
+                let distance = touchEndX - touchStartX;
 
-    if (distance >= swipeRequired) {
-      // Tamara existing code nu back function call thase
-      if (typeof app !== 'undefined' && app.goBack) {
-        app.goBack(); 
-      }
-    }
+                if (distance >= swipeRequired) {
+                    if (typeof app !== 'undefined' && app.goBack) {
+                        app.goBack(); 
+                    }
+                }
 
-    // Swipe puru thaya pachi arrow ne pacho hide karvo
-    isSwiping = false;
-    swipeIndicator.style.opacity = '0';
-    swipeIndicator.style.left = '-70px';
-    swipeIndicator.classList.remove('active');
-  });
-};
+                isSwiping = false;
+                swipeIndicator.style.opacity = '0';
+                swipeIndicator.style.left = '-70px';
+                swipeIndicator.classList.remove('active');
+            });
+        };
 
-// Function ne call karo
-setupSwipeToBack();
+        setupSwipeToBack();
     </script>
 </body>
 </html>
