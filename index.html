@@ -275,6 +275,38 @@
                 height: 36px;
             }
         }
+
+        /* --- MOBILE SWIPE-TO-BACK GESTURE (Custom) --- */
+.android-swipe-back {
+  position: fixed;
+  top: 50%;
+  left: -70px; /* Initially hidden screen ni bahar */
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background-color: #2b2e36; /* Photo sathe match thato dark background */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 9999;
+  pointer-events: none; /* Touch event website par pass thava deva mate */
+  opacity: 0;
+  transition: opacity 0.2s ease, left 0.1s linear;
+}
+
+.android-swipe-back svg {
+  width: 24px;
+  height: 24px;
+  fill: #e8eaed; /* Photo sathe match thato light arrow color */
+}
+
+/* Jab complete thai tyare animation */
+.android-swipe-back.active {
+  transform: translateY(-50%) scale(1.1);
+  background-color: #3b3e46;
+}
     </style>
 </head>
 <body>
@@ -1219,6 +1251,71 @@
         window.addEventListener('DOMContentLoaded', () => {
             app.init();
         });
+
+        // Swipe Gesture Detection Setup
+const setupSwipeToBack = () => {
+  // Arrow element create kari ne screen par add karvo
+  const swipeIndicator = document.createElement('div');
+  swipeIndicator.className = 'android-swipe-back';
+  swipeIndicator.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>';
+  document.body.appendChild(swipeIndicator);
+
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const edgeThreshold = 40; // Screen ni edge thi 40px ni andar j swipe detect thase
+  const swipeRequired = 80; // Back karva mate ketlu aagad aavvu padse
+  let isSwiping = false;
+
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    // Jo touch ekdum edge thi start thai to j swipe chalu karo
+    if (touchStartX < edgeThreshold) {
+      isSwiping = true;
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!isSwiping) return;
+    
+    let currentX = e.changedTouches[0].screenX;
+    let distance = currentX - touchStartX;
+
+    // Arrow ne aagad lavvu and opacity vadharvi
+    if (distance > 10 && distance < 120) {
+      swipeIndicator.style.opacity = '1';
+      swipeIndicator.style.left = (distance - 40) + 'px';
+      
+      // Jo enough distance cross thai jay to visual feedback aapvo
+      if (distance >= swipeRequired) {
+        swipeIndicator.classList.add('active');
+      } else {
+        swipeIndicator.classList.remove('active');
+      }
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    touchEndX = e.changedTouches[0].screenX;
+    let distance = touchEndX - touchStartX;
+
+    if (distance >= swipeRequired) {
+      // Tamara existing code nu back function call thase
+      if (typeof app !== 'undefined' && app.goBack) {
+        app.goBack(); 
+      }
+    }
+
+    // Swipe puru thaya pachi arrow ne pacho hide karvo
+    isSwiping = false;
+    swipeIndicator.style.opacity = '0';
+    swipeIndicator.style.left = '-70px';
+    swipeIndicator.classList.remove('active');
+  });
+};
+
+// Function ne call karo
+setupSwipeToBack();
     </script>
 </body>
 </html>
