@@ -173,8 +173,9 @@
         .theme-btn.active { border-color: var(--text-color); }
         .toggle-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); }
         
+        /* PDF Modal */
         .pdf-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 3000; display: none; flex-direction: column; }
-        .pdf-modal.active { display: flex; animation: slideUp 0.4s ease; }
+        .pdf-modal.active { display: flex; animation: slideUp 0.3s ease; }
         .pdf-header { background: var(--surface-color); padding: 12px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .pdf-viewer-area { flex: 1; background: #1a202c; display: flex; width: 100%; height: calc(100vh - 60px); }
         .pdf-viewer-area iframe { width: 100%; height: 100%; border: none; }
@@ -189,11 +190,7 @@
         .text-accent { color: var(--accent-color); }
         .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
 
-        /* ==========================================================================
-           4. RESPONSIVE MEDIA QUERIES (DESKTOP, TABLET, MOBILE VIEWS)
-           ========================================================================== */
-
-        /* TABLET VIEW (601px to 1024px) */
+        /* Responsive Media Queries */
         @media (max-width: 1024px) {
             .container { padding: 0 16px; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -203,11 +200,8 @@
             .theme-panel { right: 16px; width: 280px; }
         }
 
-        /* MOBILE VIEW (Up to 600px) */
         @media (max-width: 600px) {
             .container { padding: 0 12px; }
-            
-            /* Header & Mobile Nav */
             .mobile-menu-btn { display: flex; }
             .nav-links { 
                 display: none; 
@@ -226,37 +220,31 @@
             .nav-links.show { display: flex; }
             .nav-link { width: 100%; }
 
-            /* Hero Section */
             .hero { padding: 40px 0; }
             .hero h1 { font-size: 2rem; }
             .hero p { font-size: 0.95rem; }
             .btn-group { flex-direction: column; width: 100%; }
             .btn { width: 100%; justify-content: center; }
 
-            /* Grid Layouts */
             .grid { grid-template-columns: 1fr; gap: 16px; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .stat-card { padding: 16px; }
             .stat-value { font-size: 1.8rem; }
             .stat-label { font-size: 0.75rem; }
 
-            /* Section Header & Cards */
             .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
             .section-title { font-size: 1.5rem; }
             .card { padding: 16px; }
 
-            /* Accordion & Resource List */
             .accordion-header { padding: 12px 16px; font-size: 0.95rem; }
             .accordion-inner { padding: 12px; }
             .resource-item { flex-direction: column; align-items: flex-start; gap: 12px; }
             .resource-actions { width: 100%; justify-content: flex-end; }
             
-            /* Search & Panels */
             .search-overlay { padding-top: 60px; }
             .search-input { font-size: 1.1rem; }
             .theme-panel { top: 70px; right: 10px; width: calc(100vw - 20px); }
 
-            /* PDF Modal Header */
             .pdf-header { padding: 10px 12px; flex-direction: column; gap: 8px; align-items: flex-start; }
             .pdf-header > div { width: 100%; justify-content: space-between; }
         }
@@ -285,7 +273,7 @@
 
             <div class="nav-actions">
                 <button class="icon-btn" onclick="app.toggleSearch()" aria-label="Search">
-                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 </button>
                 <button class="icon-btn" onclick="app.navigate('bookmarks')" aria-label="Bookmarks">
                     <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
@@ -347,6 +335,7 @@
         </div>
     </footer>
 
+    <!-- PDF Modal Wrapper -->
     <div class="pdf-modal" id="pdf-modal">
         <div class="pdf-header">
             <div style="display: flex; align-items: center; gap: 16px;">
@@ -354,13 +343,13 @@
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
                 <a id="pdf-open-tab" href="#" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem;">Open in New Tab</a>
-                <button class="icon-btn" onclick="app.closePDF()" style="background: rgba(255,0,0,0.1); color: #ef4444; border:none;">
+                <button class="icon-btn" onclick="app.closePDF(false)" style="background: rgba(255,0,0,0.1); color: #ef4444; border:none;">
                     <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                 </button>
             </div>
         </div>
-        <div class="pdf-viewer-area">
-            <iframe id="pdf-frame" src="" title="PDF Viewer"></iframe>
+        <div class="pdf-viewer-area" id="iframe-wrapper">
+            <iframe id="pdf-frame" src="about:blank" title="PDF Viewer"></iframe>
         </div>
     </div>
 
@@ -372,7 +361,8 @@
                 bookmarks: JSON.parse(localStorage.getItem('itsh_bookmarks')) || [],
                 recentlyViewed: JSON.parse(localStorage.getItem('itsh_recent')) || [],
                 theme: localStorage.getItem('itsh_theme') || 'ocean',
-                isDark: localStorage.getItem('itsh_dark') === 'true' || false
+                isDark: localStorage.getItem('itsh_dark') === 'true' || false,
+                isPdfOpen: false
             },
 
             init() {
@@ -494,7 +484,7 @@
                                 units: unitsList,
                                 academic: {
                                     assignments: [
-                                        { id: `ass-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Assignment 1.pdf`, type: "PDF", date: "Aug 15, 2026", url: '${subId}-PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA - Complete Notes (All Units 1-5).pdf' },
+                                        { id: `ass-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Assignment 1.pdf`, type: "PDF", date: "Aug 15, 2026", url: `${subId}-assignment1.pdf` },
                                         { id: `ass-${semIdx + 1}-${subIdx + 1}-2`, title: `${subName} - Assignment 2.pdf`, type: "PDF", date: "Sep 20, 2026", url: `${subId}-assignment2.pdf` }
                                     ],
                                     journals: hasJournal ? [
@@ -516,8 +506,6 @@
                 content.innerHTML = ''; 
                 
                 document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-                
-                // Close mobile navbar on navigation
                 document.getElementById('main-nav').classList.remove('show');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -836,45 +824,50 @@
                 accordion.classList.toggle('open');
             },
 
+            /* ==========================================================================
+               5. FIX: GUARANTEED MOBILE BACK-BUTTON EXIT PREVENTER
+               ========================================================================== */
             openPDF(title, pdfUrl) {
                 const modal = document.getElementById('pdf-modal');
-                const frame = document.getElementById('pdf-frame');
                 const tabBtn = document.getElementById('pdf-open-tab');
+                const wrapper = document.getElementById('iframe-wrapper');
                 
                 document.getElementById('pdf-title').innerText = title;
                 const finalUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
-
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+                let targetViewerUrl = finalUrl;
                 if (isMobile && finalUrl !== '') {
                     const absoluteUrl = new URL(finalUrl, window.location.href).href;
-                    const googleViewerUrl = 'https://docs.google.com/gview?url=' + encodeURIComponent(absoluteUrl) + '&embedded=true';
-                    
-                    frame.src = googleViewerUrl;
+                    targetViewerUrl = 'https://docs.google.com/gview?url=' + encodeURIComponent(absoluteUrl) + '&embedded=true';
                     tabBtn.href = absoluteUrl;
                 } else {
-                    frame.src = finalUrl;
                     tabBtn.href = finalUrl;
                 }
 
+                // Dynamic iframe creation prevents browser history pollution
+                wrapper.innerHTML = `<iframe id="pdf-frame" src="${targetViewerUrl}" title="PDF Viewer"></iframe>`;
+
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                this.state.isPdfOpen = true;
 
-                // Mobile Exit Preventer: Dummy history state create karein
-                history.pushState({ pdfOpen: true }, "");
+                // Push new history state explicitly so mobile back button steps back internally
+                history.pushState({ modalOpen: 'pdfModal' }, '', window.location.href);
             },
 
-            closePDF() {
+            closePDF(triggeredByPopState = false) {
                 const modal = document.getElementById('pdf-modal');
-                const frame = document.getElementById('pdf-frame');
-                
-                if (modal.classList.contains('active')) {
-                    modal.classList.remove('active');
-                    frame.src = ''; 
-                    document.body.style.overflow = '';
+                const wrapper = document.getElementById('iframe-wrapper');
 
-                    // Close (X) button dabaane par history clean karein
-                    if (history.state && history.state.pdfOpen) {
+                if (this.state.isPdfOpen || modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    wrapper.innerHTML = ''; // Destroy Iframe immediately
+                    document.body.style.overflow = '';
+                    this.state.isPdfOpen = false;
+
+                    // If user manually clicked "X" button, pop the pushed state manually
+                    if (!triggeredByPopState && history.state && history.state.modalOpen === 'pdfModal') {
                         history.back();
                     }
                 }
@@ -1034,13 +1027,10 @@
                     }
                 });
 
-                // Mobile Back button / gesture listener
+                // MOBILE HARDWARE BACK BUTTON LISTENER
                 window.addEventListener('popstate', (e) => {
-                    const modal = document.getElementById('pdf-modal');
-                    if (modal && modal.classList.contains('active')) {
-                        modal.classList.remove('active');
-                        document.getElementById('pdf-frame').src = '';
-                        document.body.style.overflow = '';
+                    if (this.state.isPdfOpen) {
+                        this.closePDF(true);
                     }
                 });
             }
