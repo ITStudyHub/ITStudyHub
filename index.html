@@ -172,13 +172,6 @@
         .theme-btn:hover { transform: scale(1.05); }
         .theme-btn.active { border-color: var(--text-color); }
         .toggle-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); }
-        
-        /* PDF Modal - Updated Direct View */
-        .pdf-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 3000; display: none; flex-direction: column; }
-        .pdf-modal.active { display: flex; animation: slideUp 0.3s ease; }
-        .pdf-header { background: var(--surface-color); padding: 12px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; z-index: 3001; }
-        .pdf-viewer-area { flex: 1; background: #1a202c; display: flex; width: 100%; height: calc(100vh - 60px); position: relative; }
-        .pdf-viewer-area object, .pdf-viewer-area embed, .pdf-viewer-area iframe { width: 100%; height: 100%; border: none; }
 
         footer { background: var(--surface-color); border-top: 1px solid var(--border-color); padding: 60px 0 24px; margin-top: 80px; text-align: center; }
         .footer-logo { font-size: 1.5rem; font-weight: bold; color: var(--accent-color); margin-bottom: 16px; }
@@ -244,12 +237,9 @@
             .search-overlay { padding-top: 60px; }
             .search-input { font-size: 1.1rem; }
             .theme-panel { top: 70px; right: 10px; width: calc(100vw - 20px); }
-
-            .pdf-header { padding: 10px 12px; justify-content: space-between; align-items: center; }
         }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
         .view-section { animation: fadeIn 0.4s ease; }
         mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 0 2px; border-radius: 2px; }
@@ -390,21 +380,6 @@
         </div>
     </footer>
 
-    <!-- PDF Modal Wrapper -->
-    <div class="pdf-modal" id="pdf-modal">
-        <div class="pdf-header">
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <h3 id="pdf-title" style="margin:0; font-size:1.1rem; color:var(--text-color);">Document Viewer</h3>
-            </div>
-            <div style="display: flex; gap: 10px; align-items: center;">
-                <button class="icon-btn" onclick="app.closePDF(false)" style="background: rgba(255,0,0,0.1); color: #ef4444; border:none;">
-                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                </button>
-            </div>
-        </div>
-        <div class="pdf-viewer-area" id="iframe-wrapper"></div>
-    </div>
-
     <script>
         const app = {
             data: { semesters: [] },
@@ -416,8 +391,7 @@
                 bookmarks: JSON.parse(localStorage.getItem('itsh_bookmarks')) || [],
                 recentlyViewed: JSON.parse(localStorage.getItem('itsh_recent')) || [],
                 theme: localStorage.getItem('itsh_theme') || 'ocean',
-                isDark: localStorage.getItem('itsh_dark') === 'true' || false,
-                isPdfOpen: false
+                isDark: localStorage.getItem('itsh_dark') === 'true' || false
             },
 
             init() {
@@ -962,9 +936,9 @@
                         </div>
                         <div class="resource-actions">
                             ${this.getBookmarkBtnTemplate(res.id, res.title, 'Resource', pdfUrl)}
-                            <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem;" onclick="app.openPDF('${res.title.replace(/'/g, "\\'")}', '${pdfUrl.replace(/'/g, "\\'")}')">
-                                View PDF
-                            </button>
+                            <a href="${encodeURI(pdfUrl)}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center;">
+                                Open PDF
+                            </a>
                         </div>
                     </div>
                 `;
@@ -1035,41 +1009,10 @@
             },
 
             openPDF(title, pdfUrl) {
-                const modal = document.getElementById('pdf-modal');
-                const wrapper = document.getElementById('iframe-wrapper');
-                
-                document.getElementById('pdf-title').innerText = title;
-                
-                let cleanUrl = pdfUrl && pdfUrl !== '#' ? encodeURI(pdfUrl) : '';
-                
-                // Direct PDF Open without preview button wrapper
-                wrapper.innerHTML = `
-                    <object data="${cleanUrl}" type="application/pdf" width="100%" height="100%">
-                        <embed src="${cleanUrl}" type="application/pdf" width="100%" height="100%" />
-                        <iframe src="${cleanUrl}" width="100%" height="100%"></iframe>
-                    </object>
-                `;
-
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                this.state.isPdfOpen = true;
-
-                history.pushState({ modalOpen: 'pdfModal' }, '', window.location.href);
-            },
-
-            closePDF(triggeredByPopState = false) {
-                const modal = document.getElementById('pdf-modal');
-                const wrapper = document.getElementById('iframe-wrapper');
-
-                if (this.state.isPdfOpen || modal.classList.contains('active')) {
-                    modal.classList.remove('active');
-                    wrapper.innerHTML = '';
-                    document.body.style.overflow = '';
-                    this.state.isPdfOpen = false;
-
-                    if (!triggeredByPopState && history.state && history.state.modalOpen === 'pdfModal') {
-                        history.back();
-                    }
+                if (pdfUrl && pdfUrl !== '#') {
+                    window.open(encodeURI(pdfUrl), '_blank');
+                } else {
+                    alert('PDF file path is not valid.');
                 }
             },
 
@@ -1230,12 +1173,6 @@
                     const nav = document.getElementById('main-nav');
                     if(nav.classList.contains('show') && !nav.contains(e.target) && !e.target.closest('.mobile-menu-btn')) {
                         nav.classList.remove('show');
-                    }
-                });
-
-                window.addEventListener('popstate', (e) => {
-                    if (this.state.isPdfOpen) {
-                        this.closePDF(true);
                     }
                 });
             }
