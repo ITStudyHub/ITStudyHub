@@ -103,28 +103,6 @@
         .btn-outline { border: 2px solid var(--border-color); background: var(--surface-color); color: var(--text-color); }
         .btn-outline:hover { border-color: var(--accent-color); color: var(--accent-color); }
 
-        /* BACK BUTTON STYLES */
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            transition: var(--transition);
-            margin-right: 12px;
-        }
-        .btn-back:hover {
-            background: var(--surface-hover);
-            color: var(--accent-color);
-            border-color: var(--accent-color);
-            transform: translateX(-3px);
-        }
-
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 48px; }
         .stat-card { background: var(--surface-color); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center; transition: var(--transition); }
         .stat-card:hover { transform: translateY(-5px); border-color: var(--accent-color); box-shadow: var(--shadow-md); }
@@ -369,14 +347,9 @@
         </div>
     </footer>
 
-    <!-- PDF Viewer Modal with Back Button -->
     <div class="pdf-modal" id="pdf-modal">
         <div class="pdf-header">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <button class="btn-back" onclick="app.closePDF()">
-                    <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                    Back
-                </button>
+            <div style="display: flex; align-items: center; gap: 16px;">
                 <h3 id="pdf-title" style="margin:0; font-size:1.1rem; color:var(--text-color);">Document Viewer</h3>
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
@@ -621,10 +594,6 @@
             renderSemesterList(container) {
                 container.innerHTML = `
                     <div class="breadcrumbs view-section" style="margin-top:24px;">
-                        <button class="btn-back" onclick="app.navigate('home')">
-                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                            Back
-                        </button>
                         <span class="crumb" onclick="app.navigate('home')">Home</span>
                         <span class="crumb-separator">/</span>
                         <span class="crumb active">Semesters</span>
@@ -667,10 +636,6 @@
 
                 let html = `
                     <div class="breadcrumbs view-section" style="margin-top:24px;">
-                        <button class="btn-back" onclick="app.navigate('semesters')">
-                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                            Back
-                        </button>
                         <span class="crumb" onclick="app.navigate('home')">Home</span>
                         <span class="crumb-separator">/</span>
                         <span class="crumb" onclick="app.navigate('semesters')">Semesters</span>
@@ -716,10 +681,6 @@
 
                 let html = `
                     <div class="breadcrumbs view-section" style="margin-top:24px;">
-                        <button class="btn-back" onclick="app.navigate('semester-detail', '${sem.id}')">
-                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                            Back
-                        </button>
                         <span class="crumb" onclick="app.navigate('home')">Home</span>
                         <span class="crumb-separator">/</span>
                         <span class="crumb" onclick="app.navigate('semesters')">Semesters</span>
@@ -813,16 +774,7 @@
 
             renderBookmarks(container) {
                 let html = `
-                    <div class="breadcrumbs view-section" style="margin-top:24px;">
-                        <button class="btn-back" onclick="app.navigate('home')">
-                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                            Back
-                        </button>
-                        <span class="crumb" onclick="app.navigate('home')">Home</span>
-                        <span class="crumb-separator">/</span>
-                        <span class="crumb active">Bookmarks</span>
-                    </div>
-                    <div class="section-header view-section">
+                    <div class="section-header view-section" style="margin-top:24px;">
                         <h2 class="section-title">Your Bookmarks</h2>
                     </div>
                     <div class="grid view-section">
@@ -907,14 +859,25 @@
 
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
+
+                // Mobile Exit Preventer: Dummy history state create karein
+                history.pushState({ pdfOpen: true }, "");
             },
 
             closePDF() {
                 const modal = document.getElementById('pdf-modal');
                 const frame = document.getElementById('pdf-frame');
-                modal.classList.remove('active');
-                frame.src = ''; 
-                document.body.style.overflow = '';
+                
+                if (modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    frame.src = ''; 
+                    document.body.style.overflow = '';
+
+                    // Close (X) button dabaane par history clean karein
+                    if (history.state && history.state.pdfOpen) {
+                        history.back();
+                    }
+                }
             },
 
             getBookmarkBtnTemplate(id, title, type, url = '') {
@@ -1068,6 +1031,16 @@
                     const nav = document.getElementById('main-nav');
                     if(nav.classList.contains('show') && !nav.contains(e.target) && !e.target.closest('.mobile-menu-btn')) {
                         nav.classList.remove('show');
+                    }
+                });
+
+                // Mobile Back button / gesture listener
+                window.addEventListener('popstate', (e) => {
+                    const modal = document.getElementById('pdf-modal');
+                    if (modal && modal.classList.contains('active')) {
+                        modal.classList.remove('active');
+                        document.getElementById('pdf-frame').src = '';
+                        document.body.style.overflow = '';
                     }
                 });
             }
