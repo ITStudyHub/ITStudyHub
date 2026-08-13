@@ -256,35 +256,35 @@
         mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 0 2px; border-radius: 2px; }
 
         /* --- ADVANCED BACK BUTTON STYLES --- */
-.back-btn {
-    display: none; /* શરૂઆતમાં છુપાયેલું રહેશે */
-    margin-right: 12px;
-    background: linear-gradient(135deg, var(--surface-color), var(--surface-hover));
-    transition: var(--transition);
-}
+        .back-btn {
+            display: none;
+            margin-right: 12px;
+            background: linear-gradient(135deg, var(--surface-color), var(--surface-hover));
+            transition: var(--transition);
+        }
 
-.back-btn:hover {
-    transform: translateX(-5px); /* પાછળ જવાનો એનિમેશન ઇફેક્ટ */
-    color: var(--accent-color);
-    box-shadow: var(--shadow-glow);
-}
+        .back-btn:hover {
+            transform: translateX(-5px);
+            color: var(--accent-color);
+            box-shadow: var(--shadow-glow);
+        }
 
-@media (max-width: 600px) {
-    .back-btn {
-        margin-right: 8px;
-        width: 36px;
-        height: 36px;
-    }
-}
+        @media (max-width: 600px) {
+            .back-btn {
+                margin-right: 8px;
+                width: 36px;
+                height: 36px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="container nav-wrapper">
-    <button class="icon-btn back-btn" id="back-btn" onclick="app.goBack()" aria-label="Go Back">
-        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-    </button>
+            <button class="icon-btn back-btn" id="back-btn" onclick="app.goBack()" aria-label="Go Back">
+                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            </button>
             <div class="logo" onclick="app.navigate('home')">
                 <div class="logo-icon">IT</div>
                 ITStudyHub
@@ -382,11 +382,10 @@
         const app = {
             data: { semesters: [] },
             state: {
-             //   currentView: 'home',
-    currentView: 'home',
-    currentParam: null, // નવું ઉમેરો
-    currentParam2: null, // નવું ઉમેરો
-    historyStack: [], // નવું ઉમેરો (પેજ યાદ રાખવા માટે)
+                currentView: 'home',
+                currentParam: null,
+                currentParam2: null,
+                historyStack: [],
                 bookmarks: JSON.parse(localStorage.getItem('itsh_bookmarks')) || [],
                 recentlyViewed: JSON.parse(localStorage.getItem('itsh_recent')) || [],
                 theme: localStorage.getItem('itsh_theme') || 'ocean',
@@ -414,6 +413,153 @@
                     "OBJECT ORIENTED CONCEPTS AND PROGRAMMING",
                     "DATABASE MANAGEMENT SYSTEM"
                 ];
+
+                // PDF Mapping Data directly mapped based on user inputs
+                const customPdfMap = {
+                    "INTRODUCTION TO PROGRAMMING-I": [
+                        { name: "Unit 1", file: "ipUnit 1.pdf" },
+                        { name: "Unit 2", file: "ipUnit 2.pdf" },
+                        { name: "Unit 3", file: "ipUnit 3.pdf" },
+                        { name: "Unit 4", file: "ipUnit 4.pdf" },
+                        { name: "Unit 5", file: "ipUnit 5.pdf" }
+                    ],
+                    "WEB DESIGNING-I": [
+                        { name: "Unit 1", file: "wdUnit 1.pdf" },
+                        { name: "Unit 2", file: "wdUnit 2.pdf" },
+                        { name: "Unit 3", file: "wdUnit 3.pdf" },
+                        { name: "Unit 4", file: "wdUnit 4.pdf" },
+                        { name: "Unit 5", file: "wdUnit 5.pdf" }
+                    ],
+                    "OFFICE AUTOMATION TOOLS": [
+                        { name: "Unit 1", file: "oatUnit 1.pdf" },
+                        { name: "Unit 2", file: "oatUnit 2.pdf" },
+                        { name: "Unit 3", file: "oatUnit 3.pdf" },
+                        { name: "Unit 4", file: "oatUnit 4.pdf" },
+                        { name: "Unit 5", file: "oatUnit 5.pdf" }
+                    ],
+                    "FUNDAMENTAL OF MATHEMATICS": [
+                        { name: "Unit 1", file: "fmUnit 1.pdf" },
+                        { name: "Unit 2", file: "fmUnit 2.pdf" },
+                        { name: "Unit 3", file: "fmUnit 3.pdf" },
+                        { name: "Unit 4", file: "fmUnit 4.pdf" },
+                        { name: "Unit 5", file: "fmUnit 5.pdf" }
+                    ],
+                    "COMMUNICATION SKILLS": [
+                        { name: "Unit 1", file: "csUnit 1.pdf" },
+                        { name: "Unit 2", file: "csUnit 2.pdf" },
+                        { name: "Unit 3", file: "csUnit 3.pdf" },
+                        { name: "Unit 4", file: "csUnit 4.pdf" },
+                        { name: "Unit 5", file: "csUnit 5.pdf" }
+                    ],
+                    "COMPUTER MAINTENANCE AND TROUBLESHOOTING": [
+                        { name: "Unit 1", file: "cmtUnit 1.pdf" },
+                        { name: "Unit 2", file: "cmtUnit 2.pdf" },
+                        { name: "Unit 3", file: "cmtUnit 3.pdf" },
+                        { name: "Unit 4", file: "cmtUnit 4.pdf" },
+                        { name: "Unit 5", file: "cmtUnit 5.pdf" }
+                    ],
+                    "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA": [
+                        { name: "All Units", file: "pmbUnitall.pdf" }
+                    ],
+                    "INTRODUCTION TO PROGRAMMING-II": [
+                        { name: "Unit 1", file: "ip2Unit 1.pdf" },
+                        { name: "Unit 2", file: "ip2Unit 2.pdf" },
+                        { name: "Unit 3", file: "ip2Unit 3.pdf" },
+                        { name: "Unit 4", file: "ip2Unit 4.pdf" },
+                        { name: "Unit 5", file: "ip2Unit 5.pdf" }
+                    ],
+                    "WEB DESIGNING-II": [
+                        { name: "Unit 1", file: "wd2Unit 1.pdf" },
+                        { name: "Unit 2", file: "wd2Unit 2.pdf" },
+                        { name: "Unit 3", file: "wd2Unit 3.pdf" },
+                        { name: "Unit 4", file: "wd2Unit 4.pdf" },
+                        { name: "Unit 5", file: "wd2Unit 5.pdf" }
+                    ],
+                    "MULTIMEDIA AND ANIMATION": [
+                        { name: "Unit 1", file: "maUnit 1.pdf" },
+                        { name: "Unit 2", file: "maUnit 2.pdf" },
+                        { name: "Unit 3", file: "maUnit 3.pdf" },
+                        { name: "Unit 4", file: "maUnit 4.pdf" },
+                        { name: "Unit 5", file: "maUnit 5.pdf" }
+                    ],
+                    "FINANCIAL ACCOUNTING": [
+                        { name: "Unit 1", file: "faUnit 1.pdf" },
+                        { name: "Unit 2", file: "faUnit 2.pdf" },
+                        { name: "Unit 3", file: "faUnit 3.pdf" },
+                        { name: "Unit 4", file: "faUnit 4.pdf" },
+                        { name: "Unit 5", file: "faUnit 5.pdf" }
+                    ],
+                    "EFFECTIVE WRITING SKILLS": [
+                        { name: "Unit 1", file: "ewsUnit 1.pdf" },
+                        { name: "Unit 2", file: "ewsUnit 2.pdf" },
+                        { name: "Unit 3", file: "ewsUnit 3.pdf" },
+                        { name: "Unit 4", file: "ewsUnit 4.pdf" },
+                        { name: "Unit 5", file: "ewsUnit 5.pdf" }
+                    ],
+                    "INFORMATION TECHNOLOGY": [
+                        { name: "Unit 1", file: "itUnit 1.pdf" },
+                        { name: "Unit 2", file: "itUnit 2.pdf" },
+                        { name: "Unit 3", file: "itUnit 3.pdf" },
+                        { name: "Unit 4", file: "itUnit 4.pdf" },
+                        { name: "Unit 5", file: "itUnit 5.pdf" }
+                    ],
+                    "PROFESSIONAL ETHICS": [
+                        { name: "Unit 1", file: "peUnit 1.pdf" },
+                        { name: "Unit 2", file: "peUnit 2.pdf" },
+                        { name: "Unit 3", file: "peUnit 3.pdf" },
+                        { name: "Unit 4", file: "peUnit 4.pdf" },
+                        { name: "Unit 5", file: "peUnit 5.pdf" }
+                    ],
+                    "DATA STRUCTURE": [
+                        { name: "Unit 1", file: "dsUnit 1.pdf" },
+                        { name: "Unit 2", file: "dsUnit 2.pdf" },
+                        { name: "Unit 3", file: "dsUnit 3.pdf" },
+                        { name: "Unit 4", file: "dsUnit 4.pdf" },
+                        { name: "Unit 5", file: "dsUnit 5.pdf" }
+                    ],
+                    "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": [
+                        { name: "Unit 1", file: "oopUnit 1.pdf" },
+                        { name: "Unit 2", file: "oopUnit 2.pdf" },
+                        { name: "Unit 3", file: "oopUnit 3.pdf" },
+                        { name: "Unit 4", file: "oopUnit 4.pdf" },
+                        { name: "Unit 5", file: "oopUnit 5.pdf" }
+                    ],
+                    "DATABASE MANAGEMENT SYSTEM": [
+                        { name: "Unit 1", file: "dmsUnit 1.pdf" },
+                        { name: "Unit 2", file: "dmsUnit 2.pdf" },
+                        { name: "Unit 3", file: "dmsUnit 3.pdf" },
+                        { name: "Unit 4", file: "dmsUnit 4.pdf" },
+                        { name: "Unit 5", file: "dmsUnit 5.pdf" }
+                    ],
+                    "INTRODUCTION TO ARTIFICIAL INTELLIGENCE": [
+                        { name: "Unit 1", file: "aiUnit 1.pdf" },
+                        { name: "Unit 2", file: "aiUnit 2.pdf" },
+                        { name: "Unit 3", file: "aiUnit 3.pdf" },
+                        { name: "Unit 4", file: "aiUnit 4.pdf" },
+                        { name: "Unit 5", file: "aiUnit 5.pdf" }
+                    ],
+                    "EMPLOYABILITY SKILLS-I": [
+                        { name: "Unit 1", file: "esUnit 1.pdf" },
+                        { name: "Unit 2", file: "esUnit 2.pdf" },
+                        { name: "Unit 3", file: "esUnit 3.pdf" },
+                        { name: "Unit 4", file: "esUnit 4.pdf" },
+                        { name: "Unit 5", file: "esUnit 5.pdf" }
+                    ],
+                    "SYSTEM ANALYSIS AND DESIGN": [
+                        { name: "Unit 1", file: "sadUnit 1.pdf" },
+                        { name: "Unit 2", file: "sadUnit 2.pdf" },
+                        { name: "Unit 3", file: "sadUnit 3.pdf" },
+                        { name: "Unit 4", file: "sadUnit 4.pdf" },
+                        { name: "Unit 5", file: "sadUnit 5.pdf" }
+                    ],
+                    "INDIAN KNOWLEDGE SYSTEMS IN COMPUTING": [
+                        { name: "Unit 1", file: "iksUnit 1.pdf" },
+                        { name: "Unit 2", file: "iskUnit 2.pdf" },
+                        { name: "Unit 3", file: "iskUnit 3.pdf" },
+                        { name: "Unit 4", file: "iskUnit 4.pdf" },
+                        { name: "Unit 5", file: "iskUnit 5.pdf" }
+                    ]
+                };
 
                 const semesterData = [
                     {
@@ -468,42 +614,20 @@
                         subjects: s.subjects.map((subName, subIdx) => {
                             const subId = `sub-${semIdx + 1}-${subIdx + 1}`;
                             const hasJournal = subjectsWithJournal.includes(subName);
-                            const isGitaSubject = subName === "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA";
+                            const pdfList = customPdfMap[subName] || [];
 
-                            let unitsList = [];
-                            if (isGitaSubject) {
-                                unitsList = [{
-                                    id: `unit-${semIdx + 1}-${subIdx + 1}-all`,
-                                    name: `All Units Notes (Unit 1 to 5)`,
-                                    resources: [
-                                        { 
-                                            id: `res-n-${semIdx + 1}-${subIdx + 1}-all`, 
-                                            title: 'PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA - Complete Notes (All Units 1-5).pdf', 
-                                            type: "Notes PDF",
-                                            url: 'PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA - Complete Notes (All Units 1-5).pdf'
-                                        }
-                                    ]
-                                }];
-                            } else {
-                                unitsList = [1, 2, 3, 4, 5].map(uNum => ({
-                                    id: `unit-${semIdx + 1}-${subIdx + 1}-${uNum}`,
-                                    name: `Unit ${uNum}: ${subName} Notes`,
-                                    resources: [
-                                        { 
-                                            id: `res-n-${semIdx + 1}-${subIdx + 1}-${uNum}`, 
-                                            title: `${subName} - Unit ${uNum} Notes`, 
-                                            type: "Notes PDF",
-                                            url: `${subId}-unit${uNum}-notes.pdf` 
-                                        },
-                                        { 
-                                            id: `res-p-${semIdx + 1}-${subIdx + 1}-${uNum}`, 
-                                            title: `${subName} - Unit ${uNum} Presentation`, 
-                                            type: "Presentation PDF",
-                                            url: `${subId}-unit${uNum}-ppt.pdf` 
-                                        }
-                                    ]
-                                }));
-                            }
+                            const unitsList = pdfList.map((pdfObj, uIdx) => ({
+                                id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
+                                name: `${pdfObj.name}: ${subName} Notes`,
+                                resources: [
+                                    { 
+                                        id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, 
+                                        title: pdfObj.file, 
+                                        type: "Notes PDF",
+                                        url: pdfObj.file 
+                                    }
+                                ]
+                            }));
 
                             return {
                                 id: subId,
@@ -529,106 +653,69 @@
                 });
             },
 
-          //  navigate(view, param = null, param2 = null) {
-            //    this.state.currentView = view;
-              //  const content = document.getElementById('app-content');
-               // content.innerHTML = ''; 
-                
-               // document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-               // document.getElementById('main-nav').classList.remove('show');
-               // window.scrollTo({ top: 0, behavior: 'smooth' });
-
-             //   switch(view) {
-               //     case 'home':
-                 //       if(document.querySelector('.nav-link:nth-child(1)')) document.querySelector('.nav-link:nth-child(1)').classList.add('active');
-                   //     this.renderHome(content);
-                     //   break;
-                    //case 'semesters':
-                      //  if(document.querySelector('.nav-link:nth-child(2)')) document.querySelector('.nav-link:nth-child(2)').classList.add('active');
-                        //this.renderSemesterList(content);
-                        //break;
-                    //case 'semester-detail':
-                      //  this.renderSemesterDetail(content, param);
-                        //this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
-                        //break;
-                    //case 'subject-detail':
-                      //  this.renderSubjectDetail(content, param, param2);
-                        //this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
-                        //break;
-                    //case 'bookmarks':
-                        //if(document.querySelector('.nav-link:nth-child(3)')) document.querySelector('.nav-link:nth-child(3)').classList.add('active');
-                      //  this.renderBookmarks(content);
-                        //break;
-            //    }
-           // },
-
             navigate(view, param = null, param2 = null, isGoingBack = false) {
-    // હિસ્ટ્રી સેવ કરવાનું લોજીક
-    if (!isGoingBack && this.state.currentView) {
-        this.state.historyStack.push({
-            view: this.state.currentView,
-            param: this.state.currentParam,
-            param2: this.state.currentParam2
-        });
-    }
-    
-    this.state.currentView = view;
-    this.state.currentParam = param;
-    this.state.currentParam2 = param2;
+                if (!isGoingBack && this.state.currentView) {
+                    this.state.historyStack.push({
+                        view: this.state.currentView,
+                        param: this.state.currentParam,
+                        param2: this.state.currentParam2
+                    });
+                }
+                
+                this.state.currentView = view;
+                this.state.currentParam = param;
+                this.state.currentParam2 = param2;
 
-    // બેક બટન બતાવવું કે છુપાવવું તેનું લોજીક
-    const backBtn = document.getElementById('back-btn');
-    if (backBtn) {
-        if (this.state.historyStack.length > 0 && view !== 'home') {
-            backBtn.style.display = 'flex';
-        } else {
-            backBtn.style.display = 'none';
-        }
-    }
+                const backBtn = document.getElementById('back-btn');
+                if (backBtn) {
+                    if (this.state.historyStack.length > 0 && view !== 'home') {
+                        backBtn.style.display = 'flex';
+                    } else {
+                        backBtn.style.display = 'none';
+                    }
+                }
 
-    const content = document.getElementById('app-content');
-    content.innerHTML = '';
-    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-    document.getElementById('main-nav').classList.remove('show'); 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+                const content = document.getElementById('app-content');
+                content.innerHTML = '';
+                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+                document.getElementById('main-nav').classList.remove('show'); 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    switch(view) {
-        case 'home':
-            if(document.querySelector('.nav-link:nth-child(1)'))
-                document.querySelector('.nav-link:nth-child(1)').classList.add('active');
-            this.renderHome(content);
-            break;
-        case 'semesters':
-            if(document.querySelector('.nav-link:nth-child(2)'))
-                document.querySelector('.nav-link:nth-child(2)').classList.add('active');
-            this.renderSemesterList(content);
-            break;
-        case 'semester-detail':
-            this.renderSemesterDetail(content, param);
-            this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
-            break;
-        case 'subject-detail':
-            this.renderSubjectDetail(content, param, param2);
-            this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
-            break;
-        case 'bookmarks':
-            if(document.querySelector('.nav-link:nth-child(3)'))
-                document.querySelector('.nav-link:nth-child(3)').classList.add('active');
-            this.renderBookmarks(content);
-            break;
-    }
-},
+                switch(view) {
+                    case 'home':
+                        if(document.querySelector('.nav-link:nth-child(1)'))
+                            document.querySelector('.nav-link:nth-child(1)').classList.add('active');
+                        this.renderHome(content);
+                        break;
+                    case 'semesters':
+                        if(document.querySelector('.nav-link:nth-child(2)'))
+                            document.querySelector('.nav-link:nth-child(2)').classList.add('active');
+                        this.renderSemesterList(content);
+                        break;
+                    case 'semester-detail':
+                        this.renderSemesterDetail(content, param);
+                        this.addToRecent({ type: 'Semester', id: param, title: this.getSemesterName(param) });
+                        break;
+                    case 'subject-detail':
+                        this.renderSubjectDetail(content, param, param2);
+                        this.addToRecent({ type: 'Subject', id: param2, title: this.getSubjectName(param, param2), linkParams: [param, param2] });
+                        break;
+                    case 'bookmarks':
+                        if(document.querySelector('.nav-link:nth-child(3)'))
+                            document.querySelector('.nav-link:nth-child(3)').classList.add('active');
+                        this.renderBookmarks(content);
+                        break;
+                }
+            },
 
-        goBack() {
-    if (this.state.historyStack.length > 0) {
-        // છેલ્લું પેજ કાઢો અને તેના પર પાછા જાવ
-        const previous = this.state.historyStack.pop();
-        this.navigate(previous.view, previous.param, previous.param2, true);
-    } else {
-        // જો હિસ્ટ્રી ન હોય તો હોમ પેજ પર જાવ
-        this.navigate('home');
-    }
-},
+            goBack() {
+                if (this.state.historyStack.length > 0) {
+                    const previous = this.state.historyStack.pop();
+                    this.navigate(previous.view, previous.param, previous.param2, true);
+                } else {
+                    this.navigate('home');
+                }
+            },
 
             renderHome(container) {
                 let html = `
@@ -921,9 +1008,6 @@
                 accordion.classList.toggle('open');
             },
 
-            /* ==========================================================================
-               5. FIX: GUARANTEED MOBILE BACK-BUTTON EXIT PREVENTER
-               ========================================================================== */
             openPDF(title, pdfUrl) {
                 const modal = document.getElementById('pdf-modal');
                 const tabBtn = document.getElementById('pdf-open-tab');
@@ -942,14 +1026,12 @@
                     tabBtn.href = finalUrl;
                 }
 
-                // Dynamic iframe creation prevents browser history pollution
                 wrapper.innerHTML = `<iframe id="pdf-frame" src="${targetViewerUrl}" title="PDF Viewer"></iframe>`;
 
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 this.state.isPdfOpen = true;
 
-                // Push new history state explicitly so mobile back button steps back internally
                 history.pushState({ modalOpen: 'pdfModal' }, '', window.location.href);
             },
 
@@ -959,11 +1041,10 @@
 
                 if (this.state.isPdfOpen || modal.classList.contains('active')) {
                     modal.classList.remove('active');
-                    wrapper.innerHTML = ''; // Destroy Iframe immediately
+                    wrapper.innerHTML = '';
                     document.body.style.overflow = '';
                     this.state.isPdfOpen = false;
 
-                    // If user manually clicked "X" button, pop the pushed state manually
                     if (!triggeredByPopState && history.state && history.state.modalOpen === 'pdfModal') {
                         history.back();
                     }
@@ -979,6 +1060,7 @@
                     </button>
                 `;
             },
+
             toggleBookmark(id, title, type, url = '') {
                 const index = this.state.bookmarks.findIndex(b => b.id === id);
                 if(index > -1) {
@@ -998,6 +1080,7 @@
                         this.state.currentView === 'subject-detail' ? id : null);
                 }
             },
+
             updateBookmarkCount() {
                 document.getElementById('bookmark-count').innerText = this.state.bookmarks.length;
             },
@@ -1009,6 +1092,7 @@
                     setTimeout(() => document.getElementById('search-input').focus(), 100);
                 }
             },
+
             performSearch(query) {
                 const resultsContainer = document.getElementById('search-results');
                 if(!query || query.length < 2) {
@@ -1066,6 +1150,7 @@
             toggleThemePanel() {
                 document.getElementById('theme-panel').classList.toggle('active');
             },
+
             setThemePreset(presetName) {
                 document.documentElement.setAttribute('data-color-preset', presetName);
                 this.state.theme = presetName;
@@ -1076,11 +1161,13 @@
                     if(btn.title.toLowerCase().includes(presetName.substring(0,3))) btn.classList.add('active');
                 });
             },
+
             toggleDarkMode() {
                 this.state.isDark = !this.state.isDark;
                 localStorage.setItem('itsh_dark', this.state.isDark);
                 this.applyTheme();
             },
+
             applyTheme() {
                 if(this.state.isDark) {
                     document.documentElement.setAttribute('data-theme', 'dark');
@@ -1124,7 +1211,6 @@
                     }
                 });
 
-                // MOBILE HARDWARE BACK BUTTON LISTENER
                 window.addEventListener('popstate', (e) => {
                     if (this.state.isPdfOpen) {
                         this.closePDF(true);
