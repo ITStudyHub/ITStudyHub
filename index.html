@@ -369,7 +369,6 @@
                 this.updateBookmarkCount();
                 this.navigate('home');
                 this.setupEventListeners();
-                this.setupSwipeBack();
             },
 
             generateCustomData() {
@@ -1145,34 +1144,8 @@
                         nav.classList.remove('show');
                     }
                 });
-            },
-           setupSwipeBack() {
-            let touchStartX = 0, touchStartY = 0;
-            const EDGE_ZONE = 30;
-            const MIN_SWIPE = 80;
-            const MAX_VERTICAL = 100;
-
-            document.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }, { passive: true });
-
-            document.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].screenX;
-                const touchEndY = e.changedTouches[0].screenY;
-                const distX = touchEndX - touchStartX;
-                const distY = touchEndY - touchStartY;
-
-                if (touchStartX <= EDGE_ZONE && distX >= MIN_SWIPE && Math.abs(distY) <= MAX_VERTICAL) {
-                    if (this.state.isPdfOpen) {
-                        this.closePDF();
-                    } else if (this.state.historyStack.length > 0) {
-                        this.goBack();
-                    }
-                }
-            }, { passive: true });
-        } 
-   };
+            }
+          };
 
         const style = document.createElement('style');
         style.textContent = '.cursor-pointer { cursor: pointer; }';
