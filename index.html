@@ -1145,8 +1145,34 @@
                         nav.classList.remove('show');
                     }
                 });
-            }
-        };
+            },
+           setupSwipeBack() {
+            let touchStartX = 0, touchStartY = 0;
+            const EDGE_ZONE = 30;
+            const MIN_SWIPE = 80;
+            const MAX_VERTICAL = 100;
+
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            document.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                const touchEndY = e.changedTouches[0].screenY;
+                const distX = touchEndX - touchStartX;
+                const distY = touchEndY - touchStartY;
+
+                if (touchStartX <= EDGE_ZONE && distX >= MIN_SWIPE && Math.abs(distY) <= MAX_VERTICAL) {
+                    if (this.state.isPdfOpen) {
+                        this.closePDF();
+                    } else if (this.state.historyStack.length > 0) {
+                        this.goBack();
+                    }
+                }
+            }, { passive: true });
+        } 
+   };
 
         const style = document.createElement('style');
         style.textContent = '.cursor-pointer { cursor: pointer; }';
@@ -1155,35 +1181,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             app.init();
         });
-
-
-        setupSwipeBack() {
-  let touchStartX = 0, touchStartY = 0;
-  const EDGE_ZONE = 30;      // left edge thi ketla px ma swipe start thavo joiye
-  const MIN_SWIPE = 80;      // minimum horizontal distance
-  const MAX_VERTICAL = 100;  // vertical movement ni limit (scroll na thay etle)
-
-  document.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-  }, { passive: true });
-
-  document.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].screenX;
-    const touchEndY = e.changedTouches[0].screenY;
-    const distX = touchEndX - touchStartX;
-    const distY = touchEndY - touchStartY;
-
-    // sirf left edge thi jamni taraf swipe kare toj trigger thashe
-    if (touchStartX <= EDGE_ZONE && distX >= MIN_SWIPE && Math.abs(distY) <= MAX_VERTICAL) {
-      if (this.state.isPdfOpen) {
-        this.closePDF();
-      } else if (this.state.historyStack.length > 0) {
-        this.goBack();
-      }
-    }
-  }, { passive: true });
-}
 
     </script>
 </body>
