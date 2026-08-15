@@ -75,7 +75,6 @@ header { position: sticky; top: 0; z-index: 1000; background: var(--glass-bg); b
 .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
 .logo { display: flex; align-items: center; gap: 12px; font-size: 1.5rem; font-weight: 800; color: var(--accent-color); cursor: pointer; }
 
-/* Modified Logo Element */
 .logo-icon { width: 32px; height: 32px; background: transparent; border-radius: 8px; display: flex; justify-content: center; align-items: center; padding: 0; overflow: hidden; }
 .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -242,7 +241,7 @@ footer { background: var(--surface-color); border-top: 1px solid var(--border-co
 .view-section { animation: fadeIn 0.4s ease; }
 mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 0 2px; border-radius: 2px; }
 
-/* --- ADVANCED BACK BUTTON STYLES --- */
+/* BACK BUTTON STYLES */
 .back-btn {
     display: none;
     margin-right: 12px;
@@ -323,7 +322,7 @@ mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 
     <div class="search-container">
         <div class="search-input-wrapper">
             <svg viewBox="0 0 24 24" style="color:var(--accent-color);"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            <input type="text" class="search-input" id="search-input" placeholder="Search subjects, units, notes..." autocomplete="off">
+            <input type="text" class="search-input" id="search-input" placeholder="Search subjects, units, notes, assignments..." autocomplete="off">
         </div>
         <div class="search-results" id="search-results">
             <div class="empty-state">Start typing to search across active semesters and subjects.</div>
@@ -366,7 +365,6 @@ const app = {
         this.applyTheme();
         this.updateBookmarkCount();
         
-        // Push initial state to history for robust browser back button handling
         window.history.replaceState({ view: 'home', param: null, param2: null }, '', '#home');
         
         this.navigate('home', null, null, true);
@@ -383,11 +381,11 @@ const app = {
         
         const customPdfMap = {
             "INTRODUCTION TO PROGRAMMING-I": [
-                { name: "UNIT 1", file: "IP1_Unit_1.pdf" },
-                { name: "UNIT 2", file: "IP1_Unit_2.pdf" }, 
-                { name: "UNIT 3", file: "IP1_Unit_3.pdf" }, 
-                { name: "UNIT 4", file: "IP1_Unit_4.pdf" }, 
-                { name: "UNIT 5", file: "IP1_Unit_5.pdf" }
+                { name: "UNIT 1", file: "IP_Unit_1.pdf" },
+                { name: "UNIT 2", file: "IP_Unit_2.pdf" }, 
+                { name: "UNIT 3", file: "IP_Unit_3.pdf" }, 
+                { name: "UNIT 4", file: "IP_Unit_4.pdf" }, 
+                { name: "UNIT 5", file: "IP_Unit_5.pdf" }
             ],
             "WEB DESIGNING-I": [
                 { name: "UNIT 1", file: "WD_Unit_1.pdf" }, 
@@ -411,7 +409,7 @@ const app = {
                 { name: "UNIT 5", file: "FM_Unit_5.pdf" }
             ],
             "COMMUNICATION SKILLS": [
-                { name: "UNIT 1", file: "CS_Unit_1.pdf",file: "CS_Unit_1.pdf"}, 
+                { name: "UNIT 1", file: "CS_Unit_1.pdf" }, 
                 { name: "UNIT 2", file: "CS_Unit_2.pdf" }, 
                 { name: "UNIT 3", file: "CS_Unit_3.pdf" },
                 { name: "UNIT 4", file: "CS_Unit_4.pdf" },
@@ -527,6 +525,32 @@ const app = {
             ]
         };
 
+        const customAssignmentMap = {
+            "INTRODUCTION TO PROGRAMMING-I": ["IP_Assignment_1.pdf", "IP_Assignment_2.pdf"],
+            "WEB DESIGNING-I": ["WD_Assignment_1.pdf", "WD_Assignment_2.pdf"],
+            "OFFICE AUTOMATION TOOLS": ["OAT_Assignment_1.pdf", "OAT_Assignment_2.pdf"],
+            "FUNDAMENTAL OF MATHEMATICS": ["FM_Assignment_1.pdf", "FM_Assignment_2.pdf"],
+            "COMMUNICATION SKILLS": ["CS_Assignment_1.pdf", "CS_Assignment_2.pdf"],
+            "COMPUTER MAINTENANCE AND TROUBLESHOOTING": ["CMT_Assignment_1.pdf", "CMT_Assignment_2.pdf"],
+            "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA": ["PMB_Assignment.pdf"],
+            
+            "INTRODUCTION TO PROGRAMMING-II": ["IP2_Assignment_1.pdf", "IP2_Assignment_2.pdf"],
+            "WEB DESIGNING-II": ["WD2_Assignment_1.pdf", "WD2_Assignment_2.pdf"],
+            "MULTIMEDIA AND ANIMATION": ["MA_Assignment_1.pdf", "MA_Assignment_2.pdf"],
+            "FINANCIAL ACCOUNTING": ["FA_Assignment_1.pdf", "FA_Assignment_2.pdf"],
+            "EFFECTIVE WRITING SKILLS": ["EWS_Assignment_1.pdf", "EWS_Assignment_2.pdf"],
+            "INFORMATION TECHNOLOGY": ["IT_Assignment_1.pdf", "IT_Assignment_2.pdf"],
+            "PROFESSIONAL ETHICS": ["PE_Assignment_1.pdf", "PE_Assignment_2.pdf"],
+
+            "DATA STRUCTURE": ["DS_Assignment_1.pdf", "DS_Assignment_2.pdf"],
+            "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": ["OOP_Assignment_1.pdf", "OOP_Assignment_2.pdf"],
+            "DATABASE MANAGEMENT SYSTEM": ["DMS_Assignment_1.pdf", "DMS_Assignment_2.pdf"],
+            "INTRODUCTION TO ARTIFICIAL INTELLIGENCE": ["AI_Assignment_1.pdf", "AI_Assignment_2.pdf"],
+            "EMPLOYABILITY SKILLS-I": ["ES_Assignment_1.pdf", "ES_Assignment_2.pdf"],
+            "SYSTEM ANALYSIS AND DESIGN": ["SAD_Assignment_1.pdf", "SAD_Assignment_2.pdf"],
+            "INDIAN KNOWLEDGE SYSTEMS IN COMPUTING": ["IKS_Assignment_1.pdf", "IKS_Assignment_2.pdf"]
+        };
+
         const semesterData = [
             { id: 'sem-1', name: 'Semester 1', description: 'Core introductory IT subjects.', subjects: [ "INTRODUCTION TO PROGRAMMING-I", "WEB DESIGNING-I", "OFFICE AUTOMATION TOOLS", "FUNDAMENTAL OF MATHEMATICS", "COMMUNICATION SKILLS", "COMPUTER MAINTENANCE AND TROUBLESHOOTING", "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA" ] },
             { id: 'sem-2', name: 'Semester 2', description: 'Intermediate concepts and programming foundation.', subjects: [ "INTRODUCTION TO PROGRAMMING-II", "WEB DESIGNING-II", "MULTIMEDIA AND ANIMATION", "FINANCIAL ACCOUNTING", "EFFECTIVE WRITING SKILLS", "INFORMATION TECHNOLOGY", "PROFESSIONAL ETHICS" ] },
@@ -542,11 +566,20 @@ const app = {
                     const subId = `sub-${semIdx + 1}-${subIdx + 1}`;
                     const hasJournal = subjectsWithJournal.includes(subName);
                     const pdfList = customPdfMap[subName] || [];
+                    const assignList = customAssignmentMap[subName] || [];
 
                     const unitsList = pdfList.map((pdfObj, uIdx) => ({
                         id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
                         name: `${pdfObj.name}: ${subName} Notes`,
                         resources: [{ id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }]
+                    }));
+
+                    const assignmentsMapped = assignList.map((file, aIdx) => ({
+                        id: `ass-${semIdx + 1}-${subIdx + 1}-${aIdx + 1}`,
+                        title: file,
+                        type: "Assignment PDF",
+                        date: "Aug 2026",
+                        url: file
                     }));
 
                     return {
@@ -556,15 +589,12 @@ const app = {
                         hasJournal: hasJournal,
                         units: unitsList,
                         academic: {
-                            assignments: [
-                                { id: `ass-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Assignment 1.pdf`, type: "PDF", date: "Aug 15, 2026", url: `${subId}-assignment1.pdf` },
-                                { id: `ass-${semIdx + 1}-${subIdx + 1}-2`, title: `${subName} - Assignment 2.pdf`, type: "PDF", date: "Sep 20, 2026", url: `${subId}-assignment2.pdf` }
-                            ],
+                            assignments: assignmentsMapped,
                             journals: hasJournal ? [
-                                { id: `jou-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Practical Journal.pdf`, type: "PDF", date: "Nov 01, 2026", url: `${subId}-journal.pdf` }
+                                { id: `jou-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Practical Journal.pdf`, type: "Journal PDF", date: "Nov 2026", url: `${subId}-journal.pdf` }
                             ] : [],
                             papers: [
-                                { id: `pap-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Previous Year Paper (2025).pdf`, type: "PDF", date: "Dec 2025", url: `${subId}-paper2025.pdf` }
+                                { id: `pap-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Previous Year Paper (2025).pdf`, type: "Question Paper PDF", date: "Dec 2025", url: `${subId}-paper2025.pdf` }
                             ]
                         }
                     };
@@ -590,11 +620,7 @@ const app = {
 
         const backBtn = document.getElementById('back-btn');
         if (backBtn) {
-            if (view !== 'home') {
-                backBtn.style.display = 'flex';
-            } else {
-                backBtn.style.display = 'none';
-            }
+            backBtn.style.display = (view !== 'home') ? 'flex' : 'none';
         }
 
         const content = document.getElementById('app-content');
@@ -710,7 +736,7 @@ const app = {
         </div>
         <div class="section-header view-section">
             <h2 class="section-title">All Semesters</h2>
-            <p>Select your current semester to access subjects and assignment PDFs.</p>
+            <p>Select your current semester to access subjects, notes, and assignment PDFs.</p>
         </div>
         <div class="grid view-section" id="list-sems"></div>`;
         this.renderSemesterCards(document.getElementById('list-sems'));
@@ -765,7 +791,7 @@ const app = {
                 </div>
                 <div class="card-meta">
                     <span class="meta-tag">${sub.units.length} ${sub.units.length === 1 ? 'Combined PDF' : 'Units'}</span>
-                    <span class="meta-tag">PDF Assignments</span>
+                    <span class="meta-tag">${sub.academic.assignments.length} Assignments</span>
                     ${sub.hasJournal ? '<span class="meta-tag" style="border-color:var(--accent-color);">Practical Journal</span>' : ''}
                 </div>
                 <div class="card-action">
@@ -794,13 +820,13 @@ const app = {
         <div class="section-header view-section">
             <div>
                 <h2 class="section-title">${sub.name}</h2>
-                <p>Subject Dashboard: Study Material & PDF Assignments</p>
+                <p>Subject Dashboard: Unit Notes, Assignments & Papers</p>
             </div>
             ${this.getBookmarkBtnTemplate(sub.id, sub.name, 'Subject')}
         </div>
         <div class="tabs view-section">
             <button class="tab-btn active" onclick="app.switchTab(this, 'tab-units')">Syllabus & Units (${sub.units.length})</button>
-            <button class="tab-btn" onclick="app.switchTab(this, 'tab-assignments')">Assignments PDFs</button>
+            <button class="tab-btn" onclick="app.switchTab(this, 'tab-assignments')">Assignments (${sub.academic.assignments.length})</button>
             ${sub.hasJournal ? '<button class="tab-btn" onclick="app.switchTab(this, \'tab-journals\')">Practical Journal</button>' : ''}
             <button class="tab-btn" onclick="app.switchTab(this, 'tab-papers')">Previous Papers</button>
         </div>
@@ -856,11 +882,11 @@ const app = {
                 <div class="resource-icon">${icon}</div>
                 <div>
                     <h4 class="resource-title">${res.title}</h4>
-                    <div class="resource-meta">${res.type} ${res.date ? ' ' + res.date : ''}</div>
+                    <div class="resource-meta">${res.type} ${res.date ? '• ' + res.date : ''}</div>
                 </div>
             </div>
             <div class="resource-actions">
-                ${this.getBookmarkBtnTemplate(res.id, res.title, 'Resource', pdfUrl)}
+                ${this.getBookmarkBtnTemplate(res.id, res.title, res.type, pdfUrl)}
                 <a href="${encodeURI(pdfUrl)}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center;">
                     Open PDF
                 </a>
@@ -1004,6 +1030,12 @@ const app = {
                             results.push({ type: 'Resource', title: res.title, id: res.id, link: `app.openPDF('${res.title.replace(/'/g, "\\'")}', '${(res.url || '').replace(/'/g, "\\'")}')` });
                         }
                     });
+                });
+
+                sub.academic.assignments.forEach(ass => {
+                    if(ass.title.toLowerCase().includes(query)) {
+                        results.push({ type: 'Assignment', title: ass.title, id: ass.id, link: `app.openPDF('${ass.title.replace(/'/g, "\\'")}', '${(ass.url || '').replace(/'/g, "\\'")}')` });
+                    }
                 });
             });
         });
