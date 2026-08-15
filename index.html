@@ -1205,19 +1205,19 @@ setupSwipeGestures() {
         let touchStartY = 0;
         let touchEndX = 0;
         let touchEndY = 0;
-        let touchStartTime = 0; // નવો વેરીએબલ સમય નોંધવા માટે
+        let touchStartTime = 0; 
 
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
-            touchStartTime = new Date().getTime(); // યુઝર આંગળી અડાડે ત્યારનો સમય
+            touchStartTime = new Date().getTime(); 
         }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
-            const touchEndTime = new Date().getTime(); // યુઝર આંગળી ઉઠાવે ત્યારનો સમય
-            const timeDiff = touchEndTime - touchStartTime; // કુલ કેટલો સમય લાગ્યો
+            const touchEndTime = new Date().getTime(); 
+            const timeDiff = touchEndTime - touchStartTime; 
 
             this.handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY, timeDiff);
         }, { passive: true });
@@ -1227,17 +1227,14 @@ setupSwipeGestures() {
         const xDiff = endX - startX;
         const yDiff = Math.abs(endY - startY);
         
-        // નવી શરત: સ્વાઇપ સ્ક્રીનની એકદમ ડાબી કિનારીથી જ શરૂ થવું જોઈએ (40 પિક્સલની અંદર)
         const isEdgeSwipe = startX <= 40; 
         
-        // શરત: કિનારીથી શરૂ થાય, X 70 થી વધુ હોય, Y 40 થી ઓછું અને સમય 400ms થી ઓછો હોય
         if (isEdgeSwipe && xDiff > 70 && yDiff < 40 && timeDiff < 400) {
             if (this.state.currentView !== 'home') {
                 this.goBack();
             }
         }
     }
-    
 };
 
 window.onload = () => {
