@@ -417,18 +417,18 @@ const app = {
           //  ],
 
               "COMMUNICATION SKILLS": [
-    { 
-        name: "UNIT 1", 
-        files: [
-            { title: "CS_Unit_1.pdf", url: "CS_Unit_1.pdf" },
-            { title: "CS_Unit_1_Part_2.pdf", url: "CS_Unit_1_Part2.pdf" }
-        ] 
-    },
-    { name: "UNIT 2", file: "CS_Unit_2.pdf" },
-    { name: "UNIT 3", file: "CS_Unit_3.pdf" },
-    { name: "UNIT 4", file: "CS_Unit_4.pdf" },
-    { name: "UNIT 5", file: "CS_Unit_5.pdf" }
-],
+              { 
+                  name: "UNIT 1", 
+                  files: [
+                  { title: "CS_Unit_1.pdf", url: "CS_Unit_1.pdf" },
+                  { title: "CS_Unit_1_Part_2.pdf", url: "CS_Unit_1_Part2.pdf" }
+               ] 
+          },
+                 { name: "UNIT 2", file: "CS_Unit_2.pdf" },
+                 { name: "UNIT 3", file: "CS_Unit_3.pdf" },
+                 { name: "UNIT 4", file: "CS_Unit_4.pdf" },
+                 { name: "UNIT 5", file: "CS_Unit_5.pdf" }
+               ],
             
             "COMPUTER MAINTENANCE AND TROUBLESHOOTING": [
                 { name: "UNIT 1", file: "CMT_Unit_1.pdf" },
@@ -462,7 +462,14 @@ const app = {
                 { name: "UNIT 5", file: "MA_Unit_5.pdf" }
             ],
             "FINANCIAL ACCOUNTING": [
-                { name: "UNIT 1", file: "FA_Unit_1.pdf" },
+       //         { name: "UNIT 1", file: "FA_Unit_1.pdf" },
+                { 
+                  name: "UNIT 1", 
+                  files: [
+                  { title: "FA_Unit_1.pdf", url: "FA_Unit_1.pdf" },
+                  { title: "FA_Unit_1_Part_2.pdf", url: "FA_Unit_1_Part2.pdf" }
+               ] 
+          },
                 { name: "UNIT 2", file: "FA_Unit_2.pdf" },
                 { name: "UNIT 3", file: "FA_Unit_3.pdf" },
                 { name: "UNIT 4", file: "FA_Unit_4.pdf" },
@@ -591,8 +598,6 @@ const app = {
 
                     const unitsList = pdfList.map((pdfObj, uIdx) => {
     let resourceArray = [];
-    
-    // જો ડેટામાં એક કરતા વધારે ફાઈલ્સ (files) આપી હોય
     if (pdfObj.files) {
         resourceArray = pdfObj.files.map((f, fIdx) => ({
             id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}-${fIdx}`,
@@ -601,7 +606,6 @@ const app = {
             url: f.url
         }));
     } else {
-        // જો જૂની રીત (file) મુજબ એક જ ફાઈલ હોય
         resourceArray = [
             { id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
         ];
