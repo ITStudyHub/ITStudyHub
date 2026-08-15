@@ -1081,29 +1081,29 @@ const app = {
    // },
 
    getResourceHTML(res) {
-    const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
-    const pdfUrl = res.url || '#';
-    
-    // નવી લિંક જેમાં #toolbar=0 એડ કર્યું છે
-    const finalUrl = pdfUrl !== '#' ? encodeURI(pdfUrl) + '#toolbar=0' : '#';
-
-    return `
-    <div class="resource-item">
-        <div class="resource-info">
-            <div class="resource-icon">${icon}</div>
-            <div>
-                <h4 class="resource-title">${res.title}</h4>
-                <div class="resource-meta">${res.type} ${res.date ? ' ' + res.date : ''}</div>
+        const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
+        const pdfUrl = res.url || '#';
+        
+        // અહીં લિંકમાં 'view.html?file=' ઉમેર્યું છે
+        const secureUrl = pdfUrl !== '#' ? `view.html?file=${encodeURIComponent(pdfUrl)}` : '#';
+        
+        return `
+        <div class="resource-item">
+            <div class="resource-info">
+                <div class="resource-icon">${icon}</div>
+                <div>
+                    <h4 class="resource-title">${res.title}</h4>
+                    <div class="resource-meta">${res.type} ${res.date ? ' ' + res.date : ''}</div>
+                </div>
             </div>
-        </div>
-        <div class="resource-actions">
-            ${this.getBookmarkBtnTemplate(res.id, res.title, 'Resource', pdfUrl)}
-            <a href="${finalUrl}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center;">
-                Open PDF
-            </a>
-        </div>
-    </div>`;
-},
+            <div class="resource-actions">
+                ${this.getBookmarkBtnTemplate(res.id, res.title, 'Resource', pdfUrl)}
+                <a href="${secureUrl}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center;">
+                    Open PDF
+                </a>
+            </div>
+        </div>`;
+    },
     
     renderBookmarks(container) {
         let html = `
@@ -1174,14 +1174,14 @@ const app = {
    //     }
 //    },
 
-  openPDF(title, pdfUrl) {
-    if (pdfUrl && pdfUrl !== '#') {
-        // પાછળ #toolbar=0 લગાવવાથી બ્રાઉઝરના ઉપરના ઓપ્શન (ડાઉનલોડ, પ્રિન્ટ) હાઈડ થઈ જશે
-        window.open(encodeURI(pdfUrl) + '#toolbar=0', '_blank');
-    } else {
-        alert('PDF file path is not valid.');
-    }
-},
+ openPDF(title, pdfUrl) {
+        if (pdfUrl && pdfUrl !== '#') {
+            // હવે PDF ડાયરેક્ટ નહિ ખુલે, પણ સુરક્ષિત view.html માં ખુલશે
+            window.open('view.html?file=' + encodeURIComponent(pdfUrl), '_blank');
+        } else {
+            alert('PDF file path is not valid.');
+        }
+    },
 
     getBookmarkBtnTemplate(id, title, type, url = '') {
         const isBookmarked = this.state.bookmarks.some(b => b.id === id);
