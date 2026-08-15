@@ -1227,8 +1227,11 @@ setupSwipeGestures() {
         const xDiff = endX - startX;
         const yDiff = Math.abs(endY - startY);
         
-        // શરત: X 70 થી વધુ, Y 40 થી ઓછું અને સમય 400 મિલીસેકન્ડ (0.4 સેકન્ડ) થી ઓછો હોવો જોઈએ
-        if (xDiff > 70 && yDiff < 40 && timeDiff < 400) {
+        // નવી શરત: સ્વાઇપ સ્ક્રીનની એકદમ ડાબી કિનારીથી જ શરૂ થવું જોઈએ (40 પિક્સલની અંદર)
+        const isEdgeSwipe = startX <= 40; 
+        
+        // શરત: કિનારીથી શરૂ થાય, X 70 થી વધુ હોય, Y 40 થી ઓછું અને સમય 400ms થી ઓછો હોય
+        if (isEdgeSwipe && xDiff > 70 && yDiff < 40 && timeDiff < 400) {
             if (this.state.currentView !== 'home') {
                 this.goBack();
             }
