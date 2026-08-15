@@ -260,6 +260,47 @@ mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 
         height: 36px;
     }
 }
+
+/* SECURE CUSTOM BLACK SCREEN PDF VIEWER */
+.pdf-viewer-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+}
+.pdf-viewer-modal.active {
+    display: flex;
+}
+.pdf-viewer-header {
+    background: #111;
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #222;
+}
+.pdf-viewer-body {
+    flex: 1;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pdf-viewer-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #000;
+}
+@media print {
+    body { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -331,6 +372,17 @@ mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 
 </div>
 
 <main class="container" id="app-content" style="min-height: 70vh;"></main>
+
+<!-- BLACK SCREEN SECURE PDF VIEWER MODAL -->
+<div class="pdf-viewer-modal" id="custom-pdf-modal">
+    <div class="pdf-viewer-header">
+        <h4 id="pdf-modal-title" style="margin:0; color:#fff;">PDF Viewer</h4>
+        <button class="btn btn-primary" onclick="app.closePDFViewer()" style="padding: 6px 16px;">Close</button>
+    </div>
+    <div class="pdf-viewer-body">
+        <iframe id="pdf-frame" src=""></iframe>
+    </div>
+</div>
 
 <footer>
     <div class="container">
@@ -408,28 +460,19 @@ const app = {
                 { name: "UNIT 4", file: "FM_Unit_4.pdf" },
                 { name: "UNIT 5", file: "FM_Unit_5.pdf" }
             ],
-        //    "COMMUNICATION SKILLS": [
-          //      { name: "UNIT 1", file: "CS_Unit_1.pdf" }, 
-       //         { name: "UNIT 2", file: "CS_Unit_2.pdf" }, 
-         //       { name: "UNIT 3", file: "CS_Unit_3.pdf" },
-           //     { name: "UNIT 4", file: "CS_Unit_4.pdf" },
-             //   { name: "UNIT 5", file: "CS_Unit_5.pdf" }
-          //  ],
-
-              "COMMUNICATION SKILLS": [
-              { 
-                  name: "UNIT 1", 
-                  files: [
-                  { title: "CS_Unit_1.pdf", url: "CS_Unit_1.pdf" },
-                  { title: "CS_Unit_1_Part_2.pdf", url: "CS_Unit_1_Part2.pdf" }
-               ] 
-          },
-                 { name: "UNIT 2", file: "CS_Unit_2.pdf" },
-                 { name: "UNIT 3", file: "CS_Unit_3.pdf" },
-                 { name: "UNIT 4", file: "CS_Unit_4.pdf" },
-                 { name: "UNIT 5", file: "CS_Unit_5.pdf" }
-               ],
-            
+            "COMMUNICATION SKILLS": [
+                { 
+                    name: "UNIT 1", 
+                    files: [
+                        { title: "CS_Unit_1.pdf", url: "CS_Unit_1.pdf" },
+                        { title: "CS_Unit_1_Part_2.pdf", url: "CS_Unit_1_Part2.pdf" }
+                    ] 
+                },
+                { name: "UNIT 2", file: "CS_Unit_2.pdf" },
+                { name: "UNIT 3", file: "CS_Unit_3.pdf" },
+                { name: "UNIT 4", file: "CS_Unit_4.pdf" },
+                { name: "UNIT 5", file: "CS_Unit_5.pdf" }
+            ],
             "COMPUTER MAINTENANCE AND TROUBLESHOOTING": [
                 { name: "UNIT 1", file: "CMT_Unit_1.pdf" },
                 { name: "UNIT 2", file: "CMT_Unit_2.pdf" },
@@ -449,12 +492,12 @@ const app = {
             ],
             "WEB DESIGNING-II": [
                 { 
-                  name: "UNIT 1", 
-                  files: [
-                  { title: "WD2_Unit_1.pdf", url: "WD2_Unit_1.pdf" },
-                  { title: "WD2_Unit_1_Extra.pdf", url: "WD2_Unit_1_Extra.pdf" }
-               ] 
-          },
+                    name: "UNIT 1", 
+                    files: [
+                        { title: "WD2_Unit_1.pdf", url: "WD2_Unit_1.pdf" },
+                        { title: "WD2_Unit_1_Extra.pdf", url: "WD2_Unit_1_Extra.pdf" }
+                    ] 
+                },
                 { name: "UNIT 2", file: "WD2_Unit_2.pdf" },
                 { name: "UNIT 3", file: "WD2_Unit_3.pdf" },
                 { name: "UNIT 4", file: "WD2_Unit_4.pdf" },
@@ -463,13 +506,13 @@ const app = {
             ],
             "MULTIMEDIA AND ANIMATION": [
                 { name: "UNIT 1", file: "MA_Unit_1.pdf" },
-                 { 
-                  name: "UNIT 2", 
-                  files: [
-                  { title: "MA_Unit_2.pdf", url: "MA_Unit_2.pdf" },
-                  { title: "MA_Unit_2_Extra.pdf", url: "MA_Unit_2_Extra.pdf" }
-               ] 
-          },
+                { 
+                    name: "UNIT 2", 
+                    files: [
+                        { title: "MA_Unit_2.pdf", url: "MA_Unit_2.pdf" },
+                        { title: "MA_Unit_2_Extra.pdf", url: "MA_Unit_2_Extra.pdf" }
+                    ] 
+                },
                 { name: "UNIT 3,4,5", file: "MA_Unit_3,4,5.pdf" },
             ],
             "FINANCIAL ACCOUNTING": [
@@ -479,65 +522,56 @@ const app = {
                 { name: "UNIT 4", file: "FA_Unit_4.pdf" },
                 { name: "UNIT 5", file: "FA_Unit_5.pdf" }
             ],
-            
-        //   "EFFECTIVE WRITING SKILLS": [
-        //      { name: "UNIT 1", file: "EWS_Unit_1.pdf" },
-        //       { name: "UNIT 2", file: "EWS_Unit2.pdf" },
-        //       { name: "UNIT 3", file: "EWS_Unit_3.pdf" },
-        //        { name: "UNIT 4", file: "EWS_Unit_4.pdf" },
-        //        { name: "UNIT 5", file: "EWS_Unit_5.pdf" }
-
-             "EFFECTIVE WRITING SKILLS": [   
-               { 
-                  name: "UNIT 1", 
-                  files: [
-                  { title: "EWS_Unit_1_Part_1.pdf", url: "EWS_Unit_1_Part_1.pdf" },
-                  { title: "EWS_Unit_1_Part_2.pdf", url: "EWS_Unit_1_Part_2.pdf" },
-                  { title: "EWS_Unit_1_Part_3.pdf", url: "EWS_Unit_1_Part_3.pdf" },
-                  { title: "EWS_Unit_1_Part_4.pdf", url: "EWS_Unit_1_Part_4.pdf" },
-                  { title: "EWS_Unit_1_Part_5.pdf", url: "EWS_Unit_1_Part_5.pdf" },
-                  { title: "EWS_Unit_1_Part_6.pdf", url: "EWS_Unit_1_Part_6.pdf" },
-                  { title: "EWS_Unit_1_Part_7.pdf", url: "EWS_Unit_1_Part_7.pdf" }
-                  ] 
+            "EFFECTIVE WRITING SKILLS": [   
+                { 
+                    name: "UNIT 1", 
+                    files: [
+                        { title: "EWS_Unit_1_Part_1.pdf", url: "EWS_Unit_1_Part_1.pdf" },
+                        { title: "EWS_Unit_1_Part_2.pdf", url: "EWS_Unit_1_Part_2.pdf" },
+                        { title: "EWS_Unit_1_Part_3.pdf", url: "EWS_Unit_1_Part_3.pdf" },
+                        { title: "EWS_Unit_1_Part_4.pdf", url: "EWS_Unit_1_Part_4.pdf" },
+                        { title: "EWS_Unit_1_Part_5.pdf", url: "EWS_Unit_1_Part_5.pdf" },
+                        { title: "EWS_Unit_1_Part_6.pdf", url: "EWS_Unit_1_Part_6.pdf" },
+                        { title: "EWS_Unit_1_Part_7.pdf", url: "EWS_Unit_1_Part_7.pdf" }
+                    ] 
                 },
                 { 
-                  name: "UNIT 2", 
-                  files: [
-                  { title: "EWS_Unit_2_Part_1.pdf", url: "EWS_Unit_2_Part_1.pdf" },
-                  { title: "EWS_Unit_2_Part_2.pdf", url: "EWS_Unit_2_Part_2.pdf" },
-                  { title: "EWS_Unit_2_Part_3.pdf", url: "EWS_Unit_2_Part_3.pdf" },
-                  { title: "EWS_Unit_2_Part_4.pdf", url: "EWS_Unit_2_Part_4.pdf" }
-                  ] 
+                    name: "UNIT 2", 
+                    files: [
+                        { title: "EWS_Unit_2_Part_1.pdf", url: "EWS_Unit_2_Part_1.pdf" },
+                        { title: "EWS_Unit_2_Part_2.pdf", url: "EWS_Unit_2_Part_2.pdf" },
+                        { title: "EWS_Unit_2_Part_3.pdf", url: "EWS_Unit_2_Part_3.pdf" },
+                        { title: "EWS_Unit_2_Part_4.pdf", url: "EWS_Unit_2_Part_4.pdf" }
+                    ] 
                 },
                 { 
-                  name: "UNIT 3", 
-                  files: [
-                  { title: "EWS_Unit_3_Part_1.pdf", url: "EWS_Unit_3_Part_1.pdf" },
-                  { title: "EWS_Unit_3_Part_2.pdf", url: "EWS_Unit_3_Part_2.pdf" },
-                  { title: "EWS_Unit_3_Part_3.pdf", url: "EWS_Unit_3_Part_3.pdf" },
-                  { title: "EWS_Unit_3_Part_4.pdf", url: "EWS_Unit_3_Part_4.pdf" }
-                  ] 
+                    name: "UNIT 3", 
+                    files: [
+                        { title: "EWS_Unit_3_Part_1.pdf", url: "EWS_Unit_3_Part_1.pdf" },
+                        { title: "EWS_Unit_3_Part_2.pdf", url: "EWS_Unit_3_Part_2.pdf" },
+                        { title: "EWS_Unit_3_Part_3.pdf", url: "EWS_Unit_3_Part_3.pdf" },
+                        { title: "EWS_Unit_3_Part_4.pdf", url: "EWS_Unit_3_Part_4.pdf" }
+                    ] 
                 },
                 { 
-                  name: "UNIT 4", 
-                  files: [
-                  { title: "EWS_Unit_4_Part_1.pdf", url: "EWS_Unit_4_Part_1.pdf" },
-                  { title: "EWS_Unit_4_Part_2.pdf", url: "EWS_Unit_4_Part_2.pdf" },
-                  { title: "EWS_Unit_4_Part_3.pdf", url: "EWS_Unit_4_Part_3.pdf" }
-                  ] 
-                 },
-                 { 
-                  name: "UNIT 5", 
-                  files: [
-                  { title: "EWS_Unit_5_Part_1.pdf", url: "EWS_Unit_5_Part_1.pdf" },
-                  { title: "EWS_Unit_5_Part_2.pdf", url: "EWS_Unit_5_Part_2.pdf" },
-                  { title: "EWS_Unit_5_Part_3.pdf", url: "EWS_Unit_5_Part_3.pdf" },
-                  { title: "EWS_Unit_5_Part_4.pdf", url: "EWS_Unit_5_Part_4.pdf" },
-                  { title: "EWS_Unit_5_Part_5.pdf", url: "EWS_Unit_5_Part_5.pdf" }
-                  ] 
+                    name: "UNIT 4", 
+                    files: [
+                        { title: "EWS_Unit_4_Part_1.pdf", url: "EWS_Unit_4_Part_1.pdf" },
+                        { title: "EWS_Unit_4_Part_2.pdf", url: "EWS_Unit_4_Part_2.pdf" },
+                        { title: "EWS_Unit_4_Part_3.pdf", url: "EWS_Unit_4_Part_3.pdf" }
+                    ] 
                 },
-             ],
-    
+                { 
+                    name: "UNIT 5", 
+                    files: [
+                        { title: "EWS_Unit_5_Part_1.pdf", url: "EWS_Unit_5_Part_1.pdf" },
+                        { title: "EWS_Unit_5_Part_2.pdf", url: "EWS_Unit_5_Part_2.pdf" },
+                        { title: "EWS_Unit_5_Part_3.pdf", url: "EWS_Unit_5_Part_3.pdf" },
+                        { title: "EWS_Unit_5_Part_4.pdf", url: "EWS_Unit_5_Part_4.pdf" },
+                        { title: "EWS_Unit_5_Part_5.pdf", url: "EWS_Unit_5_Part_5.pdf" }
+                    ] 
+                },
+            ],
             "INFORMATION TECHNOLOGY": [
                 { name: "UNIT 1", file: "IT_Unit_1.pdf" },
                 { name: "UNIT 2", file: "IT_Unit_2.pdf" },
@@ -646,33 +680,27 @@ const app = {
                     const pdfList = customPdfMap[subName] || [];
                     const assignList = customAssignmentMap[subName] || [];
 
-        //            const unitsList = pdfList.map((pdfObj, uIdx) => ({
-          //              id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
-            //            name: `${pdfObj.name}: ${subName} Notes`,
-              //          resources: [{ id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }]
-                //    }));
-
                     const unitsList = pdfList.map((pdfObj, uIdx) => {
-    let resourceArray = [];
-    if (pdfObj.files) {
-        resourceArray = pdfObj.files.map((f, fIdx) => ({
-            id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}-${fIdx}`,
-            title: f.title,
-            type: "Notes PDF",
-            url: f.url
-        }));
-    } else {
-        resourceArray = [
-            { id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
-        ];
-    }
+                        let resourceArray = [];
+                        if (pdfObj.files) {
+                            resourceArray = pdfObj.files.map((f, fIdx) => ({
+                                id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}-${fIdx}`,
+                                title: f.title,
+                                type: "Notes PDF",
+                                url: f.url
+                            }));
+                        } else {
+                            resourceArray = [
+                                { id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
+                            ];
+                        }
 
-    return {
-        id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
-        name: `${pdfObj.name}: ${subName} Notes`,
-        resources: resourceArray
-    };
-});
+                        return {
+                            id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
+                            name: `${pdfObj.name}: ${subName} Notes`,
+                            resources: resourceArray
+                        };
+                    });
 
                     const assignmentsMapped = assignList.map((file, aIdx) => ({
                         id: `ass-${semIdx + 1}-${subIdx + 1}-${aIdx + 1}`,
@@ -987,9 +1015,9 @@ const app = {
             </div>
             <div class="resource-actions">
                 ${this.getBookmarkBtnTemplate(res.id, res.title, res.type, pdfUrl)}
-                <a href="${encodeURI(pdfUrl)}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center;">
+                <button class="btn btn-outline" onclick="app.openPDF('${res.title.replace(/'/g, "\\'")}', '${pdfUrl.replace(/'/g, "\\'")}')" style="padding: 6px 12px; font-size: 0.85rem;">
                     Open PDF
-                </a>
+                </button>
             </div>
         </div>`;
     },
@@ -1055,12 +1083,27 @@ const app = {
         accordion.classList.toggle('open');
     },
 
+    /* OPEN PDF IN SECURE BLACK SCREEN VIEWER */
     openPDF(title, pdfUrl) {
         if (pdfUrl && pdfUrl !== '#') {
-            window.open(encodeURI(pdfUrl), '_blank');
+            const modal = document.getElementById('custom-pdf-modal');
+            const frame = document.getElementById('pdf-frame');
+            const titleEl = document.getElementById('pdf-modal-title');
+            
+            titleEl.innerText = title;
+            // toolbar=0 disables browser download & print toolbar
+            frame.src = encodeURI(pdfUrl) + "#toolbar=0&navpanes=0&scrollbar=0";
+            modal.classList.add('active');
         } else {
             alert('PDF file path is not valid.');
         }
+    },
+
+    closePDFViewer() {
+        const modal = document.getElementById('custom-pdf-modal');
+        const frame = document.getElementById('pdf-frame');
+        frame.src = "";
+        modal.classList.remove('active');
     },
 
     getBookmarkBtnTemplate(id, title, type, url = '') {
@@ -1219,6 +1262,14 @@ const app = {
                 themePanel.classList.remove('active');
             }
         });
+
+        /* SECURITY: DISABLE PRINT AND SAVE KEYBOARD SHORTCUTS */
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's' || e.key === 'u')) {
+                e.preventDefault();
+                alert('Download and Print options are disabled.');
+            }
+        });
         
         window.addEventListener('popstate', (e) => {
             if (e.state && e.state.view) {
@@ -1230,36 +1281,7 @@ const app = {
         });
     },
 
-//    setupSwipeGestures() {
-  //      let touchStartX = 0;
-    //    let touchStartY = 0;
-      //  let touchEndX = 0;
-//        let touchEndY = 0;
-
-  //      document.addEventListener('touchstart', (e) => {
-    //        touchStartX = e.changedTouches[0].screenX;
-      //      touchStartY = e.changedTouches[0].screenY;
- //       }, { passive: true });
-
-   //     document.addEventListener('touchend', (e) => {
-     //       touchEndX = e.changedTouches[0].screenX;
-       //     touchEndY = e.changedTouches[0].screenY;
-         //   this.handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
-  //      }, { passive: true });
-//    },
-
-//    handleSwipe(startX, startY, endX, endY) {
-  //      const xDiff = endX - startX;
-    //    const yDiff = Math.abs(endY - startY);
-        
- //       if (xDiff > 70 && yDiff < 40) {
-   //         if (this.state.currentView !== 'home') {
-     //           this.goBack();
-       //     }
- //       }
-  //  }
-
-setupSwipeGestures() {
+    setupSwipeGestures() {
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
