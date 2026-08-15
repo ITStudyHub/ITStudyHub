@@ -367,14 +367,8 @@
                 this.generateCustomData();
                 this.applyTheme();
                 this.updateBookmarkCount();
-                
-                // Initialize browser history integration
-                const initialState = { view: 'home', param: null, param2: null };
-                history.replaceState(initialState, '', '#home');
-                this.navigate('home', null, null, false, true);
-                
+                this.navigate('home');
                 this.setupEventListeners();
-                this.setupSwipeGesture();
             },
 
             generateCustomData() {
@@ -628,13 +622,7 @@
                 });
             },
 
-            // Modern, smart stateful navigation & pushState integration
-            navigate(view, param = null, param2 = null, isGoingBack = false, skipPush = false) {
-                // Prevent duplicate navigation entries for the same state
-                if (this.state.currentView === view && this.state.currentParam === param && this.state.currentParam2 === param2) {
-                    return;
-                }
-
+            navigate(view, param = null, param2 = null, isGoingBack = false) {
                 if (!isGoingBack && this.state.currentView) {
                     this.state.historyStack.push({
                         view: this.state.currentView,
@@ -647,15 +635,9 @@
                 this.state.currentParam = param;
                 this.state.currentParam2 = param2;
 
-                if (!skipPush) {
-                    const stateObj = { view, param, param2 };
-                    const hash = `#${view}${param ? '-' + param : ''}${param2 ? '-' + param2 : ''}`;
-                    history.pushState(stateObj, '', hash);
-                }
-
                 const backBtn = document.getElementById('back-btn');
                 if (backBtn) {
-                    if (view !== 'home') {
+                    if (this.state.historyStack.length > 0 && view !== 'home') {
                         backBtn.style.display = 'flex';
                     } else {
                         backBtn.style.display = 'none';
@@ -695,32 +677,12 @@
                 }
             },
 
-            // Strict Hierarchical Back Navigation Implementation
             goBack() {
-                // If history stack has recorded previous navigation within user's flow
                 if (this.state.historyStack.length > 0) {
                     const previous = this.state.historyStack.pop();
                     this.navigate(previous.view, previous.param, previous.param2, true);
-                    return;
-                }
-
-                // Fallback: Smart Hierarchical Step-Back
-                switch (this.state.currentView) {
-                    case 'subject-detail':
-                        if (this.state.currentParam) {
-                            this.navigate('semester-detail', this.state.currentParam, null, true);
-                        } else {
-                            this.navigate('semesters', null, null, true);
-                        }
-                        break;
-                    case 'semester-detail':
-                        this.navigate('semesters', null, null, true);
-                        break;
-                    case 'semesters':
-                    case 'bookmarks':
-                    default:
-                        this.navigate('home', null, null, true);
-                        break;
+                } else {
+                    this.navigate('home');
                 }
             },
 
@@ -988,44 +950,15 @@
                 container.innerHTML = html;
             },
 
-            // Modified Bookmark Action Resolution: Opens Complete Subject Page with All Units
             resolveBookmarkAction(id, url) {
-                if (id.startsWith('sem-')) {
-                    this.navigate('semester-detail', id);
-                } else if (id.startsWith('sub-')) {
-                    // Extract Semester ID and Subject ID correctly
-                    const parts = id.split('-');
-                    const semId = `sem-${parts[1]}`;
+                if(id.startsWith('sem-')) this.navigate('semester-detail', id);
+                else if(id.startsWith('sub-')) {
+                    const semId = id.split('-').slice(0,2).join('-');
                     this.navigate('subject-detail', semId, id);
-                } else {
-                    // For individual unit/resource bookmarks: Find parent subject & semester to open its FULL page
-                    let foundSemId = null;
-                    let foundSubId = null;
-
-                    for (const sem of this.data.semesters) {
-                        for (const sub of sem.subjects) {
-                            // Check units and academic resources
-                            const inUnits = sub.units.some(u => u.id === id || u.resources.some(r => r.id === id));
-                            const inAssign = sub.academic.assignments.some(a => a.id === id);
-                            const inJourn = sub.academic.journals.some(j => j.id === id);
-                            const inPaper = sub.academic.papers.some(p => p.id === id);
-
-                            if (inUnits || inAssign || inJourn || inPaper) {
-                                foundSemId = sem.id;
-                                foundSubId = sub.id;
-                                break;
-                            }
-                        }
-                        if (foundSubId) break;
-                    }
-
-                    if (foundSemId && foundSubId) {
-                        this.navigate('subject-detail', foundSemId, foundSubId);
-                    } else if (url && url !== '#') {
-                        // Direct PDF Fallback if parent subject binding is not found
-                        const bm = this.state.bookmarks.find(b => b.id === id);
-                        this.openPDF(bm ? bm.title : "PDF Document", url || bm?.url);
-                    }
+                }
+                else {
+                    const bm = this.state.bookmarks.find(b => b.id === id);
+                    this.openPDF(bm ? bm.title : "PDF Document", url || bm?.url);
                 }
             },
 
@@ -1076,10 +1009,9 @@
                     this.renderBookmarks(document.getElementById('app-content'));
                 } else {
                     this.navigate(this.state.currentView, 
-                        this.state.currentParam, 
-                        this.state.currentParam2,
-                        true,
-                        true);
+                        this.state.currentView === 'subject-detail' ? id.split('-').slice(0,2).join('-') : 
+                        (this.state.currentView === 'semester-detail' ? id : null), 
+                        this.state.currentView === 'subject-detail' ? id : null);
                 }
             },
 
@@ -1212,70 +1144,8 @@
                         nav.classList.remove('show');
                     }
                 });
-
-                // Listen to Browser Back / Forward buttons and map to goBack / state update safely
-                window.addEventListener('popstate', (e) => {
-                    if (e.state && e.state.view) {
-                        this.navigate(e.state.view, e.state.param, e.state.param2, true, true);
-                    } else {
-                        this.navigate('home', null, null, true, true);
-                    }
-                });
-            },
-
-            // Mobile Swipe-to-Back Gesture Implementation
-            setupSwipeGesture() {
-                let startX = 0;
-                let startY = 0;
-                let distX = 0;
-                let distY = 0;
-
-                const minSwipeDistance = 70; // Minimum horizontal distance (px) required for swipe
-                const maxVerticalDeviation = 50; // Max allowed vertical movement to prevent breaking normal scrolling
-                const maxEdgeStartX = 60; // Edge-swipe threshold from left border of screen
-
-                document.addEventListener('touchstart', (e) => {
-                    // Ignore multi-touch gestures
-                    if (e.touches.length > 1) return;
-
-                    const touch = e.touches[0];
-                    startX = touch.clientX;
-                    startY = touch.clientY;
-                    distX = 0;
-                    distY = 0;
-                }, { passive: true });
-
-                document.addEventListener('touchmove', (e) => {
-                    if (!startX) return;
-                    const touch = e.touches[0];
-                    distX = touch.clientX - startX;
-                    distY = touch.clientY - startY;
-                }, { passive: true });
-
-                document.addEventListener('touchend', (e) => {
-                    if (!startX) return;
-
-                    // Ensure gesture is horizontal, meets distance requirements, and started near screen edge or nested page
-                    const isRightSwipe = distX > minSwipeDistance;
-                    const isHorizontal = Math.abs(distY) < maxVerticalDeviation;
-                    const isNotAtHome = app.state.currentView !== 'home';
-                    const targetElement = e.target;
-
-                    // Don't trigger if user was interacting with input controls or buttons
-                    const isInteractive = targetElement.closest('button, input, a, .icon-btn, .search-overlay');
-
-                    if (isRightSwipe && isHorizontal && isNotAtHome && !isInteractive) {
-                        app.goBack();
-                    }
-
-                    // Reset touch values
-                    startX = 0;
-                    startY = 0;
-                    distX = 0;
-                    distY = 0;
-                }, { passive: true });
             }
-        };
+          };
 
         const style = document.createElement('style');
         style.textContent = '.cursor-pointer { cursor: pointer; }';
