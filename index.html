@@ -52,11 +52,51 @@
 
 /*
 ====================================
-2. GLOBAL STYLES & RESET
+2. GLOBAL STYLES & SECURITY PROTECTIONS
 ==================================== 
 */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; transition: background-color 0.3s, color 0.3s; overflow-x: hidden; }
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    -webkit-user-select: none; /* Disable Selection */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none; /* Disable long press popup on mobile */
+}
+
+body { 
+    font-family: var(--font-main); 
+    background-color: var(--bg-color); 
+    color: var(--text-color); 
+    line-height: 1.6; 
+    transition: background-color 0.3s, color 0.3s; 
+    overflow-x: hidden; 
+}
+
+/* SCREENSHOT & PRINT BLACK SCREEN PROTECTOR */
+@media print {
+    body {
+        display: none !important;
+    }
+}
+
+.screenshot-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000 !important;
+    z-index: 999999;
+    display: none;
+}
+
+body.secure-protection .screenshot-overlay {
+    display: block;
+}
+
 a { text-decoration: none; color: inherit; }
 button { border: none; background: none; cursor: pointer; font-family: inherit; color: inherit; }
 ul { list-style: none; }
@@ -262,7 +302,10 @@ mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 
 }
 </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
+
+<!-- Black screen layer to block screenshot capturing -->
+<div class="screenshot-overlay"></div>
 
 <header>
 <div class="container nav-wrapper">
@@ -364,12 +407,41 @@ const app = {
         this.generateCustomData();
         this.applyTheme();
         this.updateBookmarkCount();
+        this.setupAntiScreenshot();
         
         window.history.replaceState({ view: 'home', param: null, param2: null }, '', '#home');
         
         this.navigate('home', null, null, true);
         this.setupEventListeners();
         this.setupSwipeGestures();
+    },
+
+    setupAntiScreenshot() {
+        // Prevent Keyboard Shortcuts (PrtSc, Ctrl+S, Ctrl+P, F12 etc)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'PrintScreen' || 
+                (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u')) ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) {
+                e.preventDefault();
+                document.body.classList.add('secure-protection');
+                setTimeout(() => document.body.classList.remove('secure-protection'), 3000);
+            }
+        });
+
+        // Detect window blur / focus change (Triggers when mobile screen recording / screenshot is taken)
+        window.addEventListener('blur', () => {
+            document.body.classList.add('secure-protection');
+        });
+        window.addEventListener('focus', () => {
+            document.body.classList.remove('secure-protection');
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                document.body.classList.add('secure-protection');
+            } else {
+                document.body.classList.remove('secure-protection');
+            }
+        });
     },
 
     generateCustomData() {
@@ -408,13 +480,6 @@ const app = {
                 { name: "UNIT 4", file: "FM_Unit_4.pdf" },
                 { name: "UNIT 5", file: "FM_Unit_5.pdf" }
             ],
-        //    "COMMUNICATION SKILLS": [
-          //      { name: "UNIT 1", file: "CS_Unit_1.pdf" }, 
-       //         { name: "UNIT 2", file: "CS_Unit_2.pdf" }, 
-         //       { name: "UNIT 3", file: "CS_Unit_3.pdf" },
-           //     { name: "UNIT 4", file: "CS_Unit_4.pdf" },
-             //   { name: "UNIT 5", file: "CS_Unit_5.pdf" }
-          //  ],
 
             "COMMUNICATION SKILLS": [
                { 
@@ -502,13 +567,6 @@ const app = {
                 { name: "UNIT 5", file: "FA_Unit_5.pdf" }
             ],
             
-        //   "EFFECTIVE WRITING SKILLS": [
-        //      { name: "UNIT 1", file: "EWS_Unit_1.pdf" },
-        //       { name: "UNIT 2", file: "EWS_Unit2.pdf" },
-        //       { name: "UNIT 3", file: "EWS_Unit_3.pdf" },
-        //        { name: "UNIT 4", file: "EWS_Unit_4.pdf" },
-        //        { name: "UNIT 5", file: "EWS_Unit_5.pdf" }
-
              "EFFECTIVE WRITING SKILLS": [   
                { 
                   name: "UNIT 1", 
@@ -668,33 +726,27 @@ const app = {
                     const pdfList = customPdfMap[subName] || [];
                     const assignList = customAssignmentMap[subName] || [];
 
-        //            const unitsList = pdfList.map((pdfObj, uIdx) => ({
-          //              id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
-            //            name: `${pdfObj.name}: ${subName} Notes`,
-              //          resources: [{ id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }]
-                //    }));
-
                     const unitsList = pdfList.map((pdfObj, uIdx) => {
-    let resourceArray = [];
-    if (pdfObj.files) {
-        resourceArray = pdfObj.files.map((f, fIdx) => ({
-            id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}-${fIdx}`,
-            title: f.title,
-            type: "Notes PDF",
-            url: f.url
-        }));
-    } else {
-        resourceArray = [
-            { id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
-        ];
-    }
+                        let resourceArray = [];
+                        if (pdfObj.files) {
+                            resourceArray = pdfObj.files.map((f, fIdx) => ({
+                                id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}-${fIdx}`,
+                                title: f.title,
+                                type: "Notes PDF",
+                                url: f.url
+                            }));
+                        } else {
+                            resourceArray = [
+                                { id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
+                            ];
+                        }
 
-    return {
-        id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
-        name: `${pdfObj.name}: ${subName} Notes`,
-        resources: resourceArray
-    };
-});
+                        return {
+                            id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
+                            name: `${pdfObj.name}: ${subName} Notes`,
+                            resources: resourceArray
+                        };
+                    });
 
                     const assignmentsMapped = assignList.map((file, aIdx) => ({
                         id: `ass-${semIdx + 1}-${subIdx + 1}-${aIdx + 1}`,
@@ -1252,36 +1304,7 @@ const app = {
         });
     },
 
-//    setupSwipeGestures() {
-  //      let touchStartX = 0;
-    //    let touchStartY = 0;
-      //  let touchEndX = 0;
-//        let touchEndY = 0;
-
-  //      document.addEventListener('touchstart', (e) => {
-    //        touchStartX = e.changedTouches[0].screenX;
-      //      touchStartY = e.changedTouches[0].screenY;
- //       }, { passive: true });
-
-   //     document.addEventListener('touchend', (e) => {
-     //       touchEndX = e.changedTouches[0].screenX;
-       //     touchEndY = e.changedTouches[0].screenY;
-         //   this.handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
-  //      }, { passive: true });
-//    },
-
-//    handleSwipe(startX, startY, endX, endY) {
-  //      const xDiff = endX - startX;
-    //    const yDiff = Math.abs(endY - startY);
-        
- //       if (xDiff > 70 && yDiff < 40) {
-   //         if (this.state.currentView !== 'home') {
-     //           this.goBack();
-       //     }
- //       }
-  //  }
-
-setupSwipeGestures() {
+    setupSwipeGestures() {
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
