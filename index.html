@@ -1059,26 +1059,51 @@ const app = {
         container.innerHTML = html;
     },
 
-    getResourceHTML(res) {
-        const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.10 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
-        const pdfUrl = res.url || '#';
-        return `
-        <div class="resource-item">
-            <div class="resource-info">
-                <div class="resource-icon">${icon}</div>
-                <div>
-                    <h4 class="resource-title">${res.title}</h4>
-                    <div class="resource-meta">${res.type} ${res.date ? '• ' + res.date : ''}</div>
-                </div>
+ //   getResourceHTML(res) {
+   //     const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.10 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
+     //   const pdfUrl = res.url || '#';
+  //      return `
+    //    <div class="resource-item">
+      //      <div class="resource-info">
+        //        <div class="resource-icon">${icon}</div>
+          //      <div>
+            //        <h4 class="resource-title">${res.title}</h4>
+              //      <div class="resource-meta">${res.type} ${res.date ? '• ' + res.date : ''}</div>
+ //               </div>
+   //         </div>
+     //       <div class="resource-actions">
+       //         ${this.getBookmarkBtnTemplate(res.id, res.title, res.type, pdfUrl)}
+         //       <a href="${encodeURI(pdfUrl)}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center;">
+           //         Open PDF
+             //   </a>
+  //          </div>
+    //    </div>`;
+   // },
+
+    // જૂનો કોડ કાઢીને આ નવો કોડ મૂકો:
+getResourceHTML(res) {
+    const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
+    const pdfUrl = res.url || '#';
+    // અહીં લિંકમાં 'view.html?file=' ઉમેરવામાં આવ્યું છે
+    const secureUrl = pdfUrl !== '#' ? `view.html?file=${encodeURIComponent(pdfUrl)}` : '#';
+    
+    return `
+    <div class="resource-item">
+        <div class="resource-info">
+            <div class="resource-icon">${icon}</div>
+            <div>
+                <h4 class="resource-title">${res.title}</h4>
+                <div class="resource-meta">${res.type} ${res.date ? ' ' + res.date : ''}</div>
             </div>
-            <div class="resource-actions">
-                ${this.getBookmarkBtnTemplate(res.id, res.title, res.type, pdfUrl)}
-                <a href="${encodeURI(pdfUrl)}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center;">
-                    Open PDF
-                </a>
-            </div>
-        </div>`;
-    },
+        </div>
+        <div class="resource-actions">
+            ${this.getBookmarkBtnTemplate(res.id, res.title, 'Resource', pdfUrl)}
+            <a href="${secureUrl}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center;">
+                Open PDF
+            </a>
+        </div>
+    </div>`;
+},
 
     renderBookmarks(container) {
         let html = `
@@ -1141,13 +1166,23 @@ const app = {
         accordion.classList.toggle('open');
     },
 
-    openPDF(title, pdfUrl) {
-        if (pdfUrl && pdfUrl !== '#') {
-            window.open(encodeURI(pdfUrl), '_blank');
-        } else {
-            alert('PDF file path is not valid.');
-        }
-    },
+//    openPDF(title, pdfUrl) {
+  //      if (pdfUrl && pdfUrl !== '#') {
+    //        window.open(encodeURI(pdfUrl), '_blank');
+      //  } else {
+ //           alert('PDF file path is not valid.');
+   //     }
+//    },
+
+    // જૂનો કોડ કાઢીને આ નવો કોડ મૂકો:
+openPDF(title, pdfUrl) {
+    if (pdfUrl && pdfUrl !== '#') {
+        // હવે ડાયરેક્ટ PDF નહિ ખુલે, પણ આપણું સિક્યોર view.html ખુલશે
+        window.open('view.html?file=' + encodeURIComponent(pdfUrl), '_blank');
+    } else {
+        alert('PDF file path is not valid.');
+    }
+},
 
     getBookmarkBtnTemplate(id, title, type, url = '') {
         const isBookmarked = this.state.bookmarks.some(b => b.id === id);
