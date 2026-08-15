@@ -1171,34 +1171,70 @@ const app = {
         });
     },
 
-    setupSwipeGestures() {
+//    setupSwipeGestures() {
+  //      let touchStartX = 0;
+    //    let touchStartY = 0;
+      //  let touchEndX = 0;
+//        let touchEndY = 0;
+
+  //      document.addEventListener('touchstart', (e) => {
+    //        touchStartX = e.changedTouches[0].screenX;
+      //      touchStartY = e.changedTouches[0].screenY;
+ //       }, { passive: true });
+
+   //     document.addEventListener('touchend', (e) => {
+     //       touchEndX = e.changedTouches[0].screenX;
+       //     touchEndY = e.changedTouches[0].screenY;
+         //   this.handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
+  //      }, { passive: true });
+//    },
+
+//    handleSwipe(startX, startY, endX, endY) {
+  //      const xDiff = endX - startX;
+    //    const yDiff = Math.abs(endY - startY);
+        
+ //       if (xDiff > 70 && yDiff < 40) {
+   //         if (this.state.currentView !== 'home') {
+     //           this.goBack();
+       //     }
+ //       }
+  //  }
+
+setupSwipeGestures() {
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
         let touchEndY = 0;
+        let touchStartTime = 0; // નવો વેરીએબલ સમય નોંધવા માટે
 
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
+            touchStartTime = new Date().getTime(); // યુઝર આંગળી અડાડે ત્યારનો સમય
         }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
-            this.handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
+            const touchEndTime = new Date().getTime(); // યુઝર આંગળી ઉઠાવે ત્યારનો સમય
+            const timeDiff = touchEndTime - touchStartTime; // કુલ કેટલો સમય લાગ્યો
+
+            this.handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY, timeDiff);
         }, { passive: true });
     },
 
-    handleSwipe(startX, startY, endX, endY) {
+    handleSwipe(startX, startY, endX, endY, timeDiff) {
         const xDiff = endX - startX;
         const yDiff = Math.abs(endY - startY);
         
-        if (xDiff > 70 && yDiff < 40) {
+        // શરત: X 70 થી વધુ, Y 40 થી ઓછું અને સમય 400 મિલીસેકન્ડ (0.4 સેકન્ડ) થી ઓછો હોવો જોઈએ
+        if (xDiff > 70 && yDiff < 40 && timeDiff < 400) {
             if (this.state.currentView !== 'home') {
                 this.goBack();
             }
         }
     }
+    
 };
 
 window.onload = () => {
