@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure PDF Viewer - ITStudyHub</title>
+    <!-- PDF.js લાઈબ્રેરી -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <style>
+        body {
+            margin: 0; padding: 0; 
+            background-color: #525659; /* PDF વ્યૂઅર જેવું ડાર્ક બેકગ્રાઉન્ડ */
+            display: flex; flex-direction: column; height: 100vh;
+            user-select: none; -webkit-user-select: none; /* ટેક્સ્ટ કોપી થતું રોકવા */
+        }
+        @media print { body { display: none !important; } } /* પ્રિન્ટિંગ રોકવા */
+        
+        .toolbar {
+            background-color: #323639; color: white; padding: 15px 20px;
+            text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-weight: bold; font-size: 1.1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 10;
+        }
+        
+        /* સળંગ સ્ક્રોલિંગ માટેનું કન્ટેનર */
+        #pdf-container {
+            flex-grow: 1; 
+            overflow-y: auto; /* ઉપર-નીચે સ્ક્રોલ કરવા માટે */
+            padding: 20px 0;
+            display: flex; flex-direction: column; 
+            align-items: center; gap: 15px; /* પેજ વચ્ચેની જગ્યા */
+        }
+        
+        canvas {
+            max-width: 95%; height: auto !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
+            background: white; border-radius: 4px;
+        }
+        
+        .loading { color: white; font-family: sans-serif; margin-top: 30px; font-size: 1.1rem;}
+    </style>
+</head>
+<body oncontextmenu="return false;"> <!-- રાઇટ ક્લિક બંધ કરવા -->
+
+    <div class="toolbar">ITStudyHub - Secure Notes</div>
+    
+    <div id="pdf-container">
+        <div class="loading" id="loading-msg">Loading Secure PDF... Please wait</div>
+    </div>
+
+    <script>
+        // કીબોર્ડ શોર્ટકટ (Ctrl+S, Ctrl+P) બંધ કરવા
+        document.addEventListener('keydown', e => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's')) { e.preventDefault(); }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const pdfFile = urlParams.get('file');
+
+        if (!pdfFile) {
+            document.getElementById('loading-msg').innerText = "Error: PDF not found.";
+        } else {
+            const pdfjsLib = window['pdfjs-dist/build/pdf'];
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+            const container = document.getElementById('pdf-container');
+            const scale = window.innerWidth < 600 ? 1.2 : 1.5; // સ્ક્રીન મુજબ સાઈઝ સેટ કરવા
+
+            pdfjsLib.getDocument(pdfFile).promise.then(pdfDoc => {
+                document.getElementById('loading-msg').style.display = 'none';
+                
+                // PDF ના બધા જ પેજ માટે લૂપ ફેરવીને એકસાથે સ્ક્રીન પર મૂકવા
+                for (let num = 1; num <= pdfDoc.numPages; num++) {
+                    const canvas = document.createElement('canvas');
+                    container.appendChild(canvas);
+                    const ctx = canvas.getContext('2d');
+
+                    pdfDoc.getPage(num).then(page => {
+                        const viewport = page.getViewport({ scale: scale });
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        page.render({ canvasContext: ctx, viewport: viewport });
+                    });
+                }
+            }).catch(err => {
+                document.getElementById('loading-msg').innerText = "Error loading PDF. File might be missing.";
+                console.error(err);
+            });
+        }
+    </script>
+</body>
+</html>
