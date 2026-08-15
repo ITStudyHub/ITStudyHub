@@ -382,137 +382,150 @@ const app = {
         ];
         
         const customPdfMap = {
-            "INTRODUCTION TO PROGRAMMING-I": [ { name: "UNIT 1", file: "IP_Unit_1.pdf" },
-                                              { name: "UNIT 2", file: "IP_Unit_2.pdf" }, 
-                                              { name: "UNIT 3", file: "IP_Unit_3.pdf" }, 
-                                              { name: "UNIT 4", file: "IP_Unit_4.pdf" }, 
-                                              { name: "UNIT 5", file: "IP_Unit_5.pdf" } ],
-            "WEB DESIGNING-I": [ { name: "UNIT 1", file: "WD_Unit_1.pdf" }, 
-                                { name: "UNIT 2", file: "WD_Unit_2.pdf" }, 
-                                { name: "UNIT 3", file: "WD_Unit_3.pdf" }, 
-                                { name: "UNIT 4", file: "WD_Unit_4.pdf" },
-                                { name: "UNIT 5", file: "WD_Unit_5.pdf" } ],
-            "OFFICE AUTOMATION TOOLS": [ { name: "UNIT 1", file: "OAT_Unit_1.pdf" },
-                                        { name: "UNIT 2", file: "OAT_Unit_2.pdf" },
-                                        { name: "UNIT 3", file: "OAT_Unit_3.pdf" },
-                                        { name: "UNIT 4", file: "OAT_Unit_4.pdf" },
-                                        { name: "UNIT 5", file: "OAT_Unit_5.pdf" } ],
-            "FUNDAMENTAL OF MATHEMATICS": [ { name: "UNIT 1", file: "FM_Unit_1.pdf" }, 
-                                           { name: "UNIT 2", file: "FM_Unit_2.pdf" }, 
-                                           { name: "UNIT 3", file: "FM_Unit_3.pdf" },
-                                           { name: "UNIT 4", file: "FM_Unit_4.pdf" },
-                                           { name: "UNIT 5", file: "FM_Unit_5.pdf" } ],
-         b   "COMMUNICATION SKILLS": [ { name: "UNIT 1", file: "CS_Unit_1.pdf"}, 
-                                     { name: "UNIT 2", file: "CS_Unit_2.pdf" }, 
-                                     { name: "UNIT 3", file: "CS_Unit_3.pdf" },
-                                     { name: "UNIT 4", file: "CS_Unit_4.pdf" },
-                                     { name: "UNIT 5", file: "CS_Unit_5.pdf" } ],
-            "COMPUTER MAINTENANCE AND TROUBLESHOOTING": [ { name: "UNIT 1", file: "CMT_Unit_1.pdf" },
-                                                         { name: "UNIT 2", file: "CMT_Unit_2.pdf" },
-                                                         { name: "UNIT 3", file: "CMT_Unit_3.pdf" }, 
-                                                         { name: "UNIT 4", file: "CMT_Unit_4.pdf" }, 
-                                                         { name: "UNIT 5", file: "CMT_Unit_5.pdf" } ],
-            "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA": [ { name: "ALL UNITS", file: "PMB_All_Units.pdf" } ],
-             ],
-                    "INTRODUCTION TO PROGRAMMING-II": [
-                        { name: "UNIT 1", file: "IP2UNIT 1.pdf" },
-                        { name: "UNIT 2", file: "IP2UNIT 2.pdf" },
-                        { name: "UNIT 3", file: "IP2UNIT 3.pdf" },
-                        { name: "UNIT 4", file: "IP2UNIT 4.pdf" },
-                        { name: "UNIT 5", file: "IP2UNIT 5.pdf" }
-                    ],
-                    "WEB DESIGNING-II": [
-                        { name: "UNIT 1", file: "WD2UNIT 1.pdf" },
-                        { name: "UNIT 2", file: "WD2UNIT 2.pdf" },
-                        { name: "UNIT 3", file: "WD2UNIT 3.pdf" },
-                        { name: "UNIT 4", file: "WD2UNIT 4.pdf" },
-                        { name: "UNIT 5", file: "WD2UNIT 5.pdf" }
-                    ],
-                    "MULTIMEDIA AND ANIMATION": [
-                        { name: "UNIT 1", file: "MAUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "MAUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "MAUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "MAUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "MAUNIT 5.pdf" }
-                    ],
-                    "FINANCIAL ACCOUNTING": [
-                        { name: "UNIT 1", file: "FAUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "FAUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "FAUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "FAUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "FAUNIT 5.pdf" }
-                    ],
-                    "EFFECTIVE WRITING SKILLS": [
-                        { name: "UNIT 1", file: "EWSUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "EWSUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "EWSUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "EWSUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "EWSUNIT 5.pdf" }
-                    ],
-                    "INFORMATION TECHNOLOGY": [
-                        { name: "UNIT 1", file: "ITUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "ITUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "ITUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "ITUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "ITUNIT 5.pdf" }
-                    ],
-                    "PROFESSIONAL ETHICS": [
-                        { name: "UNIT 1", file: "PEUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "PEUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "PEUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "PEUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "PEUNIT 5.pdf" }
-                    ],
-                    "DATA STRUCTURE": [
-                        { name: "UNIT 1", file: "DSUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "DSUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "DSUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "DSUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "DSUNIT 5.pdf" }
-                    ],
-                    "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": [
-                        { name: "UNIT 1", file: "OOPUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "OOPUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "OOPUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "OOPUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "OOPUNIT 5.pdf" }
-                    ],
-                    "DATABASE MANAGEMENT SYSTEM": [
-                        { name: "UNIT 1", file: "DMSUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "DMSUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "DMSUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "DMSUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "DMSUNIT 5.pdf" }
-                    ],
-                    "INTRODUCTION TO ARTIFICIAL INTELLIGENCE": [
-                        { name: "UNIT 1", file: "AIUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "AIUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "AIUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "AIUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "AIUNIT 5.pdf" }
-                    ],
-                    "EMPLOYABILITY SKILLS-I": [
-                        { name: "UNIT 1", file: "ESUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "ESUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "ESUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "ESUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "ESUNIT 5.pdf" }
-                    ],
-                    "SYSTEM ANALYSIS AND DESIGN": [
-                        { name: "UNIT 1", file: "SADUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "SADUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "SADUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "SADUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "SADUNIT 5.pdf" }
-                    ],
-                    "INDIAN KNOWLEDGE SYSTEMS IN COMPUTING": [
-                        { name: "UNIT 1", file: "IKSUNIT 1.pdf" },
-                        { name: "UNIT 2", file: "ISKUNIT 2.pdf" },
-                        { name: "UNIT 3", file: "ISKUNIT 3.pdf" },
-                        { name: "UNIT 4", file: "ISKUNIT 4.pdf" },
-                        { name: "UNIT 5", file: "ISKUNIT 5.pdf" }
-                    ]
-
+            "INTRODUCTION TO PROGRAMMING-I": [
+                { name: "UNIT 1", file: "IP_Unit_1.pdf" },
+                { name: "UNIT 2", file: "IP_Unit_2.pdf" }, 
+                { name: "UNIT 3", file: "IP_Unit_3.pdf" }, 
+                { name: "UNIT 4", file: "IP_Unit_4.pdf" }, 
+                { name: "UNIT 5", file: "IP_Unit_5.pdf" }
+            ],
+            "WEB DESIGNING-I": [
+                { name: "UNIT 1", file: "WD_Unit_1.pdf" }, 
+                { name: "UNIT 2", file: "WD_Unit_2.pdf" }, 
+                { name: "UNIT 3", file: "WD_Unit_3.pdf" }, 
+                { name: "UNIT 4", file: "WD_Unit_4.pdf" },
+                { name: "UNIT 5", file: "WD_Unit_5.pdf" }
+            ],
+            "OFFICE AUTOMATION TOOLS": [
+                { name: "UNIT 1", file: "OAT_Unit_1.pdf" },
+                { name: "UNIT 2", file: "OAT_Unit_2.pdf" },
+                { name: "UNIT 3", file: "OAT_Unit_3.pdf" },
+                { name: "UNIT 4", file: "OAT_Unit_4.pdf" },
+                { name: "UNIT 5", file: "OAT_Unit_5.pdf" }
+            ],
+            "FUNDAMENTAL OF MATHEMATICS": [
+                { name: "UNIT 1", file: "FM_Unit_1.pdf" }, 
+                { name: "UNIT 2", file: "FM_Unit_2.pdf" }, 
+                { name: "UNIT 3", file: "FM_Unit_3.pdf" },
+                { name: "UNIT 4", file: "FM_Unit_4.pdf" },
+                { name: "UNIT 5", file: "FM_Unit_5.pdf" }
+            ],
+            "COMMUNICATION SKILLS": [
+                { name: "UNIT 1", file: "CS_Unit_1.pdf" }, 
+                { name: "UNIT 2", file: "CS_Unit_2.pdf" }, 
+                { name: "UNIT 3", file: "CS_Unit_3.pdf" },
+                { name: "UNIT 4", file: "CS_Unit_4.pdf" },
+                { name: "UNIT 5", file: "CS_Unit_5.pdf" }
+            ],
+            "COMPUTER MAINTENANCE AND TROUBLESHOOTING": [
+                { name: "UNIT 1", file: "CMT_Unit_1.pdf" },
+                { name: "UNIT 2", file: "CMT_Unit_2.pdf" },
+                { name: "UNIT 3", file: "CMT_Unit_3.pdf" }, 
+                { name: "UNIT 4", file: "CMT_Unit_4.pdf" }, 
+                { name: "UNIT 5", file: "CMT_Unit_5.pdf" }
+            ],
+            "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA": [
+                { name: "ALL UNITS", file: "PMB_All_Units.pdf" }
+            ],
+            "INTRODUCTION TO PROGRAMMING-II": [
+                { name: "UNIT 1", file: "IP2UNIT 1.pdf" },
+                { name: "UNIT 2", file: "IP2UNIT 2.pdf" },
+                { name: "UNIT 3", file: "IP2UNIT 3.pdf" },
+                { name: "UNIT 4", file: "IP2UNIT 4.pdf" },
+                { name: "UNIT 5", file: "IP2UNIT 5.pdf" }
+            ],
+            "WEB DESIGNING-II": [
+                { name: "UNIT 1", file: "WD2UNIT 1.pdf" },
+                { name: "UNIT 2", file: "WD2UNIT 2.pdf" },
+                { name: "UNIT 3", file: "WD2UNIT 3.pdf" },
+                { name: "UNIT 4", file: "WD2UNIT 4.pdf" },
+                { name: "UNIT 5", file: "WD2UNIT 5.pdf" }
+            ],
+            "MULTIMEDIA AND ANIMATION": [
+                { name: "UNIT 1", file: "MAUNIT 1.pdf" },
+                { name: "UNIT 2", file: "MAUNIT 2.pdf" },
+                { name: "UNIT 3", file: "MAUNIT 3.pdf" },
+                { name: "UNIT 4", file: "MAUNIT 4.pdf" },
+                { name: "UNIT 5", file: "MAUNIT 5.pdf" }
+            ],
+            "FINANCIAL ACCOUNTING": [
+                { name: "UNIT 1", file: "FAUNIT 1.pdf" },
+                { name: "UNIT 2", file: "FAUNIT 2.pdf" },
+                { name: "UNIT 3", file: "FAUNIT 3.pdf" },
+                { name: "UNIT 4", file: "FAUNIT 4.pdf" },
+                { name: "UNIT 5", file: "FAUNIT 5.pdf" }
+            ],
+            "EFFECTIVE WRITING SKILLS": [
+                { name: "UNIT 1", file: "EWSUNIT 1.pdf" },
+                { name: "UNIT 2", file: "EWSUNIT 2.pdf" },
+                { name: "UNIT 3", file: "EWSUNIT 3.pdf" },
+                { name: "UNIT 4", file: "EWSUNIT 4.pdf" },
+                { name: "UNIT 5", file: "EWSUNIT 5.pdf" }
+            ],
+            "INFORMATION TECHNOLOGY": [
+                { name: "UNIT 1", file: "ITUNIT 1.pdf" },
+                { name: "UNIT 2", file: "ITUNIT 2.pdf" },
+                { name: "UNIT 3", file: "ITUNIT 3.pdf" },
+                { name: "UNIT 4", file: "ITUNIT 4.pdf" },
+                { name: "UNIT 5", file: "ITUNIT 5.pdf" }
+            ],
+            "PROFESSIONAL ETHICS": [
+                { name: "UNIT 1", file: "PEUNIT 1.pdf" },
+                { name: "UNIT 2", file: "PEUNIT 2.pdf" },
+                { name: "UNIT 3", file: "PEUNIT 3.pdf" },
+                { name: "UNIT 4", file: "PEUNIT 4.pdf" },
+                { name: "UNIT 5", file: "PEUNIT 5.pdf" }
+            ],
+            "DATA STRUCTURE": [
+                { name: "UNIT 1", file: "DSUNIT 1.pdf" },
+                { name: "UNIT 2", file: "DSUNIT 2.pdf" },
+                { name: "UNIT 3", file: "DSUNIT 3.pdf" },
+                { name: "UNIT 4", file: "DSUNIT 4.pdf" },
+                { name: "UNIT 5", file: "DSUNIT 5.pdf" }
+            ],
+            "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": [
+                { name: "UNIT 1", file: "OOPUNIT 1.pdf" },
+                { name: "UNIT 2", file: "OOPUNIT 2.pdf" },
+                { name: "UNIT 3", file: "OOPUNIT 3.pdf" },
+                { name: "UNIT 4", file: "OOPUNIT 4.pdf" },
+                { name: "UNIT 5", file: "OOPUNIT 5.pdf" }
+            ],
+            "DATABASE MANAGEMENT SYSTEM": [
+                { name: "UNIT 1", file: "DMSUNIT 1.pdf" },
+                { name: "UNIT 2", file: "DMSUNIT 2.pdf" },
+                { name: "UNIT 3", file: "DMSUNIT 3.pdf" },
+                { name: "UNIT 4", file: "DMSUNIT 4.pdf" },
+                { name: "UNIT 5", file: "DMSUNIT 5.pdf" }
+            ],
+            "INTRODUCTION TO ARTIFICIAL INTELLIGENCE": [
+                { name: "UNIT 1", file: "AIUNIT 1.pdf" },
+                { name: "UNIT 2", file: "AIUNIT 2.pdf" },
+                { name: "UNIT 3", file: "AIUNIT 3.pdf" },
+                { name: "UNIT 4", file: "AIUNIT 4.pdf" },
+                { name: "UNIT 5", file: "AIUNIT 5.pdf" }
+            ],
+            "EMPLOYABILITY SKILLS-I": [
+                { name: "UNIT 1", file: "ESUNIT 1.pdf" },
+                { name: "UNIT 2", file: "ESUNIT 2.pdf" },
+                { name: "UNIT 3", file: "ESUNIT 3.pdf" },
+                { name: "UNIT 4", file: "ESUNIT 4.pdf" },
+                { name: "UNIT 5", file: "ESUNIT 5.pdf" }
+            ],
+            "SYSTEM ANALYSIS AND DESIGN": [
+                { name: "UNIT 1", file: "SADUNIT 1.pdf" },
+                { name: "UNIT 2", file: "SADUNIT 2.pdf" },
+                { name: "UNIT 3", file: "SADUNIT 3.pdf" },
+                { name: "UNIT 4", file: "SADUNIT 4.pdf" },
+                { name: "UNIT 5", file: "SADUNIT 5.pdf" }
+            ],
+            "INDIAN KNOWLEDGE SYSTEMS IN COMPUTING": [
+                { name: "UNIT 1", file: "IKSUNIT 1.pdf" },
+                { name: "UNIT 2", file: "ISKUNIT 2.pdf" },
+                { name: "UNIT 3", file: "ISKUNIT 3.pdf" },
+                { name: "UNIT 4", file: "ISKUNIT 4.pdf" },
+                { name: "UNIT 5", file: "ISKUNIT 5.pdf" }
+            ]
+        };
 
         const semesterData = [
             { id: 'sem-1', name: 'Semester 1', description: 'Core introductory IT subjects.', subjects: [ "INTRODUCTION TO PROGRAMMING-I", "WEB DESIGNING-I", "OFFICE AUTOMATION TOOLS", "FUNDAMENTAL OF MATHEMATICS", "COMMUNICATION SKILLS", "COMPUTER MAINTENANCE AND TROUBLESHOOTING", "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA" ] },
@@ -561,7 +574,6 @@ const app = {
     },
 
     navigate(view, param = null, param2 = null, isGoingBack = false) {
-        // Push state dynamically if it's a forward/new navigation
         if (!isGoingBack && this.state.currentView) {
             this.state.historyStack.push({
                 view: this.state.currentView,
@@ -618,13 +630,11 @@ const app = {
         }
     },
 
-    // Refactored to ensure STRICT logical hierarchy backwards navigation
     goBack() {
         let targetView = 'home';
         let targetParam = null;
         let targetParam2 = null;
 
-        // Determine correct hierarchical parent based on current view
         if (this.state.currentView === 'subject-detail') {
             targetView = 'semester-detail';
             targetParam = this.state.currentParam;
@@ -634,19 +644,14 @@ const app = {
             targetView = 'home';
         }
 
-        // Check if the browser's recent temporal history happens to exactly match our hierarchical logic
         const lastHistory = this.state.historyStack[this.state.historyStack.length - 1];
         if (lastHistory && lastHistory.view === targetView && lastHistory.param === targetParam) {
-            // Safe to rely on browser back API to avoid broken navigation state
             window.history.back(); 
         } else {
-            // User likely jumped directly from a bookmark or deep link.
-            // Force strict hierarchical routing & replace browser state to prevent infinite loops.
             this.navigate(targetView, targetParam, targetParam2, true);
             const urlHash = `#${targetView}${targetParam ? '/' + targetParam : ''}`;
             window.history.replaceState({ view: targetView, param: targetParam, param2: targetParam2 }, '', urlHash);
             
-            // Clean temporal stack to re-sync it with our new enforced route
             if (this.state.historyStack.length > 0) {
                 this.state.historyStack.pop();
             }
@@ -901,10 +906,9 @@ const app = {
         if (id.startsWith('sem-')) {
             this.navigate('semester-detail', id);
         } else if (id.startsWith('sub-')) {
-            // FIX: Reliably extract the correct semester ID based on the subject ID format 'sub-[semId]-[subId]'
             const parts = id.split('-');
-            const semId = 'sem-' + parts[1]; // Correctly restores semId
-            this.navigate('subject-detail', semId, id); // Opens ACTUAL subject page displaying all units
+            const semId = 'sem-' + parts[1];
+            this.navigate('subject-detail', semId, id);
         } else {
             const bm = this.state.bookmarks.find(b => b.id === id);
             this.openPDF(bm ? bm.title : "PDF Document", url || bm?.url);
@@ -1084,10 +1088,8 @@ const app = {
             }
         });
         
-        // Listen to browser popstate (native back/forward buttons)
         window.addEventListener('popstate', (e) => {
             if (e.state && e.state.view) {
-                // Ensure internal stack remains somewhat aligned 
                 if(this.state.historyStack.length > 0) this.state.historyStack.pop();
                 this.navigate(e.state.view, e.state.param, e.state.param2, true);
             } else {
@@ -1118,7 +1120,6 @@ const app = {
         const xDiff = endX - startX;
         const yDiff = Math.abs(endY - startY);
         
-        // Ensure the gesture was purely horizontal (swipe right) and crossed a distance threshold
         if (xDiff > 70 && yDiff < 40) {
             if (this.state.currentView !== 'home') {
                 this.goBack();
