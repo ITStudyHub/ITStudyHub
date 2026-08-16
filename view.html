@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>ITStudyHub - Secure PDF</title>
     <!-- PDF.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <style>
+        /* 
+           બેઝિક સેટિંગ્સ: ઝૂમ અને સ્મૂથ સ્ક્રોલિંગ માટે
+        */
+        html { scroll-behavior: smooth; }
         body {
             margin: 0; padding: 0; 
             background-color: #525659; 
-            display: flex; flex-direction: column; 
+            display: block; /* Flexbox કાઢી નાખ્યું જેથી PC માં ખેંચાય નહિ */
             user-select: none; -webkit-user-select: none; 
             -webkit-touch-callout: none; 
             transition: filter 0.2s ease, opacity 0.2s ease;
@@ -21,36 +25,41 @@
         body.security-blur { filter: blur(25px) grayscale(100%); opacity: 0; background: black; }
         
         #pdf-container {
-            display: flex; flex-direction: column; 
-            align-items: center; 
+            display: block;
             padding: 20px 0; 
-            gap: 15px; 
+            text-align: center; /* પેજને બરાબર વચ્ચે રાખવા */
         }
         
+        /* 
+           PERFECT PC/LAPTOP SIZE 
+           પેજ હવે ક્યારેય ખેંચાશે નહિ (No Stretching)
+        */
         .page-wrapper {
             width: 95%; 
-            max-width: 800px; 
-            min-height: 50vh;
-            display: flex; justify-content: center;
+            max-width: 850px; /* PC માં આનાથી મોટું નહિ થાય */
+            margin: 0 auto 15px auto; /* વચ્ચે રાખવા અને નીચે જગ્યા છોડવા */
             background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" x="50" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="5" fill="%23ccc">Loading...</text></svg>') center center no-repeat;
             box-shadow: 0 6px 16px rgba(0,0,0,0.4);
             border-radius: 6px;
-            margin: 0 auto;
-            overflow: hidden;
+            display: block;
             position: relative;
         }
 
         canvas {
-            width: 100% !important; 
-            height: auto !important;
-            display: block; 
+            max-width: 100% !important; 
+            height: auto !important; /* ઓરિજિનલ સાઈઝ જાળવી રાખશે */
+            display: block;
+            margin: 0 auto; 
+            border-radius: 6px;
         }
 
+        /* 
+           માખણ જેવું સ્મૂથ કાઉન્ટર (Hardware Accelerated)
+        */
         .dynamic-counter {
             position: fixed;
             right: 0px; 
             top: 10%; 
-            transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.95);
             color: #202124;
             padding: 10px 18px 10px 14px;
@@ -63,9 +72,14 @@
             border-right: none;
             z-index: 1000;
             pointer-events: none; 
+            
             opacity: 0; 
             visibility: hidden;
-            transition: opacity 0.3s ease, top 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0.3s; 
+            
+            /* GPU Acceleration (translate3d) વાપર્યું છે જેથી જરાય ના ચોંટે */
+            transform: translate3d(0, 0, 0); 
+            transition: opacity 0.3s ease, visibility 0.3s, transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+            will-change: transform, opacity;
         }
 
         .dynamic-counter.show {
@@ -115,22 +129,23 @@
 
             const HD_SCALE = window.devicePixelRatio || 2.5; 
 
-            /* SCROLL TRACKER */
+            /* EXTREMELY SMOOTH SCROLL TRACKER */
             window.addEventListener('scroll', () => {
                 counterBox.classList.add('show');
 
                 const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
                 if (maxScroll > 0) {
                     const scrollPercent = window.scrollY / maxScroll;
-                    const topPos = 10 + (scrollPercent * 80); 
-                    counterBox.style.top = topPos + '%';
+                    // GPU નો ઉપયોગ કરીને કાઉન્ટરને ઉપર નીચે સ્મૂથલી ફેરવવું
+                    const moveY = scrollPercent * (window.innerHeight * 0.7); 
+                    counterBox.style.transform = `translate3d(0, ${moveY}px, 0)`;
                 }
 
                 clearTimeout(scrollTimer);
                 scrollTimer = setTimeout(() => {
                     counterBox.classList.remove('show');
                 }, 1500); 
-            });
+            }, { passive: true }); // passive: true કરવાથી બ્રાઉઝર સ્ક્રોલિંગ રોકશે નહિ (વધુ સ્મૂથ બનશે)
 
             const loadObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -139,7 +154,7 @@
                         renderHDPage(pageNum, entry.target);
                     }
                 });
-            }, { rootMargin: "500px 0px", threshold: 0.01 });
+            }, { rootMargin: "600px 0px", threshold: 0.01 });
 
             const countObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -158,6 +173,8 @@
                     const wrapper = document.createElement('div');
                     wrapper.className = 'page-wrapper';
                     wrapper.dataset.page = i;
+                    // શરૂઆતમાં ખાલી જગ્યા રાખવા માટે અંદાજિત ઊંચાઈ
+                    wrapper.style.minHeight = "800px"; 
                     container.appendChild(wrapper);
                     
                     loadObserver.observe(wrapper);
@@ -184,8 +201,9 @@
 
                     page.render(renderContext).promise.then(() => {
                         wrapper.innerHTML = ''; 
-                        wrapper.appendChild(canvas);
+                        wrapper.style.minHeight = "auto"; // લોડ થયા પછી ઓટોમેટિક સાઈઝ સેટ થઈ જશે
                         wrapper.style.background = 'none';
+                        wrapper.appendChild(canvas);
                     });
                 });
             }
