@@ -9,51 +9,49 @@
     <style>
         body {
             margin: 0; padding: 0; 
-            background-color: #323639; /* ડાર્ક બેકગ્રાઉન્ડ જેથી સફેદ પેજ ઉપસી આવે */
+            background-color: #525659; /* PDF વ્યૂઅર બેકગ્રાઉન્ડ */
             display: flex; flex-direction: column; height: 100vh;
-            user-select: none; -webkit-user-select: none; /* ટેક્સ્ટ કોપી રોકવા */
-            -webkit-touch-callout: none; /* લોંગ પ્રેસ ઈમેજ સેવ રોકવા */
-            overflow: hidden; /* મેઈન બોડીનું સ્ક્રોલિંગ બંધ */
+            user-select: none; -webkit-user-select: none; 
+            -webkit-touch-callout: none; 
+            overflow: hidden; 
             transition: filter 0.2s ease, opacity 0.2s ease;
         }
         
-        /* પ્રિન્ટિંગ રોકવા માટે */
         @media print { body { display: none !important; } }
         
-        /* સિક્યોરિટી બ્લેકઆઉટ (જ્યારે યુઝર સ્ક્રીનશોટ લેવા જાય ત્યારે સ્ક્રીન ગાયબ) */
+        /* સિક્યોરિટી બ્લેકઆઉટ */
         body.security-blur { filter: blur(25px) grayscale(100%); opacity: 0; background: black; }
         
         /* ફુલ સ્ક્રીન PDF કન્ટેનર */
         #pdf-container {
             flex-grow: 1; 
             overflow-y: auto; 
-            padding: 10px 0;
+            padding: 0; /* પેજ એડજસ્ટમેન્ટ માટે પેડિંગ કાઢી નાખ્યું */
             display: flex; flex-direction: column; 
-            align-items: center; gap: 12px; 
+            align-items: center; gap: 8px; /* પેજ વચ્ચે નાની જગ્યા */
             scroll-behavior: smooth;
         }
         
+        /* પરફેક્ટ પેજ સાઈઝ (100% Width) */
         .page-wrapper {
-            width: 98%; 
-            max-width: 1200px;
-            min-height: 50vh; /* ફાસ્ટ લોડિંગ (Lazy Load) માટે પહેલેથી જગ્યા રોકે */
+            width: 100%; /* સ્ક્રીનમાં પૂરેપૂરું ફિટ થશે */
+            max-width: 100%;
             display: flex; justify-content: center;
-            background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" x="50" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="5" fill="%23ccc">Loading HD...</text></svg>') center center no-repeat;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            border-radius: 4px;
+            background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" x="50" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="5" fill="%23ccc">Loading...</text></svg>') center center no-repeat;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
         }
 
         canvas {
             width: 100% !important; 
             height: auto !important;
-            border-radius: 4px;
+            display: block; /* સાઈઝ બગડતી અટકાવવા */
         }
 
-        /* પેજની સાથે ઉપર-નીચે ફરતું પ્રોફેશનલ કાઉન્ટર */
+        /* Auto-Hide મૂવિંગ કાઉન્ટર */
         .dynamic-counter {
             position: fixed;
             right: 0px; 
-            top: 10%; /* શરૂઆતમાં ઉપર રહેશે */
+            top: 10%; 
             transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.95);
             color: #202124;
@@ -66,17 +64,25 @@
             border: 1px solid #ddd;
             border-right: none;
             z-index: 1000;
-            display: none; 
-            pointer-events: none; /* આના પર આંગળી અડે તો પણ સ્ક્રોલિંગ ચાલુ રહે */
-            transition: top 0.15s ease-out; /* સ્મૂથ રીતે ઉપર-નીચે થશે */
+            pointer-events: none; 
+            
+            /* ઓટો હાઈડ માટે Opacity (પારદર્શકતા) */
+            opacity: 0; 
+            visibility: hidden;
+            transition: opacity 0.3s ease, top 0.1s ease-out, visibility 0.3s; 
+        }
+
+        /* જ્યારે યુઝર સ્ક્રોલ કરે ત્યારે જ દેખાશે */
+        .dynamic-counter.show {
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- રાઇટ ક્લિક 100% બંધ -->
+<body oncontextmenu="return false;">
 
     <div id="pdf-container"></div>
 
-    <!-- ફરતું પેજ કાઉન્ટર -->
     <div class="dynamic-counter" id="page-counter">
         <span id="current-page">1</span> / <span id="total-pages">0</span>
     </div>
@@ -86,7 +92,6 @@
            1. SECURITY FEATURES (ANTI-SCREENSHOT)
            ========================================== */
         
-        // કીબોર્ડ શોર્ટકટ (Ctrl+P, S, C અને PrintScreen) બંધ કરવા
         document.addEventListener('keyup', (e) => {
             if (e.key === 'PrintScreen') {
                 navigator.clipboard.writeText(''); 
@@ -100,7 +105,6 @@
             }
         });
 
-        // મોબાઈલમાં રીસેન્ટ એપ્સ ખુલે કે બીજી ટેબમાં જાય ત્યારે સ્ક્રીન કાળી (Black) કરવી
         window.addEventListener('blur', () => document.body.classList.add('security-blur'));
         window.addEventListener('focus', () => document.body.classList.remove('security-blur'));
 
@@ -118,34 +122,39 @@
             const container = document.getElementById('pdf-container');
             const counterBox = document.getElementById('page-counter');
             let pdfDocument = null;
+            let scrollTimer = null; // કાઉન્ટર હાઈડ કરવા માટેનું ટાઈમર
 
-            // ફુલ HD રિઝોલ્યુશન (2.5 ગણી બેસ્ટ ક્વોલિટી)
             const HD_SCALE = window.devicePixelRatio || 2.5; 
 
             /* ==========================================
-               3. SCROLL TRACKER & DYNAMIC COUNTER
+               3. SCROLL TRACKER & AUTO-HIDE COUNTER
                ========================================== */
             
-            // કાઉન્ટરને પેજની સાથે ઉપર-નીચે કરવા માટેનું ફંક્શન
             container.addEventListener('scroll', () => {
+                // 1. સ્ક્રોલ થાય એટલે કાઉન્ટર બતાવો
+                counterBox.classList.add('show');
+
+                // 2. કાઉન્ટરને ઉપર-નીચે ફેરવો
                 const maxScroll = container.scrollHeight - container.clientHeight;
-                if (maxScroll <= 0) return;
-                
-                // યુઝર કેટલે પહોંચ્યો તેના આધારે કાઉન્ટરની પોઝીશન સેટ થશે (10% થી 90% વચ્ચે)
-                const scrollPercent = container.scrollTop / maxScroll;
-                const topPos = 10 + (scrollPercent * 80); 
-                counterBox.style.top = topPos + '%';
+                if (maxScroll > 0) {
+                    const scrollPercent = container.scrollTop / maxScroll;
+                    const topPos = 10 + (scrollPercent * 80); 
+                    counterBox.style.top = topPos + '%';
+                }
+
+                // 3. ટાઈમર રીસેટ કરો (જો 1.5 સેકન્ડ સુધી સ્ક્રોલ ન થાય, તો કાઉન્ટર ગાયબ)
+                clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(() => {
+                    counterBox.classList.remove('show');
+                }, 1500); // 1500 મિલીસેકન્ડ (1.5 સેકન્ડ)
             });
 
-            // કયું પેજ દેખાય છે તે જાણવા (નંબર બદલવા અને Lazy Load માટે)
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const pageNum = parseInt(entry.target.dataset.page);
-                        // કાઉન્ટરનો નંબર અપડેટ કરો
                         document.getElementById('current-page').innerText = pageNum;
                         
-                        // જો પેજ હજુ લોડ નથી થયું, તો ફાસ્ટ લોડ કરો
                         if (!entry.target.dataset.rendered) {
                             renderHDPage(pageNum, entry.target);
                         }
@@ -153,13 +162,10 @@
                 });
             }, { rootMargin: "300px 0px", threshold: 0.1 });
 
-            // PDF ફાઈલ ફેચ કરવી (ઇન્સ્ટન્ટ)
             pdfjsLib.getDocument(pdfFile).promise.then(pdf => {
                 pdfDocument = pdf;
                 document.getElementById('total-pages').innerText = pdf.numPages;
-                counterBox.style.display = 'block'; 
                 
-                // બધા પેજ માટે ખાલી બોક્સ બનાવી દો (તરત જ ઓપન થશે)
                 for (let i = 1; i <= pdf.numPages; i++) {
                     const wrapper = document.createElement('div');
                     wrapper.className = 'page-wrapper';
@@ -169,7 +175,6 @@
                 }
             });
 
-            // પેજ ને HD માં રેન્ડર કરવાનું ફંક્શન
             function renderHDPage(num, wrapper) {
                 wrapper.dataset.rendered = "true"; 
                 
@@ -191,7 +196,6 @@
                         wrapper.innerHTML = ''; 
                         wrapper.appendChild(canvas);
                         wrapper.style.background = 'none';
-                        wrapper.style.boxShadow = 'none';
                     });
                 });
             }
