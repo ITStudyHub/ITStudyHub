@@ -9,7 +9,7 @@
     <style>
         body {
             margin: 0; padding: 0; 
-            background-color: #525659; /* PDF વ્યૂઅર બેકગ્રાઉન્ડ */
+            background-color: #525659; /* ડાર્ક બેકગ્રાઉન્ડ */
             display: flex; flex-direction: column; height: 100vh;
             user-select: none; -webkit-user-select: none; 
             -webkit-touch-callout: none; 
@@ -26,25 +26,32 @@
         #pdf-container {
             flex-grow: 1; 
             overflow-y: auto; 
-            padding: 0; /* પેજ એડજસ્ટમેન્ટ માટે પેડિંગ કાઢી નાખ્યું */
+            padding: 20px 10px; /* આજુબાજુ થોડી જગ્યા માટે */
             display: flex; flex-direction: column; 
-            align-items: center; gap: 8px; /* પેજ વચ્ચે નાની જગ્યા */
+            align-items: center; gap: 15px; 
             scroll-behavior: smooth;
         }
         
-        /* પરફેક્ટ પેજ સાઈઝ (100% Width) */
+        /* 
+           PC અને Laptop માટે પરફેક્ટ પેજ સાઈઝ 
+           max-width: 850px રાખવાથી મોટી સ્ક્રીનમાં પેજ બહુ મોટું નહિ થાય 
+        */
         .page-wrapper {
-            width: 100%; /* સ્ક્રીનમાં પૂરેપૂરું ફિટ થશે */
-            max-width: 100%;
+            width: 100%; 
+            max-width: 850px; /* PC માટે પરફેક્ટ સાઈઝ */
+            min-height: 50vh;
             display: flex; justify-content: center;
             background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" x="50" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="5" fill="%23ccc">Loading...</text></svg>') center center no-repeat;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            border-radius: 4px;
+            margin: 0 auto; /* સેન્ટરમાં રાખવા */
         }
 
         canvas {
             width: 100% !important; 
             height: auto !important;
-            display: block; /* સાઈઝ બગડતી અટકાવવા */
+            display: block; 
+            border-radius: 4px;
         }
 
         /* Auto-Hide મૂવિંગ કાઉન્ટર */
@@ -66,13 +73,11 @@
             z-index: 1000;
             pointer-events: none; 
             
-            /* ઓટો હાઈડ માટે Opacity (પારદર્શકતા) */
             opacity: 0; 
             visibility: hidden;
             transition: opacity 0.3s ease, top 0.1s ease-out, visibility 0.3s; 
         }
 
-        /* જ્યારે યુઝર સ્ક્રોલ કરે ત્યારે જ દેખાશે */
         .dynamic-counter.show {
             opacity: 1;
             visibility: visible;
@@ -122,7 +127,7 @@
             const container = document.getElementById('pdf-container');
             const counterBox = document.getElementById('page-counter');
             let pdfDocument = null;
-            let scrollTimer = null; // કાઉન્ટર હાઈડ કરવા માટેનું ટાઈમર
+            let scrollTimer = null; 
 
             const HD_SCALE = window.devicePixelRatio || 2.5; 
 
@@ -131,10 +136,8 @@
                ========================================== */
             
             container.addEventListener('scroll', () => {
-                // 1. સ્ક્રોલ થાય એટલે કાઉન્ટર બતાવો
                 counterBox.classList.add('show');
 
-                // 2. કાઉન્ટરને ઉપર-નીચે ફેરવો
                 const maxScroll = container.scrollHeight - container.clientHeight;
                 if (maxScroll > 0) {
                     const scrollPercent = container.scrollTop / maxScroll;
@@ -142,25 +145,32 @@
                     counterBox.style.top = topPos + '%';
                 }
 
-                // 3. ટાઈમર રીસેટ કરો (જો 1.5 સેકન્ડ સુધી સ્ક્રોલ ન થાય, તો કાઉન્ટર ગાયબ)
                 clearTimeout(scrollTimer);
                 scrollTimer = setTimeout(() => {
                     counterBox.classList.remove('show');
-                }, 1500); // 1500 મિલીસેકન્ડ (1.5 સેકન્ડ)
+                }, 1500); 
             });
 
-            const observer = new IntersectionObserver((entries) => {
+            // નવું: પેજ લોડ કરવા માટેનું ઓબ્ઝર્વર (આગળથી પેજ લોડ કરી લેશે)
+            const loadObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.dataset.rendered) {
+                        const pageNum = parseInt(entry.target.dataset.page);
+                        renderHDPage(pageNum, entry.target);
+                    }
+                });
+            }, { rootMargin: "500px 0px", threshold: 0.01 });
+
+            // નવું: માત્ર કાઉન્ટર ગણવા માટેનું ખાસ ઓબ્ઝર્વર (જે પેજ એકદમ વચ્ચે હશે તેનો જ નંબર બતાવશે)
+            const countObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const pageNum = parseInt(entry.target.dataset.page);
                         document.getElementById('current-page').innerText = pageNum;
-                        
-                        if (!entry.target.dataset.rendered) {
-                            renderHDPage(pageNum, entry.target);
-                        }
                     }
                 });
-            }, { rootMargin: "300px 0px", threshold: 0.1 });
+            }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 }); 
+            // -45% rootMargin એટલે સ્ક્રીનની એકદમ સેન્ટર લાઈન પર જે પેજ અડશે તે જ કાઉન્ટરમાં દેખાશે (Skipping Problem Solved!)
 
             pdfjsLib.getDocument(pdfFile).promise.then(pdf => {
                 pdfDocument = pdf;
@@ -171,7 +181,9 @@
                     wrapper.className = 'page-wrapper';
                     wrapper.dataset.page = i;
                     container.appendChild(wrapper);
-                    observer.observe(wrapper);
+                    
+                    loadObserver.observe(wrapper); // લોડ કરવા માટે
+                    countObserver.observe(wrapper); // નંબર ગણવા માટે
                 }
             });
 
