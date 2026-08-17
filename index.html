@@ -385,7 +385,7 @@ mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 
             <a href="#" onclick="app.navigate('bookmarks'); return false;">Bookmarks</a>
             <a href="#" onclick="window.scrollTo({top:0, behavior: 'smooth'}); return false;">Back to Top</a>
         </div>
-        <p style="font-size: 0.85rem; opacity: 0.7;">&copy; 2026 | Designed and developed by Vansh &amp; Jigar.</p>
+        <p style="font-size: 0.85rem; opacity: 0.7;">&copy; 2026 | Designed and developed by V J H.</p>
     </div>
 </footer>
 
@@ -1084,7 +1084,7 @@ const app = {
         const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
         const pdfUrl = res.url || '#';
         
-        // અહીં લિંકમાં 'view.html?file=' ઉમેર્યું છે
+       
         const secureUrl = pdfUrl !== '#' ? `view.html?file=${encodeURIComponent(pdfUrl)}` : '#';
         
         return `
