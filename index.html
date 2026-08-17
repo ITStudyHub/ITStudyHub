@@ -59,11 +59,11 @@
     margin: 0; 
     padding: 0; 
     box-sizing: border-box; 
-    -webkit-user-select: none; /* Disable Selection */
+    -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    -webkit-touch-callout: none; /* Disable long press popup on mobile */
+    -webkit-touch-callout: none;
 }
 
 body { 
@@ -75,7 +75,6 @@ body {
     overflow-x: hidden; 
 }
 
-/* SCREENSHOT & PRINT BLACK SCREEN PROTECTOR */
 @media print {
     body {
         display: none !important;
@@ -226,7 +225,6 @@ footer { background: var(--surface-color); border-top: 1px solid var(--border-co
 .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
 .cursor-pointer { cursor: pointer; }
 
-/* Responsive Media Queries */
 @media (max-width: 1024px) {
     .container { padding: 0 16px; }
     .grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -281,7 +279,6 @@ footer { background: var(--surface-color); border-top: 1px solid var(--border-co
 .view-section { animation: fadeIn 0.4s ease; }
 mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 0 2px; border-radius: 2px; }
 
-/* BACK BUTTON STYLES */
 .back-btn {
     display: none;
     margin-right: 12px;
@@ -304,7 +301,6 @@ mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 
 </head>
 <body oncontextmenu="return false;">
 
-<!-- Black screen layer to block screenshot capturing -->
 <div class="screenshot-overlay"></div>
 
 <header>
@@ -417,7 +413,6 @@ const app = {
     },
 
     setupAntiScreenshot() {
-        // Prevent Keyboard Shortcuts (PrtSc, Ctrl+S, Ctrl+P, F12 etc)
         document.addEventListener('keydown', (e) => {
             if (e.key === 'PrintScreen' || 
                 (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u')) ||
@@ -428,7 +423,6 @@ const app = {
             }
         });
 
-        // Detect window blur / focus change (Triggers when mobile screen recording / screenshot is taken)
         window.addEventListener('blur', () => {
             document.body.classList.add('secure-protection');
         });
@@ -448,9 +442,22 @@ const app = {
         const subjectsWithJournal = [
             "INTRODUCTION TO PROGRAMMING-I", "WEB DESIGNING-I", "OFFICE AUTOMATION TOOLS",
             "INTRODUCTION TO PROGRAMMING-II", "WEB DESIGNING-II", "MULTIMEDIA AND ANIMATION",
-            "DATA STRUCTURE", "OBJECT ORIENTED CONCEPTS AND PROGRAMMING", "DATABASE MANAGEMENT SYSTEM"
+            "DATABASE MANAGEMENT SYSTEM", "OBJECT ORIENTED CONCEPTS AND PROGRAMMING", "DATA STRUCTURE"
         ];
         
+        // Practical Journal Map for all 9 subjects
+        const customJournalMap = {
+            "INTRODUCTION TO PROGRAMMING-I": ["IP1_Practical_Journal.pdf"],
+            "WEB DESIGNING-I": ["WD1_Practical_Journal.pdf"],
+            "OFFICE AUTOMATION TOOLS": ["OAT_Practical_Journal.pdf"],
+            "INTRODUCTION TO PROGRAMMING-II": ["IP2_Practical_Journal.pdf"],
+            "WEB DESIGNING-II": ["WD2_Practical_Journal.pdf"],
+            "MULTIMEDIA AND ANIMATION": ["MA_Practical_Journal.pdf"],
+            "DATABASE MANAGEMENT SYSTEM": ["DBMS_Practical_Journal.pdf"],
+            "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": ["OOP_Practical_Journal.pdf"],
+            "DATA STRUCTURE": ["DS_Practical_Journal.pdf"]
+        };
+
         const customPdfMap = {
             "INTRODUCTION TO PROGRAMMING-I": [
                 { name: "UNIT 1: FUNDAMENTAL OF ALGORITHMS", file: "IP1_Unit_1.pdf" },
@@ -492,7 +499,6 @@ const app = {
                   ] 
                },
             ],
-
             "COMMUNICATION SKILLS": [
                { 
                   name: "UNIT 1: BASICS OF COMMUNICATION", 
@@ -501,9 +507,7 @@ const app = {
                   { title: "CS_Unit_1_Part_2.pdf", url: "CS_Unit_1_Part_2.pdf" }
                   ] 
                },
-                  
                { name: "UNIT 2: FUNCTIONAL GRAMMAR AND VOCABULARY", file: "CS_Unit_2.pdf" },
-                  
                { 
                   name: "UNIT 3: LISTENING SKILLS", 
                   files: [
@@ -511,7 +515,6 @@ const app = {
                   { title: "CS_Unit_3_Part_2.pdf", url: "CS_Unit_3_Part_2.pdf" }
                   ] 
                },
-                  
                 { 
                   name: "UNIT 4: READING SKILLS", 
                   files: [
@@ -519,7 +522,6 @@ const app = {
                   { title: "CS_Unit_4_Part_2.pdf", url: "CS_Unit_4_Part_2.pdf" }
                   ] 
                },
-                  
                 { 
                   name: "UNIT 5: ORAL COMMUNICATION IN CONTEXT", 
                   files: [
@@ -528,7 +530,6 @@ const app = {
                   ] 
                },
           ],
-            
             "COMPUTER MAINTENANCE AND TROUBLESHOOTING": [
                 { name: "UNIT 1: INTRODUCTION TO COMPUTERS", file: "CMT_Unit_1.pdf" },
                 { name: "UNIT 2: BASIC TROUBLESHOOTING PRINCIPLES AND HARDWARE", file: "CMT_Unit_2.pdf" },
@@ -578,7 +579,6 @@ const app = {
                 { name: "UNIT 4: MARGINAL COSTING", file: "FA_Unit_4.pdf" },
                 { name: "UNIT 5: ACCOUNTING SOFTWARE", file: "FA_Unit_5.pdf" }
             ],
-            
              "EFFECTIVE WRITING SKILLS": [   
                { 
                   name: "UNIT 1: VOCABULARY AND GRAMMAR", 
@@ -629,7 +629,6 @@ const app = {
                   ] 
                 },
              ],
-    
             "INFORMATION TECHNOLOGY": [
                 { name: "UNIT 1: DATA REPRESENTATION AND NUMBER SYSTEM", file: "IT_Unit_1.pdf" },
                 { name: "UNIT 2: INTRODUCTION TO THE COMPUTER AND COMPUTER PERIPHERALS", file: "IT_Unit_2.pdf" },
@@ -737,6 +736,7 @@ const app = {
                     const hasJournal = subjectsWithJournal.includes(subName);
                     const pdfList = customPdfMap[subName] || [];
                     const assignList = customAssignmentMap[subName] || [];
+                    const journalList = customJournalMap[subName] || [];
 
                     const unitsList = pdfList.map((pdfObj, uIdx) => {
                         let resourceArray = [];
@@ -768,6 +768,14 @@ const app = {
                         url: file
                     }));
 
+                    const journalsMapped = journalList.map((file, jIdx) => ({
+                        id: `jou-${semIdx + 1}-${subIdx + 1}-${jIdx + 1}`,
+                        title: `${subName} - Practical Journal.pdf`,
+                        type: "Journal PDF",
+                        date: "Nov 2026",
+                        url: file
+                    }));
+
                     return {
                         id: subId,
                         semId: s.id,
@@ -776,9 +784,7 @@ const app = {
                         units: unitsList,
                         academic: {
                             assignments: assignmentsMapped,
-                            journals: hasJournal ? [
-                                { id: `jou-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Practical Journal.pdf`, type: "Journal PDF", date: "Nov 2026", url: `${subId}-journal.pdf` }
-                            ] : [],
+                            journals: hasJournal ? journalsMapped : [],
                             papers: [
                                 { id: `pap-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Previous Year Paper (2025).pdf`, type: "Question Paper PDF", date: "Dec 2025", url: `${subId}-paper2025.pdf` }
                             ]
@@ -1059,32 +1065,9 @@ const app = {
         container.innerHTML = html;
     },
 
- //   getResourceHTML(res) {
-   //     const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.10 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
-     //   const pdfUrl = res.url || '#';
-  //      return `
-    //    <div class="resource-item">
-      //      <div class="resource-info">
-        //        <div class="resource-icon">${icon}</div>
-          //      <div>
-            //        <h4 class="resource-title">${res.title}</h4>
-              //      <div class="resource-meta">${res.type} ${res.date ? '• ' + res.date : ''}</div>
- //               </div>
-   //         </div>
-     //       <div class="resource-actions">
-       //         ${this.getBookmarkBtnTemplate(res.id, res.title, res.type, pdfUrl)}
-         //       <a href="${encodeURI(pdfUrl)}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center;">
-           //         Open PDF
-             //   </a>
-  //          </div>
-    //    </div>`;
-   // },
-
-   getResourceHTML(res) {
+    getResourceHTML(res) {
         const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
         const pdfUrl = res.url || '#';
-        
-       
         const secureUrl = pdfUrl !== '#' ? `view.html?file=${encodeURIComponent(pdfUrl)}` : '#';
         
         return `
@@ -1093,7 +1076,7 @@ const app = {
                 <div class="resource-icon">${icon}</div>
                 <div>
                     <h4 class="resource-title">${res.title}</h4>
-                    <div class="resource-meta">${res.type} ${res.date ? ' ' + res.date : ''}</div>
+                    <div class="resource-meta">${res.type} ${res.date ? '• ' + res.date : ''}</div>
                 </div>
             </div>
             <div class="resource-actions">
@@ -1166,17 +1149,8 @@ const app = {
         accordion.classList.toggle('open');
     },
 
-//    openPDF(title, pdfUrl) {
-  //      if (pdfUrl && pdfUrl !== '#') {
-    //        window.open(encodeURI(pdfUrl), '_blank');
-      //  } else {
- //           alert('PDF file path is not valid.');
-   //     }
-//    },
-
- openPDF(title, pdfUrl) {
+    openPDF(title, pdfUrl) {
         if (pdfUrl && pdfUrl !== '#') {
-            // હવે PDF ડાયરેક્ટ નહિ ખુલે, પણ સુરક્ષિત view.html માં ખુલશે
             window.open('view.html?file=' + encodeURIComponent(pdfUrl), '_blank');
         } else {
             alert('PDF file path is not valid.');
@@ -1355,7 +1329,7 @@ const app = {
         let touchStartY = 0;
         let touchEndX = 0;
         let touchEndY = 0;
-        let touchStartTime = 0; 
+        touchStartTime = 0;
 
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
@@ -1376,7 +1350,6 @@ const app = {
     handleSwipe(startX, startY, endX, endY, timeDiff) {
         const xDiff = endX - startX;
         const yDiff = Math.abs(endY - startY);
-        
         const isEdgeSwipe = startX <= 40; 
         
         if (isEdgeSwipe && xDiff > 70 && yDiff < 40 && timeDiff < 400) {
