@@ -836,14 +836,16 @@ goBack() {
 let targetView = 'home';
 let targetParam = null;
 let targetParam2 = null;
+
 if (this.state.currentView === 'subject-detail') {
 targetView = 'semester-detail';
 targetParam = this.state.currentParam;
 } else if (this.state.currentView === 'semester-detail') {
-targetView = 'semesters';
+targetView = 'home'; // અહીં મેં બદલાવ કર્યો છે જેથી Semester થી સીધા Home Page પર જવાય
 } else if (this.state.currentView === 'semesters' || this.state.currentView === 'bookmarks') {
 targetView = 'home';
 }
+
 const lastHistory = this.state.historyStack[this.state.historyStack.length - 1];
 if (lastHistory && lastHistory.view === targetView && lastHistory.param === targetParam) {
 window.history.back();
@@ -1299,37 +1301,12 @@ this.navigate('home', null, null, true);
 },
 
 setupSwipeGestures() {
-let touchStartX = 0;
-let touchStartY = 0;
-let touchEndX = 0;
-let touchEndY = 0;
-let touchStartTime = 0;
-
-document.addEventListener('touchstart', (e) => {
-touchStartX = e.changedTouches[0].screenX;
-touchStartY = e.changedTouches[0].screenY;
-touchStartTime = new Date().getTime();
-}, { passive: true });
-
-document.addEventListener('touchend', (e) => {
-touchEndX = e.changedTouches[0].screenX;
-touchEndY = e.changedTouches[0].screenY;
-const touchEndTime = new Date().getTime();
-const timeDiff = touchEndTime - touchStartTime;
-this.handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY, timeDiff);
-}, { passive: true });
+// મેં આ ફંક્શન ખાલી કરી દીધું છે કારણ કે મોબાઈલનું પોતાનું બેક (Back) સ્વાઇપ ઓટોમેટિક કામ કરે છે.
+// આ કોડના લીધે ડબલ વાર બેક થતું હતું (Double Jump Bug).
 },
 
 handleSwipe(startX, startY, endX, endY, timeDiff) {
-const xDiff = endX - startX;
-const yDiff = Math.abs(endY - startY);
-const isEdgeSwipe = startX <= 40;
-
-if (isEdgeSwipe && xDiff > 70 && yDiff < 40 && timeDiff < 400) {
-if (this.state.currentView !== 'home') {
-this.goBack();
-}
-}
+// આ ફંક્શન હવે જરૂરી નથી
 }
 };
 
@@ -1339,3 +1316,6 @@ app.init();
 </script>
 </body>
 </html>
+
+
+
