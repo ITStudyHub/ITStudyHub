@@ -733,8 +733,8 @@ const app = {
                 name: s.name,
                 description: s.description,
                 subjects: s.subjects.map((subName, subIdx) => {
-                    const subId = `sub-${semIdx+1}-{subIdx + 1}`;
-                    const hasJournal = subjectsWithJournal.includes(subName);
+                    const subId = `sub-${semIdx + 1}-${subIdx + 1}`;
+                    const hasJournal = Object.keys(customJournalMap).includes(subName);
                     const pdfList = customPdfMap[subName] || [];
                     const assignList = customAssignmentMap[subName] || [];
                     const journalList = customJournalMap[subName] || [];
@@ -743,7 +743,7 @@ const app = {
                         let resourceArray = [];
                         if (pdfObj.files) {
                             resourceArray = pdfObj.files.map((f, fIdx) => ({
-                                id: `res-n-semIdx+1-{subIdx + 1}-uIdx+1-{fIdx}`,
+                                id: `res-n-${semIdx + 1}-${subIdx + 1}-${uldx + 1}-${fldx}`,
                                 title: f.title,
                                 type: "Notes PDF",
                                 url: f.url
