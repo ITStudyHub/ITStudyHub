@@ -733,7 +733,7 @@ const app = {
                 name: s.name,
                 description: s.description,
                 subjects: s.subjects.map((subName, subIdx) => {
-                    const subId = `sub-semIdx+1-{subIdx + 1}`;
+                    const subId = `sub-${semIdx+1}-{subIdx + 1}`;
                     const hasJournal = subjectsWithJournal.includes(subName);
                     const pdfList = customPdfMap[subName] || [];
                     const assignList = customAssignmentMap[subName] || [];
