@@ -446,10 +446,16 @@ const app = {
     },
 
     generateCustomData() {
-    
+        const subjectsWithJournal = [
+            "INTRODUCTION TO PROGRAMMING-I", "WEB DESIGNING-I", "OFFICE AUTOMATION TOOLS",
+            "INTRODUCTION TO PROGRAMMING-II", "WEB DESIGNING-II", "MULTIMEDIA AND ANIMATION",
+            "DATABASE MANAGEMENT SYSTEM", "OBJECT ORIENTED CONCEPTS AND PROGRAMMING", "DATA STRUCTURE"
+        ];
+        
+        // Practical Journal Map for all 9 subjects
         const customJournalMap = {
             "INTRODUCTION TO PROGRAMMING-I": ["IP1_Practical_Journal.pdf"],
-            "WEB DESIGNING-I": ["WD1_Practical.pdf"],
+            "WEB DESIGNING-I": ["WD1_Practical_Journal.pdf"],
             "OFFICE AUTOMATION TOOLS": ["OAT_Practical_Journal.pdf"],
             "INTRODUCTION TO PROGRAMMING-II": ["IP2_Practical_Journal.pdf"],
             "WEB DESIGNING-II": ["WD2_Practical_Journal.pdf"],
@@ -468,11 +474,11 @@ const app = {
                 { name: "UNIT 5: ARRAY AND STRINGS", file: "IP1_Unit_5.pdf" }
             ],
             "WEB DESIGNING-I": [
-                { name: "UNIT 1: BASICS OF WEB TECHNOLOGY", file: "WD1_Unit_1.pdf" }, 
-                { name: "UNIT 2: HTML", file: "WD1_Unit_2.pdf" }, 
-                { name: "UNIT 3: CASCADING STYLE SHEETS", file: "WD1_Unit_3.pdf" }, 
-                { name: "UNIT 4: WEB PAGE DEVELOPMENT", file: "WD1_Unit_4.pdf" },
-                { name: "UNIT 5: JAVA SCRIPT", file: "WD1_Unit_5.pdf" }
+                { name: "UNIT 1: BASICS OF WEB TECHNOLOGY", file: "WD_Unit_1.pdf" }, 
+                { name: "UNIT 2: HTML", file: "WD_Unit_2.pdf" }, 
+                { name: "UNIT 3: CASCADING STYLE SHEETS", file: "WD_Unit_3.pdf" }, 
+                { name: "UNIT 4: WEB PAGE DEVELOPMENT", file: "WD_Unit_4.pdf" },
+                { name: "UNIT 5: JAVA SCRIPT", file: "WD_Unit_5.pdf" }
             ],
             "OFFICE AUTOMATION TOOLS": [
                 { name: "UNIT 1: OVERVIEW OF DOS", file: "OAT_Unit_1.pdf" },
@@ -652,11 +658,11 @@ const app = {
                 { name: "UNIT 5", file: "DSUNIT 5.pdf" }
             ],
             "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": [
-                { name: "UNIT 1: BASIC CONCEPT OF JAVA", file: "OOP_Unit_1.pdf" },
-                { name: "UNIT 2: OVERVIEW OF JAVA", file: "OOP_Unit_2.pdf" },
-                { name: "UNIT 3: INHERITANCE AND INTERFACE", file: "OOP_Unit_3.pdf" },
-                { name: "UNIT 4: PACKAGES AND GENERICS", file: "OOP_Unit_4.pdf" },
-                { name: "UNIT 5: LAMBDA EXPRESSIONS", file: "OOP_Unit_5.pdf" }
+                { name: "UNIT 1", file: "OOPUNIT 1.pdf" },
+                { name: "UNIT 2", file: "OOPUNIT 2.pdf" },
+                { name: "UNIT 3", file: "OOPUNIT 3.pdf" },
+                { name: "UNIT 4", file: "OOPUNIT 4.pdf" },
+                { name: "UNIT 5", file: "OOPUNIT 5.pdf" }
             ],
             "DATABASE MANAGEMENT SYSTEM": [
                 { name: "UNIT 1", file: "DMSUNIT 1.pdf" },
@@ -697,7 +703,7 @@ const app = {
 
         const customAssignmentMap = {
             "INTRODUCTION TO PROGRAMMING-I": ["IP1_Assignment_1.pdf", "IP1_Assignment_2.pdf", "IP1_Assignment_3.pdf"],
-            "WEB DESIGNING-I": ["WD1_Assignment.pdf"],
+            "WEB DESIGNING-I": ["WD_Assignment.pdf"],
             "OFFICE AUTOMATION TOOLS": ["OAT_Assignment.pdf"],
             "FUNDAMENTAL OF MATHEMATICS": ["FM_Assignment_1.pdf", "FM_Assignment_2.pdf", "FM_Assignment_3.pdf"],
             "COMMUNICATION SKILLS": ["CS_Assignment.pdf"],
@@ -728,73 +734,74 @@ const app = {
         ];
 
         this.data.semesters = semesterData.map((s, semIdx) => {
-    return {
-        id: s.id,
-        name: s.name,
-        description: s.description,
-        subjects: s.subjects.map((subName, subIdx) => {
-            const subId = `sub-${semIdx + 1}-${subIdx + 1}`;
-            // JUNI LINE NI JAGYAE NAVI LINE
-            const hasJournal = Object.keys(customJournalMap).includes(subName); 
-            const pdfList = customPdfMap[subName] || [];
-            const assignList = customAssignmentMap[subName] || [];
-            const journalList = customJournalMap[subName] || [];
-            
-            const unitsList = pdfList.map((pdfObj, uIdx) => { 
-                let resourceArray = [];
-                if (pdfObj.files) {
-                    resourceArray = pdfObj.files.map((f, fIdx) => ({
-                        id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}-${fIdx}`,
-                        title: f.title,
-                        type: "Notes PDF",
-                        url: f.url
-                    }));
-                } else {
-                    resourceArray = [
-                        { id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
-                    ];
-                }
-                return {
-                    id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
-                    name: pdfObj.name,
-                    resources: resourceArray
-                };
-            });
-
-            const assignmentsMapped = assignList.map((file, aIdx) => ({
-                id: `ass-${semIdx + 1}-${subIdx + 1}-${aIdx + 1}`,
-                title: file,
-                type: "Assignment PDF",
-                date: "Aug 2026",
-                url: file
-            }));
-
-            const journalsMapped = journalList.map((file, jIdx) => ({
-                id: `jou-${semIdx + 1}-${subIdx + 1}-${jIdx + 1}`,
-                title: `${subName} - Practical Journal.pdf`,
-                type: "Journal PDF",
-                date: "Nov 2026",
-                url: file
-            }));
-
             return {
-                id: subId,
-                semId: s.id,
-                name: subName,
-                hasJournal: hasJournal,
-                units: unitsList,
-                academic: {
-                    assignments: assignmentsMapped,
-                    journals: hasJournal ? journalsMapped : [], 
-                    papers: [
-                        { id: `pap-${semIdx + 1}-${subIdx + 1}-1`, title: `Previous Year Paper (2025).pdf`, type: "Question Paper PDF", date: "Dec 2025", url: `${subId}-paper2025.pdf` }
-                    ]
-                }
+                id: s.id,
+                name: s.name,
+                description: s.description,
+                subjects: s.subjects.map((subName, subIdx) => {
+                    const subId = `sub-${semIdx + 1}-${subIdx + 1}`;
+                    const hasJournal = subjectsWithJournal.includes(subName);
+                    const pdfList = customPdfMap[subName] || [];
+                    const assignList = customAssignmentMap[subName] || [];
+                    const journalList = customJournalMap[subName] || [];
+
+                    const unitsList = pdfList.map((pdfObj, uIdx) => {
+                        let resourceArray = [];
+                        if (pdfObj.files) {
+                            resourceArray = pdfObj.files.map((f, fIdx) => ({
+                                id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}-${fIdx}`,
+                                title: f.title,
+                                type: "Notes PDF",
+                                url: f.url
+                            }));
+                        } else {
+                            resourceArray = [
+                                { id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
+                            ];
+                        }
+
+                        return {
+                            id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
+                            name: pdfObj.name,
+                            resources: resourceArray
+                        };
+                    });
+
+                    const assignmentsMapped = assignList.map((file, aIdx) => ({
+                        id: `ass-${semIdx + 1}-${subIdx + 1}-${aIdx + 1}`,
+                        title: file,
+                        type: "Assignment PDF",
+                        date: "Aug 2026",
+                        url: file
+                    }));
+
+                    const journalsMapped = journalList.map((file, jIdx) => ({
+                        id: `jou-${semIdx + 1}-${subIdx + 1}-${jIdx + 1}`,
+                        title: `${subName} - Practical Journal.pdf`,
+                        type: "Journal PDF",
+                        date: "Nov 2026",
+                        url: file
+                    }));
+
+                    return {
+                        id: subId,
+                        semId: s.id,
+                        name: subName,
+                        hasJournal: hasJournal,
+                        units: unitsList,
+                        academic: {
+                            assignments: assignmentsMapped,
+                            journals: hasJournal ? journalsMapped : [],
+                            papers: [
+                                { id: `pap-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Previous Year Paper (2025).pdf`, type: "Question Paper PDF", date: "Dec 2025", url: `${subId}-paper2025.pdf` }
+                            ]
+                        }
+                    };
+                })
             };
-        })
-    };
-});
-        
+        });
+    },
+
     navigate(view, param = null, param2 = null, isGoingBack = false) {
         if (!isGoingBack && this.state.currentView) {
             this.state.historyStack.push({
@@ -867,7 +874,7 @@ const app = {
             window.history.back(); 
         } else {
             this.navigate(targetView, targetParam, targetParam2, true);
-            const urlHash = `#targetView{targetParam ? '/' + targetParam : ''}`;
+            const urlHash = `#${targetView}${targetParam ? '/' + targetParam : ''}`;
             window.history.replaceState({ view: targetView, param: targetParam, param2: targetParam2 }, '', urlHash);
             
             if (this.state.historyStack.length > 0) {
@@ -976,7 +983,7 @@ const app = {
         <div class="grid view-section">`;
         sem.subjects.forEach(sub => {
             html += `
-            <div class="card cursor-pointer" onclick="app.navigate('subject-detail', 'sem.id','{sub.id}')">
+            <div class="card cursor-pointer" onclick="app.navigate('subject-detail', '${sem.id}', '${sub.id}')">
                 <div class="card-header">
                     <h3 class="card-title">${sub.name}</h3>
                     ${this.getBookmarkBtnTemplate(sub.id, sub.name, 'Subject')}
@@ -1005,7 +1012,7 @@ const app = {
             <span class="crumb-separator">/</span>
             <span class="crumb" onclick="app.navigate('semesters')">Semesters</span>
             <span class="crumb-separator">/</span>
-            <span class="crumb" onclick="app.navigate('semester-detail', 'sem.id')">{sem.name}</span>
+            <span class="crumb" onclick="app.navigate('semester-detail', '${sem.id}')">${sem.name}</span>
             <span class="crumb-separator">/</span>
             <span class="crumb active">${sub.name}</span>
         </div>
@@ -1113,7 +1120,7 @@ const app = {
                     </div>
                     <div class="card-meta"><span class="meta-tag">${bm.type}</span></div>
                     <div class="card-action">
-                        <span class="text-accent cursor-pointer" style="font-weight:600; font-size:0.9rem;" onclick="app.resolveBookmarkAction('bm.id','{bm.url || ''}')">Open &rarr;</span>
+                        <span class="text-accent cursor-pointer" style="font-weight:600; font-size:0.9rem;" onclick="app.resolveBookmarkAction('${bm.id}', '${bm.url || ''}')">Open &rarr;</span>
                     </div>
                 </div>`;
             });
@@ -1161,7 +1168,7 @@ const app = {
         const isBookmarked = this.state.bookmarks.some(b => b.id === id);
         const fill = isBookmarked ? 'currentColor' : 'none';
         return `
-        <button class="icon-btn" onclick="event.stopPropagation(); app.toggleBookmark('id','{title.replace(/'/g, "\\'")}', 'type','{url.replace(/'/g, "\\'")}')" title="Bookmark">
+        <button class="icon-btn" onclick="event.stopPropagation(); app.toggleBookmark('${id}', '${title.replace(/'/g, "\\'")}', '${type}', '${url.replace(/'/g, "\\'")}')" title="Bookmark">
             <svg viewBox="0 0 24 24" style="fill: ${fill}; stroke: currentColor; stroke-width: 2;">
                 <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
             </svg>
@@ -1213,11 +1220,11 @@ const app = {
             if(sem.name.toLowerCase().includes(query)) results.push({ type: 'Semester', title: sem.name, id: sem.id, link: `app.navigate('semester-detail', '${sem.id}')` });
             
             sem.subjects.forEach(sub => {
-                if(sub.name.toLowerCase().includes(query)) results.push({ type: 'Subject', title: sub.name, id: sub.id, link: `app.navigate('subject-detail', 'sem.id','{sub.id}')` });
+                if(sub.name.toLowerCase().includes(query)) results.push({ type: 'Subject', title: sub.name, id: sub.id, link: `app.navigate('subject-detail', '${sem.id}', '${sub.id}')` });
                 
                 sub.units.forEach(unit => {
                     if(unit.name.toLowerCase().includes(query)) {
-                        results.push({ type: 'Unit', title: `unit.name({sub.name})`, id: unit.id, link: `app.navigate('subject-detail', 'sem.id','{sub.id}')` });
+                        results.push({ type: 'Unit', title: `${unit.name} (${sub.name})`, id: unit.id, link: `app.navigate('subject-detail', '${sem.id}', '${sub.id}')` });
                     }
                     unit.resources.forEach(res => {
                         if(res.title.toLowerCase().includes(query)) {
