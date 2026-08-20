@@ -728,74 +728,73 @@ const app = {
         ];
 
         this.data.semesters = semesterData.map((s, semIdx) => {
+    return {
+        id: s.id,
+        name: s.name,
+        description: s.description,
+        subjects: s.subjects.map((subName, subIdx) => {
+            const subId = `sub-${semIdx + 1}-${subIdx + 1}`;
+            // JUNI LINE NI JAGYAE NAVI LINE
+            const hasJournal = Object.keys(customJournalMap).includes(subName); 
+            const pdfList = customPdfMap[subName] || [];
+            const assignList = customAssignmentMap[subName] || [];
+            const journalList = customJournalMap[subName] || [];
+            
+            const unitsList = pdfList.map((pdfObj, uIdx) => { 
+                let resourceArray = [];
+                if (pdfObj.files) {
+                    resourceArray = pdfObj.files.map((f, fIdx) => ({
+                        id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}-${fIdx}`,
+                        title: f.title,
+                        type: "Notes PDF",
+                        url: f.url
+                    }));
+                } else {
+                    resourceArray = [
+                        { id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
+                    ];
+                }
+                return {
+                    id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
+                    name: pdfObj.name,
+                    resources: resourceArray
+                };
+            });
+
+            const assignmentsMapped = assignList.map((file, aIdx) => ({
+                id: `ass-${semIdx + 1}-${subIdx + 1}-${aIdx + 1}`,
+                title: file,
+                type: "Assignment PDF",
+                date: "Aug 2026",
+                url: file
+            }));
+
+            const journalsMapped = journalList.map((file, jIdx) => ({
+                id: `jou-${semIdx + 1}-${subIdx + 1}-${jIdx + 1}`,
+                title: `${subName} - Practical Journal.pdf`,
+                type: "Journal PDF",
+                date: "Nov 2026",
+                url: file
+            }));
+
             return {
-                id: s.id,
-                name: s.name,
-                description: s.description,
-                subjects: s.subjects.map((subName, subIdx) => {
-                    const subId = `sub-${semIdx + 1}-${subIdx + 1}`;
-                    const hasJournal = Object.keys(customJournalMap).includes(subName);
-                    const pdfList = customPdfMap[subName] || [];
-                    const assignList = customAssignmentMap[subName] || [];
-                    const journalList = customJournalMap[subName] || [];
-
-                    const unitsList = pdfList.map((pdfObj, uIdx) => {
-                        let resourceArray = [];
-                        if (pdfObj.files) {
-                            resourceArray = pdfObj.files.map((f, fIdx) => ({
-                                id: `res-n-${semIdx + 1}-${subIdx + 1}-${uldx + 1}-${fldx}`,
-                                title: f.title,
-                                type: "Notes PDF",
-                                url: f.url
-                            }));
-                        } else {
-                            resourceArray = [
-                                { id: `res-n-semIdx+1-{subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
-                            ];
-                        }
-
-                        return {
-                            id: `unit-semIdx+1-{subIdx + 1}-${uIdx + 1}`,
-                            name: pdfObj.name,
-                            resources: resourceArray
-                        };
-                    });
-
-                    const assignmentsMapped = assignList.map((file, aIdx) => ({
-                        id: `ass-semIdx+1-{subIdx + 1}-${aIdx + 1}`,
-                        title: file,
-                        type: "Assignment PDF",
-                        date: "Aug 2026",
-                        url: file
-                    }));
-
-                    const journalsMapped = journalList.map((file, jIdx) => ({
-                        id: `jou-semIdx+1-{subIdx + 1}-${jIdx + 1}`,
-                        title: `${subName} - Practical Journal.pdf`,
-                        type: "Journal PDF",
-                        date: "Nov 2026",
-                        url: file
-                    }));
-
-                    return {
-                        id: subId,
-                        semId: s.id,
-                        name: subName,
-                        hasJournal: hasJournal,
-                        units: unitsList,
-                        academic: {
-                            assignments: assignmentsMapped,
-                            journals: hasJournal ? journalsMapped : [],
-                            papers: [
-                                { id: `pap-semIdx+1-{subIdx + 1}-1`, title: `subName-PreviousYearPaper(2025).pdf`,type:"QuestionPaperPDF",date:"Dec2025",url:`{subId}-paper2025.pdf` }
-                            ]
-                        }
-                    };
-                })
+                id: subId,
+                semId: s.id,
+                name: subName,
+                hasJournal: hasJournal,
+                units: unitsList,
+                academic: {
+                    assignments: assignmentsMapped,
+                    journals: hasJournal ? journalsMapped : [], 
+                    papers: [
+                        { id: `pap-${semIdx + 1}-${subIdx + 1}-1`, title: `Previous Year Paper (2025).pdf`, type: "Question Paper PDF", date: "Dec 2025", url: `${subId}-paper2025.pdf` }
+                    ]
+                }
             };
-        });
-    },
-
+        })
+    };
+});
+        
     navigate(view, param = null, param2 = null, isGoingBack = false) {
         if (!isGoingBack && this.state.currentView) {
             this.state.historyStack.push({
@@ -803,7 +802,7 @@ const app = {
                 param: this.state.currentParam,
                 param2: this.state.currentParam2
             });
-            const urlHash = `#view{param ? '/' + param : ''}${param2 ? '/' + param2 : ''}`;
+            const urlHash = `#${view}${param ? '/' + param : ''}${param2 ? '/' + param2 : ''}`;
             window.history.pushState({ view, param, param2 }, '', urlHash);
         }
 
