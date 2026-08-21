@@ -809,7 +809,7 @@ const app = {
                 param: this.state.currentParam,
                 param2: this.state.currentParam2
             });
-            const urlHash = `#${view}${param ? '/' + param : ''}${param2 ? '/' + param2 : ''}`;
+            const urlHash = view === 'home' ? window.location.pathname : `#${view}${param ? '/' + param : ''}${param2 ? '/' + param2 : ''}`;
             window.history.pushState({ view, param, param2 }, '', urlHash);
         }
 
