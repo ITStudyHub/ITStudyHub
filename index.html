@@ -455,7 +455,7 @@ const app = {
         // Practical Journal Map for all 9 subjects
         const customJournalMap = {
             "INTRODUCTION TO PROGRAMMING-I": ["IP1_Practical_Journal.pdf"],
-            "WEB DESIGNING-I": ["WD1_Practical.pdf"],
+            "WEB DESIGNING-I": ["WD1_Practical_Journal.pdf"],
             "OFFICE AUTOMATION TOOLS": ["OAT_Practical_Journal.pdf"],
             "INTRODUCTION TO PROGRAMMING-II": ["IP2_Practical_Journal.pdf"],
             "WEB DESIGNING-II": ["WD2_Practical_Journal.pdf"],
@@ -809,7 +809,7 @@ const app = {
                 param: this.state.currentParam,
                 param2: this.state.currentParam2
             });
-            const urlHash = view === 'home' ? window.location.pathname : `#${view}${param ? '/' + param : ''}${param2 ? '/' + param2 : ''}`;
+            const urlHash = `#${view}${param ? '/' + param : ''}${param2 ? '/' + param2 : ''}`;
             window.history.pushState({ view, param, param2 }, '', urlHash);
         }
 
@@ -874,7 +874,7 @@ const app = {
             window.history.back(); 
         } else {
             this.navigate(targetView, targetParam, targetParam2, true);
-            const urlHash = targetView === 'home' ? window.location.pathname : `?view=${targetView}${targetParam ? '&param=' + targetParam : ''}`;
+            const urlHash = `#${targetView}${targetParam ? '/' + targetParam : ''}`;
             window.history.replaceState({ view: targetView, param: targetParam, param2: targetParam2 }, '', urlHash);
             
             if (this.state.historyStack.length > 0) {
