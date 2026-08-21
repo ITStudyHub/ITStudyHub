@@ -412,7 +412,7 @@ const app = {
         this.updateBookmarkCount();
         this.setupAntiScreenshot();
         
-        window.history.replaceState({ view: 'home', param: null, param2: null }, '', '#home');
+       window.history.replaceState({ view: 'home', param: null, param2: null }, '', window.location.pathname);
         
         this.navigate('home', null, null, true);
         this.setupEventListeners();
