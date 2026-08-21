@@ -874,7 +874,7 @@ const app = {
             window.history.back(); 
         } else {
             this.navigate(targetView, targetParam, targetParam2, true);
-            const urlHash = `#${targetView}${targetParam ? '/' + targetParam : ''}`;
+            const urlHash = targetView === 'home' ? window.location.pathname : `?view=${targetView}${targetParam ? '&param=' + targetParam : ''}`;
             window.history.replaceState({ view: targetView, param: targetParam, param2: targetParam2 }, '', urlHash);
             
             if (this.state.historyStack.length > 0) {
