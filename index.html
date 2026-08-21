@@ -775,21 +775,13 @@ const app = {
                         url: file
                     }));
 
-       //             const journalsMapped = journalList.map((file, jIdx) => ({
-        //                id: `jou-${semIdx + 1}-${subIdx + 1}-${jIdx + 1}`,
-         //               title: `${subName} - Practical Journal.pdf`,
-         //               type: "Journal PDF",
-          //              date: "Nov 2026",
-        //                url: file
-        //            }));
-
-                    const journalsMapped = journalList.map((file, jldx) => ({
-                       id: `jou-${semldx + 1}-${subldx + 1}-${jldx + 1}`,
-                       title: file, // <--- અહી સીધું file લખી દો
-                       type: "Journal PDF",
-                       date: "Nov 2026",
-                       url: file
-                   }));
+                    const journalsMapped = journalList.map((file, jIdx) => ({
+                        id: `jou-${semIdx + 1}-${subIdx + 1}-${jIdx + 1}`,
+                        title: `${subName} - Practical Journal.pdf`,
+                        type: "Journal PDF",
+                        date: "Nov 2026",
+                        url: file
+                    }));
 
                     return {
                         id: subId,
