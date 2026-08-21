@@ -6,9 +6,7 @@
 <title>ITStudyHub - Your Complete IT Learning & Study Hub</title>
 <style>
 /*
-====================================
 1. CSS VARIABLES & THEMING SYSTEM
-==================================== 
 */
 :root {
     --primary-color: #032b43;
@@ -40,25 +38,23 @@
     --border-color: rgba(0, 0, 0, 0.1);
     --glass-bg: rgba(255, 255, 255, 0.85);
     --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 10px 15px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     --shadow-glow: 0 0 20px rgba(var(--accent-rgb), 0.3);
 }
 
 [data-color-preset="purple"] { --primary-color: #2e1065; --secondary-color: #4c1d95; --accent-color: #a855f7; --shadow-glow: 0 0 20px rgba(168, 85, 247, 0.2); }
-[data-color-preset="green"] { --primary-color: #022c22; --secondary-color: #064e3b; --accent-color: #34d399; --shadow-glow: 0 0 20px rgba(52, 211, 153, 0.2); }
+[data-color-preset="green"] {--primary-color: #022c22; --secondary-color: #064e3b; --accent-color: #34d399; --shadow-glow: 0 0 20px rgba(52, 211, 153, 0.2); }
 [data-color-preset="crimson"] { --primary-color: #450a0a; --secondary-color: #7f1d1d; --accent-color: #fb7185; --shadow-glow: 0 0 20px rgba(251, 113, 133, 0.2); }
-[data-color-preset="orange"] { --primary-color: #431407; --secondary-color: #7c2d12; --accent-color: #fb923c; --shadow-glow: 0 0 20px rgba(251, 146, 60, 0.2); }
+[data-color-preset="orange"] {--primary-color: #431407; --secondary-color: #7c2d12; --accent-color: #fb923c; --shadow-glow: 0 0 20px rgba(251, 146, 60, 0.2); }
 [data-color-preset="cyan"] { --primary-color: #083344; --secondary-color: #164e63; --accent-color: #22d3ee; --shadow-glow: 0 0 20px rgba(34, 211, 238, 0.2); }
 
 /*
-====================================
 2. GLOBAL STYLES & SECURITY PROTECTIONS
-==================================== 
 */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -66,19 +62,17 @@
     -webkit-touch-callout: none;
 }
 
-body { 
-    font-family: var(--font-main); 
-    background-color: var(--bg-color); 
-    color: var(--text-color); 
-    line-height: 1.6; 
-    transition: background-color 0.3s, color 0.3s; 
-    overflow-x: hidden; 
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
 }
 
 @media print {
-    body {
-        display: none !important;
-    }
+    body { display: none !important; }
 }
 
 .screenshot-overlay {
@@ -92,10 +86,7 @@ body {
     display: none;
 }
 
-body.secure-protection .screenshot-overlay {
-    display: block;
-}
-
+body.secure-protection .screenshot-overlay { display: block; }
 a { text-decoration: none; color: inherit; }
 button { border: none; background: none; cursor: pointer; font-family: inherit; color: inherit; }
 ul { list-style: none; }
@@ -104,16 +95,15 @@ p { color: var(--text-muted); margin-bottom: 1em; }
 svg { width: 24px; height: 24px; fill: currentColor; }
 
 /*
-====================================
 3. LAYOUT & COMPONENTS
-==================================== 
 */
 .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 
 header { position: sticky; top: 0; z-index: 1000; background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); padding: 12px 0; transition: var(--transition); }
-.nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
-.logo { display: flex; align-items: center; gap: 12px; font-size: 1.5rem; font-weight: 800; color: var(--accent-color); cursor: pointer; }
 
+.nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+
+.logo { display: flex; align-items: center; gap: 12px; font-size: 1.5rem; font-weight: 800; color: var(--accent-color); cursor: pointer; }
 .logo-icon { width: 48px; height: 48px; background: transparent; border-radius: 8px; display: flex; justify-content: center; align-items: center; padding: 0; overflow: hidden; }
 .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -122,13 +112,15 @@ header { position: sticky; top: 0; z-index: 1000; background: var(--glass-bg); b
 .nav-link:hover, .nav-link.active { color: var(--accent-color); }
 .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent-color); transition: width 0.3s; }
 .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
 .nav-actions { display: flex; align-items: center; gap: 16px; }
 
 .icon-btn { padding: 8px; border-radius: 50%; transition: var(--transition); background: var(--surface-color); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; position: relative; }
 .icon-btn:hover { background: var(--surface-hover); color: var(--accent-color); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-.badge { position: absolute; top: -5px; right: -5px; background: var(--accent-color); color: var(--bg-color); font-size: 0.7rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
+.badge { position: absolute; top: -5px; right: -5px; background: var(--accent-color); color: var(--bg-color); font-size: 0.7rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 .mobile-menu-btn { display: none; }
+
 .hero { padding: 80px 0; position: relative; overflow: hidden; text-align: center; }
 .hero-bg-shapes {position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; opacity: 0.6; }
 .shape { position: absolute; filter: blur(60px); border-radius: 50%; }
@@ -138,10 +130,11 @@ header { position: sticky; top: 0; z-index: 1000; background: var(--glass-bg); b
 
 .hero h1 { font-size: 3.5rem; margin-bottom: 16px; background: linear-gradient(to right, var(--text-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .hero p { font-size: 1.25rem; max-width: 600px; margin: 0 auto 32px; }
+
 .btn-group { display: flex; gap: 16px; justify-content: center; }
 .btn { padding: 12px 24px; border-radius: var(--radius-md); font-weight: 600; font-size: 1rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
 .btn-primary { background: var(--accent-color); color: #000; box-shadow: var(--shadow-glow); }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(var(--accent-rgb), 0.4); background: #fff; }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0, 168, 232, 0.4); background: #fff; }
 .btn-outline { border: 2px solid var(--border-color); background: var(--surface-color); color: var(--text-color); }
 .btn-outline:hover { border-color: var(--accent-color); color: var(--accent-color); }
 
@@ -181,7 +174,7 @@ header { position: sticky; top: 0; z-index: 1000; background: var(--glass-bg); b
 .resource-info { display: flex; align-items: center; gap: 12px; }
 .resource-icon { width: 40px; height: 40px; border-radius: 8px; background: var(--bg-color); display: flex; align-items: center; justify-content: center; color: var(--accent-color); flex-shrink: 0; }
 .resource-title { font-weight: 600; margin: 0; font-size: 0.95rem; }
-.resource-meta { font-size: 0.75rem; color: var(--text-muted); }
+.resource-meta {font-size: 0.75rem; color: var(--text-muted); }
 .resource-actions { display: flex; gap: 8px; }
 
 .tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border-color); margin-bottom: 24px; overflow-x: auto; padding-bottom: 8px; }
@@ -237,20 +230,7 @@ footer { background: var(--surface-color); border-top: 1px solid var(--border-co
 @media (max-width: 600px) {
     .container { padding: 0 12px; }
     .mobile-menu-btn { display: flex; }
-    .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: var(--surface-color);
-        flex-direction: column;
-        padding: 16px;
-        box-shadow: var(--shadow-md);
-        border-bottom: 1px solid var(--border-color);
-        gap: 16px;
-        align-items: flex-start;
-    }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--surface-color); flex-direction: column; padding: 16px; box-shadow: var(--shadow-md); border-bottom: 1px solid var(--border-color); gap: 16px; align-items: flex-start; }
     .nav-links.show { display: flex; }
     .nav-link { width: 100%; }
     .hero { padding: 40px 0; }
@@ -279,23 +259,11 @@ footer { background: var(--surface-color); border-top: 1px solid var(--border-co
 .view-section { animation: fadeIn 0.4s ease; }
 mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 0 2px; border-radius: 2px; }
 
-.back-btn {
-    display: none;
-    margin-right: 12px;
-    background: linear-gradient(135deg, var(--surface-color), var(--surface-hover));
-    transition: var(--transition);
-}
-.back-btn:hover {
-    transform: translateX(-5px);
-    color: var(--accent-color);
-    box-shadow: var(--shadow-glow);
-}
+.back-btn { display: none; margin-right: 12px; background: linear-gradient(135deg, var(--surface-color), var(--surface-hover)); transition: var(--transition); }
+.back-btn:hover { transform: translateX(-5px); color: var(--accent-color); box-shadow: var(--shadow-glow); }
+
 @media (max-width: 600px) {
-    .back-btn {
-        margin-right: 8px;
-        width: 36px;
-        height: 36px;
-    }
+    .back-btn { margin-right: 8px; width: 36px; height: 36px; }
 }
 </style>
 </head>
@@ -308,6 +276,7 @@ mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 
     <button class="icon-btn back-btn" id="back-btn" onclick="app.goBack()" aria-label="Go Back">
         <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
     </button>
+    
     <div class="logo" onclick="app.navigate('home')">
         <div class="logo-icon">
             <img src="logo.jpg" alt="ITStudyHub Logo">
@@ -320,18 +289,21 @@ mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 
         <div class="nav-link" onclick="app.navigate('semesters')">Semesters</div>
         <div class="nav-link" onclick="app.navigate('bookmarks')">Bookmarks</div>
     </nav>
-    
+
     <div class="nav-actions">
         <button class="icon-btn" onclick="app.toggleSearch()" aria-label="Search">
             <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
         </button>
+        
         <button class="icon-btn" onclick="app.navigate('bookmarks')" aria-label="Bookmarks">
             <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
             <span class="badge" id="bookmark-count">0</span>
         </button>
+        
         <button class="icon-btn" onclick="app.toggleThemePanel()" aria-label="Customize Theme">
             <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
         </button>
+        
         <button class="icon-btn mobile-menu-btn" onclick="app.toggleMobileMenu()">
             <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
         </button>
@@ -372,24 +344,22 @@ mark { background-color: rgba(var(--accent-rgb), 0.3); color: inherit; padding: 
 <main class="container" id="app-content" style="min-height: 70vh;"></main>
 
 <footer>
-    <div class="container">
-        <div class="footer-logo">ITStudyHub</div>
-        <p>"Learn Practice Prepare Succeed"</p>
-        
-        <div class="footer-links">
-            <a href="#" onclick="app.navigate('home'); return false;">Home</a>
-            <a href="#" onclick="app.navigate('semesters'); return false;">Semesters</a> 
-            <a href="#" onclick="app.navigate('bookmarks'); return false;">Bookmarks</a>
-            <a href="#" onclick="window.scrollTo({top:0, behavior: 'smooth'}); return false;">Back to Top</a>
-        </div>
-
-        <!-- VJH Developer Logo & Credit -->
-        <div style="margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 12px;">
-            <img src="LOGO2.jpg" alt="VJH Developer Logo" style="height: 60px; width: 60px; object-fit: cover; border-radius: 12px; box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);">
-            <p style="font-size: 0.9rem; opacity: 0.6; margin: 0; letter-spacing: 0.5px;">&copy; 2026 | Designed and developed by VJH.</p>
-        </div>
-        
+<div class="container">
+    <div class="footer-logo">ITStudyHub</div>
+    <p>"Learn Practice Prepare Succeed"</p>
+    <div class="footer-links">
+        <a href="#" onclick="app.navigate('home'); return false;">Home</a>
+        <a href="#" onclick="app.navigate('semesters'); return false;">Semesters</a>
+        <a href="#" onclick="app.navigate('bookmarks'); return false;">Bookmarks</a>
+        <a href="#" onclick="window.scrollTo({top:0, behavior: 'smooth'}); return false;">Back to Top</a>
     </div>
+
+    <!-- VJH Developer Logo & Credit -->
+    <div style="margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <img src="LOGO2.jpg" alt="VJH Developer Logo" style="height: 60px; width: 60px; object-fit: cover; border-radius: 12px; box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);">
+        <p style="font-size: 0.9rem; opacity: 0.6; margin: 0; letter-spacing: 0.5px;">© 2026 | Designed and developed by VJH.</p>
+    </div>
+</div>
 </footer>
 
 <script>
@@ -405,15 +375,13 @@ const app = {
         theme: localStorage.getItem('itsh_theme') || 'ocean',
         isDark: localStorage.getItem('itsh_dark') === 'true' || false
     },
-    
+
     init() {
         this.generateCustomData();
         this.applyTheme();
         this.updateBookmarkCount();
         this.setupAntiScreenshot();
-        
-       window.history.replaceState({ view: 'home', param: null, param2: null }, '', window.location.pathname);
-        
+        window.history.replaceState({ view: 'home', param: null, param2: null }, "", window.location.pathname);
         this.navigate('home', null, null, true);
         this.setupEventListeners();
         this.setupSwipeGestures();
@@ -421,7 +389,7 @@ const app = {
 
     setupAntiScreenshot() {
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'PrintScreen' || 
+            if (e.key === 'PrintScreen' ||
                 (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u')) ||
                 (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) {
                 e.preventDefault();
@@ -429,13 +397,15 @@ const app = {
                 setTimeout(() => document.body.classList.remove('secure-protection'), 3000);
             }
         });
-
+        
         window.addEventListener('blur', () => {
             document.body.classList.add('secure-protection');
         });
+        
         window.addEventListener('focus', () => {
             document.body.classList.remove('secure-protection');
         });
+        
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 document.body.classList.add('secure-protection');
@@ -467,15 +437,15 @@ const app = {
         const customPdfMap = {
             "INTRODUCTION TO PROGRAMMING-I": [
                 { name: "UNIT 1: FUNDAMENTAL OF ALGORITHMS", file: "IP1_Unit_1.pdf" },
-                { name: "UNIT 2: OVERVIEW OF C", file: "IP1_Unit_2.pdf" }, 
-                { name: "UNIT 3: OPERATORS AND EXPRESSION", file: "IP1_Unit_3.pdf" }, 
-                { name: "UNIT 4: DECISION MAKING AND BRANCHING", file: "IP1_Unit_4.pdf" }, 
+                { name: "UNIT 2: OVERVIEW OF C", file: "IP1_Unit_2.pdf" },
+                { name: "UNIT 3: OPERATORS AND EXPRESSION", file: "IP1_Unit_3.pdf" },
+                { name: "UNIT 4: DECISION MAKING AND BRANCHING", file: "IP1_Unit_4.pdf" },
                 { name: "UNIT 5: ARRAY AND STRINGS", file: "IP1_Unit_5.pdf" }
             ],
             "WEB DESIGNING-I": [
-                { name: "UNIT 1: BASICS OF WEB TECHNOLOGY", file: "WD_Unit_1.pdf" }, 
-                { name: "UNIT 2: HTML", file: "WD_Unit_2.pdf" }, 
-                { name: "UNIT 3: CASCADING STYLE SHEETS", file: "WD_Unit_3.pdf" }, 
+                { name: "UNIT 1: BASICS OF WEB TECHNOLOGY", file: "WD_Unit_1.pdf" },
+                { name: "UNIT 2: HTML", file: "WD_Unit_2.pdf" },
+                { name: "UNIT 3: CASCADING STYLE SHEETS", file: "WD_Unit_3.pdf" },
                 { name: "UNIT 4: WEB PAGE DEVELOPMENT", file: "WD_Unit_4.pdf" },
                 { name: "UNIT 5: JAVA SCRIPT", file: "WD_Unit_5.pdf" }
             ],
@@ -487,60 +457,60 @@ const app = {
                 { name: "UNIT 5: CONCEPT OF POWERPOINT & GOOGLE PRODUCTS", file: "OAT_Unit_5.pdf" }
             ],
             "FUNDAMENTAL OF MATHEMATICS": [
-                { name: "UNIT 1: HISTORY OF INDIAN MATHEMATICS", file: "FM_Unit_1.pdf" }, 
-                { name: "UNIT 2: MATHEMATICAL OPERATIONS", file: "FM_Unit_2.pdf" }, 
+                { name: "UNIT 1: HISTORY OF INDIAN MATHEMATICS", file: "FM_Unit_1.pdf" },
+                { name: "UNIT 2: MATHEMATICAL OPERATIONS", file: "FM_Unit_2.pdf" },
                 { name: "UNIT 3: MULTIPLICATION, SQUARE AND SQUARE ROOT", file: "FM_Unit_3.pdf" },
-                { 
-                  name: "UNIT 4: ALGEBRA", 
-                  files: [
-                  { title: "FM_Unit_4_Part_1.pdf", url: "FM_Unit_4_Part_1.pdf" },
-                  { title: "FM_Unit_4_Part_2.pdf", url: "FM_Unit_4_Part_2.pdf" }
-                  ] 
-               },
-                 { 
-                  name: "UNIT 5: OTHER CONCEPTS OF MATHEMATICS", 
-                  files: [
-                  { title: "FM_Unit_5_Part_1.pdf", url: "FM_Unit_5_Part_1.pdf" },
-                  { title: "FM_Unit_5_Part_2.pdf", url: "FM_Unit_5_Part_2.pdf" }
-                  ] 
-               },
+                {
+                    name: "UNIT 4: ALGEBRA",
+                    files: [
+                        {title: "FM_Unit_4_Part_1.pdf", url: "FM_Unit_4_Part_1.pdf" },
+                        {title: "FM_Unit_4_Part_2.pdf", url: "FM_Unit_4_Part_2.pdf" }
+                    ]
+                },
+                {
+                    name: "UNIT 5: OTHER CONCEPTS OF MATHEMATICS",
+                    files: [
+                        {title: "FM_Unit_5_Part_1.pdf", url: "FM_Unit_5_Part_1.pdf" },
+                        {title: "FM_Unit_5_Part_2.pdf", url: "FM_Unit_5_Part_2.pdf" }
+                    ]
+                }
             ],
             "COMMUNICATION SKILLS": [
-               { 
-                  name: "UNIT 1: BASICS OF COMMUNICATION", 
-                  files: [
-                  { title: "CS_Unit_1_Part_1.pdf", url: "CS_Unit_1_Part_1.pdf" },
-                  { title: "CS_Unit_1_Part_2.pdf", url: "CS_Unit_1_Part_2.pdf" }
-                  ] 
-               },
-               { name: "UNIT 2: FUNCTIONAL GRAMMAR AND VOCABULARY", file: "CS_Unit_2.pdf" },
-               { 
-                  name: "UNIT 3: LISTENING SKILLS", 
-                  files: [
-                  { title: "CS_Unit_3_Part_1.pdf", url: "CS_Unit_3_Part_1.pdf" },
-                  { title: "CS_Unit_3_Part_2.pdf", url: "CS_Unit_3_Part_2.pdf" }
-                  ] 
-               },
-                { 
-                  name: "UNIT 4: READING SKILLS", 
-                  files: [
-                  { title: "CS_Unit_4_Part_1.pdf", url: "CS_Unit_4_Part_1.pdf" },
-                  { title: "CS_Unit_4_Part_2.pdf", url: "CS_Unit_4_Part_2.pdf" }
-                  ] 
-               },
-                { 
-                  name: "UNIT 5: ORAL COMMUNICATION IN CONTEXT", 
-                  files: [
-                  { title: "CS_Unit_5_Part_1.pdf", url: "CS_Unit_5_Part_1.pdf" },
-                  { title: "CS_Unit_5_Part_2.pdf", url: "CS_Unit_5_Part_2.pdf" }
-                  ] 
-               },
-          ],
+                {
+                    name: "UNIT 1: BASICS OF COMMUNICATION",
+                    files: [
+                        {title: "CS_Unit_1_Part_1.pdf", url: "CS_Unit_1_Part_1.pdf" },
+                        {title: "CS_Unit_1_Part_2.pdf", url: "CS_Unit_1_Part_2.pdf" }
+                    ]
+                },
+                { name: "UNIT 2: FUNCTIONAL GRAMMAR AND VOCABULARY", file: "CS_Unit_2.pdf" },
+                {
+                    name: "UNIT 3: LISTENING SKILLS",
+                    files: [
+                        {title: "CS_Unit_3_Part_1.pdf", url: "CS_Unit_3_Part_1.pdf" },
+                        {title: "CS_Unit_3_Part_2.pdf", url: "CS_Unit_3_Part_2.pdf" }
+                    ]
+                },
+                {
+                    name: "UNIT 4: READING SKILLS",
+                    files: [
+                        {title: "CS_Unit_4_Part_1.pdf", url: "CS_Unit_4_Part_1.pdf" },
+                        {title: "CS_Unit_4_Part_2.pdf", url: "CS_Unit_4_Part_2.pdf" }
+                    ]
+                },
+                {
+                    name: "UNIT 5: ORAL COMMUNICATION IN CONTEXT",
+                    files: [
+                        {title: "CS_Unit_5_Part_1.pdf", url: "CS_Unit_5_Part_1.pdf" },
+                        {title: "CS_Unit_5_Part_2.pdf", url: "CS_Unit_5_Part_2.pdf" }
+                    ]
+                }
+            ],
             "COMPUTER MAINTENANCE AND TROUBLESHOOTING": [
                 { name: "UNIT 1: INTRODUCTION TO COMPUTERS", file: "CMT_Unit_1.pdf" },
                 { name: "UNIT 2: BASIC TROUBLESHOOTING PRINCIPLES AND HARDWARE", file: "CMT_Unit_2.pdf" },
-                { name: "UNIT 3: SOFTWARE MAINTENANCE AND TROUBLESHOOTING", file: "CMT_Unit_3.pdf" }, 
-                { name: "UNIT 4: PREVENTATIVE MAINTENANCE AND SECURITY", file: "CMT_Unit_4.pdf" }, 
+                { name: "UNIT 3: SOFTWARE MAINTENANCE AND TROUBLESHOOTING", file: "CMT_Unit_3.pdf" },
+                { name: "UNIT 4: PREVENTATIVE MAINTENANCE AND SECURITY", file: "CMT_Unit_4.pdf" },
                 { name: "UNIT 5: EXPLORING COMPUTER'S POTENTIAL", file: "CMT_Unit_5.pdf" }
             ],
             "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA": [
@@ -554,13 +524,13 @@ const app = {
                 { name: "UNIT 5: OOPS CONCEPTS (C++)", file: "IP2_Unit_5.pdf" }
             ],
             "WEB DESIGNING-II": [
-                { 
-                  name: "UNIT 1: JAVA SCRIPTS", 
-                  files: [
-                  { title: "WD2_Unit_1.pdf", url: "WD2_Unit_1.pdf" },
-                  { title: "WD2_Unit_1_Extra.pdf", url: "WD2_Unit_1_Extra.pdf" }
-               ] 
-          },
+                {
+                    name: "UNIT 1: JAVA SCRIPTS",
+                    files: [
+                        {title: "WD2_Unit_1.pdf", url: "WD2_Unit_1.pdf" },
+                        {title: "WD2_Unit_1_Extra.pdf", url: "WD2_Unit_1_Extra.pdf" }
+                    ]
+                },
                 { name: "UNIT 2: JQUERY", file: "WD2_Unit_2.pdf" },
                 { name: "UNIT 3: CSS3", file: "WD2_Unit_3.pdf" },
                 { name: "UNIT 4: RESPONSIVE WEB DESIGN", file: "WD2_Unit_4.pdf" },
@@ -569,14 +539,14 @@ const app = {
             ],
             "MULTIMEDIA AND ANIMATION": [
                 { name: "UNIT 1: INTRODUCTION TO IMAGE EDITING", file: "MA_Unit_1.pdf" },
-                 { 
-                  name: "UNIT 2: ADVANCES IMAGE EDITING", 
-                  files: [
-                  { title: "MA_Unit_2.pdf", url: "MA_Unit_2.pdf" },
-                  { title: "MA_Unit_2_Extra.pdf", url: "MA_Unit_2_Extra.pdf" }
-               ] 
-          },
-                { name: "UNIT 3, 4 & 5", file: "MA_Unit_3,4,5.pdf" },
+                {
+                    name: "UNIT 2: ADVANCES IMAGE EDITING",
+                    files: [
+                        {title: "MA_Unit_2.pdf", url: "MA_Unit_2.pdf" },
+                        {title: "MA_Unit_2_Extra.pdf", url: "MA_Unit_2_Extra.pdf" }
+                    ]
+                },
+                { name: "UNIT 3, 4 & 5", file: "MA_Unit_3,4,5.pdf" }
             ],
             "FINANCIAL ACCOUNTING": [
                 { name: "UNIT 1: ACCOUNTING", file: "FA_Unit_1.pdf" },
@@ -585,56 +555,56 @@ const app = {
                 { name: "UNIT 4: MARGINAL COSTING", file: "FA_Unit_4.pdf" },
                 { name: "UNIT 5: ACCOUNTING SOFTWARE", file: "FA_Unit_5.pdf" }
             ],
-             "EFFECTIVE WRITING SKILLS": [   
-               { 
-                  name: "UNIT 1: VOCABULARY AND GRAMMAR", 
-                  files: [
-                  { title: "EWS_Unit_1_Part_1.pdf", url: "EWS_Unit_1_Part_1.pdf" },
-                  { title: "EWS_Unit_1_Part_2.pdf", url: "EWS_Unit_1_Part_2.pdf" },
-                  { title: "EWS_Unit_1_Part_3.pdf", url: "EWS_Unit_1_Part_3.pdf" },
-                  { title: "EWS_Unit_1_Part_4.pdf", url: "EWS_Unit_1_Part_4.pdf" },
-                  { title: "EWS_Unit_1_Part_5.pdf", url: "EWS_Unit_1_Part_5.pdf" },
-                  { title: "EWS_Unit_1_Part_6.pdf", url: "EWS_Unit_1_Part_6.pdf" },
-                  { title: "EWS_Unit_1_Part_7.pdf", url: "EWS_Unit_1_Part_7.pdf" }
-                  ] 
+            "EFFECTIVE WRITING SKILLS": [
+                {
+                    name: "UNIT 1: VOCABULARY AND GRAMMAR",
+                    files: [
+                        {title: "EWS_Unit_1_Part_1.pdf", url: "EWS_Unit_1_Part_1.pdf" },
+                        {title: "EWS_Unit_1_Part_2.pdf", url: "EWS_Unit_1_Part_2.pdf" },
+                        {title: "EWS_Unit_1_Part_3.pdf", url: "EWS_Unit_1_Part_3.pdf" },
+                        {title: "EWS_Unit_1_Part_4.pdf", url: "EWS_Unit_1_Part_4.pdf" },
+                        {title: "EWS_Unit_1_Part_5.pdf", url: "EWS_Unit_1_Part_5.pdf" },
+                        {title: "EWS_Unit_1_Part_6.pdf", url: "EWS_Unit_1_Part_6.pdf" },
+                        {title: "EWS_Unit_1_Part_7.pdf", url: "EWS_Unit_1_Part_7.pdf" }
+                    ]
                 },
-                { 
-                  name: "UNIT 2: BASICS OF WRITING SKILLS-I", 
-                  files: [
-                  { title: "EWS_Unit_2_Part_1.pdf", url: "EWS_Unit_2_Part_1.pdf" },
-                  { title: "EWS_Unit_2_Part_2.pdf", url: "EWS_Unit_2_Part_2.pdf" },
-                  { title: "EWS_Unit_2_Part_3.pdf", url: "EWS_Unit_2_Part_3.pdf" },
-                  { title: "EWS_Unit_2_Part_4.pdf", url: "EWS_Unit_2_Part_4.pdf" }
-                  ] 
+                {
+                    name: "UNIT 2: BASICS OF WRITING SKILLS-I",
+                    files: [
+                        {title: "EWS_Unit_2_Part_1.pdf", url: "EWS_Unit_2_Part_1.pdf" },
+                        {title: "EWS_Unit_2_Part_2.pdf", url: "EWS_Unit_2_Part_2.pdf" },
+                        {title: "EWS_Unit_2_Part_3.pdf", url: "EWS_Unit_2_Part_3.pdf" },
+                        {title: "EWS_Unit_2_Part_4.pdf", url: "EWS_Unit_2_Part_4.pdf" }
+                    ]
                 },
-                { 
-                  name: "UNIT 3: BASICS OF WRITING SKILLS –II", 
-                  files: [
-                  { title: "EWS_Unit_3_Part_1.pdf", url: "EWS_Unit_3_Part_1.pdf" },
-                  { title: "EWS_Unit_3_Part_2.pdf", url: "EWS_Unit_3_Part_2.pdf" },
-                  { title: "EWS_Unit_3_Part_3.pdf", url: "EWS_Unit_3_Part_3.pdf" },
-                  { title: "EWS_Unit_3_Part_4.pdf", url: "EWS_Unit_3_Part_4.pdf" }
-                  ] 
+                {
+                    name: "UNIT 3: BASICS OF WRITING SKILLS -II",
+                    files: [
+                        {title: "EWS_Unit_3_Part_1.pdf", url: "EWS_Unit_3_Part_1.pdf" },
+                        {title: "EWS_Unit_3_Part_2.pdf", url: "EWS_Unit_3_Part_2.pdf" },
+                        {title: "EWS_Unit_3_Part_3.pdf", url: "EWS_Unit_3_Part_3.pdf" },
+                        {title: "EWS_Unit_3_Part_4.pdf", url: "EWS_Unit_3_Part_4.pdf" }
+                    ]
                 },
-                { 
-                  name: "UNIT 4: CREATIVE WRITING SKILLS", 
-                  files: [
-                  { title: "EWS_Unit_4_Part_1.pdf", url: "EWS_Unit_4_Part_1.pdf" },
-                  { title: "EWS_Unit_4_Part_2.pdf", url: "EWS_Unit_4_Part_2.pdf" },
-                  { title: "EWS_Unit_4_Part_3.pdf", url: "EWS_Unit_4_Part_3.pdf" }
-                  ] 
-                 },
-                 { 
-                  name: "UNIT 5: LSRW INTEGRATED WRITING MODULE", 
-                  files: [
-                  { title: "EWS_Unit_5_Part_1.pdf", url: "EWS_Unit_5_Part_1.pdf" },
-                  { title: "EWS_Unit_5_Part_2.pdf", url: "EWS_Unit_5_Part_2.pdf" },
-                  { title: "EWS_Unit_5_Part_3.pdf", url: "EWS_Unit_5_Part_3.pdf" },
-                  { title: "EWS_Unit_5_Part_4.pdf", url: "EWS_Unit_5_Part_4.pdf" },
-                  { title: "EWS_Unit_5_Part_5.pdf", url: "EWS_Unit_5_Part_5.pdf" }
-                  ] 
+                {
+                    name: "UNIT 4: CREATIVE WRITING SKILLS",
+                    files: [
+                        {title: "EWS_Unit_4_Part_1.pdf", url: "EWS_Unit_4_Part_1.pdf" },
+                        {title: "EWS_Unit_4_Part_2.pdf", url: "EWS_Unit_4_Part_2.pdf" },
+                        {title: "EWS_Unit_4_Part_3.pdf", url: "EWS_Unit_4_Part_3.pdf" }
+                    ]
                 },
-             ],
+                {
+                    name: "UNIT 5: LSRW INTEGRATED WRITING MODULE",
+                    files: [
+                        {title: "EWS_Unit_5_Part_1.pdf", url: "EWS_Unit_5_Part_1.pdf" },
+                        {title: "EWS_Unit_5_Part_2.pdf", url: "EWS_Unit_5_Part_2.pdf" },
+                        {title: "EWS_Unit_5_Part_3.pdf", url: "EWS_Unit_5_Part_3.pdf" },
+                        {title: "EWS_Unit_5_Part_4.pdf", url: "EWS_Unit_5_Part_4.pdf" },
+                        {title: "EWS_Unit_5_Part_5.pdf", url: "EWS_Unit_5_Part_5.pdf" }
+                    ]
+                }
+            ],
             "INFORMATION TECHNOLOGY": [
                 { name: "UNIT 1: DATA REPRESENTATION AND NUMBER SYSTEM", file: "IT_Unit_1.pdf" },
                 { name: "UNIT 2: INTRODUCTION TO THE COMPUTER AND COMPUTER PERIPHERALS", file: "IT_Unit_2.pdf" },
@@ -664,10 +634,10 @@ const app = {
                 { name: "UNIT 5", file: "OOPUNIT 5.pdf" }
             ],
             "DATABASE MANAGEMENT SYSTEM": [
-                { name: "UNIT 1", file: "DMSUNIT 1.pdf" },
+                { name: "UNIT 1", file: "DMSUNIT 1.pdf"},
                 { name: "UNIT 2", file: "DMSUNIT 2.pdf" },
                 { name: "UNIT 3", file: "DMSUNIT 3.pdf" },
-                { name: "UNIT 4", file: "DMSUNIT 4.pdf" },
+                { name: "UNIT 4", file: "DMSUNIT 4.pdf"},
                 { name: "UNIT 5", file: "DMSUNIT 5.pdf" }
             ],
             "INTRODUCTION TO ARTIFICIAL INTELLIGENCE": [
@@ -678,7 +648,7 @@ const app = {
                 { name: "UNIT 5", file: "AIUNIT 5.pdf" }
             ],
             "EMPLOYABILITY SKILLS-I": [
-                { name: "UNIT 1", file: "ESUNIT 1.pdf" },
+                { name: "UNIT 1", file: "ESUNIT 1.pdf"},
                 { name: "UNIT 2", file: "ESUNIT 2.pdf" },
                 { name: "UNIT 3", file: "ESUNIT 3.pdf" },
                 { name: "UNIT 4", file: "ESUNIT 4.pdf" },
@@ -708,7 +678,6 @@ const app = {
             "COMMUNICATION SKILLS": ["CS_Assignment.pdf"],
             "COMPUTER MAINTENANCE AND TROUBLESHOOTING": ["CMT_Assignment.pdf"],
             "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA": ["PMB_Assignment.pdf"],
-            
             "INTRODUCTION TO PROGRAMMING-II": ["IP2_Assignment.pdf"],
             "WEB DESIGNING-II": ["WD2_Assignment.pdf"],
             "MULTIMEDIA AND ANIMATION": ["MA_Assignment.pdf"],
@@ -716,7 +685,6 @@ const app = {
             "EFFECTIVE WRITING SKILLS": ["EWS_Assignment.pdf"],
             "INFORMATION TECHNOLOGY": ["IT_Assignment.pdf"],
             "PROFESSIONAL ETHICS": ["PE_Assignment.pdf"],
-
             "DATA STRUCTURE": ["DS_Assignment_1.pdf", "DS_Assignment_2.pdf"],
             "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": ["OOP_Assignment_1.pdf", "OOP_Assignment_2.pdf"],
             "DATABASE MANAGEMENT SYSTEM": ["DMS_Assignment_1.pdf", "DMS_Assignment_2.pdf"],
@@ -727,9 +695,10 @@ const app = {
         };
 
         const semesterData = [
-            { id: 'sem-1', name: 'Semester 1', description: 'Core introductory IT subjects.', subjects: [ "INTRODUCTION TO PROGRAMMING-I", "WEB DESIGNING-I", "OFFICE AUTOMATION TOOLS", "FUNDAMENTAL OF MATHEMATICS", "COMMUNICATION SKILLS", "COMPUTER MAINTENANCE AND TROUBLESHOOTING", "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA" ] },
+            { id: 'sem-1', name: 'Semester 1', description: 'Core introductory IT subjects.', subjects: [
+                "INTRODUCTION TO PROGRAMMING-I", "WEB DESIGNING-I", "OFFICE AUTOMATION TOOLS", "FUNDAMENTAL OF MATHEMATICS", "COMMUNICATION SKILLS", "COMPUTER MAINTENANCE AND TROUBLESHOOTING", "PRINCIPLES OF MANAGEMENT IN BHAGAVAD GITA" ] },
             { id: 'sem-2', name: 'Semester 2', description: 'Intermediate concepts and programming foundation.', subjects: [ "INTRODUCTION TO PROGRAMMING-II", "WEB DESIGNING-II", "MULTIMEDIA AND ANIMATION", "FINANCIAL ACCOUNTING", "EFFECTIVE WRITING SKILLS", "INFORMATION TECHNOLOGY", "PROFESSIONAL ETHICS" ] },
-            { id: 'sem-3', name: 'Semester 3', description: 'Data structure, database and AI concepts.', subjects: [ "DATA STRUCTURE", "OBJECT ORIENTED CONCEPTS AND PROGRAMMING", "DATABASE MANAGEMENT SYSTEM", "INTRODUCTION TO ARTIFICIAL INTELLIGENCE", "EMPLOYABILITY SKILLS-I", "SYSTEM ANALYSIS AND DESIGN", "INDIAN KNOWLEDGE SYSTEMS IN COMPUTING" ] }
+            { id: 'sem-3', name: 'Semester 3', description: 'Data structure, database and AI concepts.', subjects: ["DATA STRUCTURE", "OBJECT ORIENTED CONCEPTS AND PROGRAMMING", "DATABASE MANAGEMENT SYSTEM", "INTRODUCTION TO ARTIFICIAL INTELLIGENCE", "EMPLOYABILITY SKILLS-I", "SYSTEM ANALYSIS AND DESIGN", "INDIAN KNOWLEDGE SYSTEMS IN COMPUTING"]}
         ];
 
         this.data.semesters = semesterData.map((s, semIdx) => {
@@ -758,7 +727,6 @@ const app = {
                                 { id: `res-n-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`, title: pdfObj.file, type: "Notes PDF", url: pdfObj.file }
                             ];
                         }
-
                         return {
                             id: `unit-${semIdx + 1}-${subIdx + 1}-${uIdx + 1}`,
                             name: pdfObj.name,
@@ -774,22 +742,15 @@ const app = {
                         url: file
                     }));
 
+                    // --- YOUR REQUESTED FIX FOR JOURNAL MAPPING ---
                     const journalsMapped = journalList.map((file, jIdx) => ({
                         id: `jou-${semIdx + 1}-${subIdx + 1}-${jIdx + 1}`,
-                        title: `${subName} - Practical Journal.pdf`,
+                        title: file, // Only uses the exact file name from customJournalMap
                         type: "Journal PDF",
                         date: "Nov 2026",
                         url: file
                     }));
-
-       //             const journalsMapped = journalList.map((file, jldx) => ({
-        //                id: `jou-${semldx + 1}-${subldx + 1}-${jldx + 1}`,
-         //               title: file, 
-         //               type: "Journal PDF",
-         //               date: "Nov 2026",
-         //               url: file
-         //           }));
-
+                    // ----------------------------------------------
 
                     return {
                         id: subId,
@@ -801,7 +762,7 @@ const app = {
                             assignments: assignmentsMapped,
                             journals: hasJournal ? journalsMapped : [],
                             papers: [
-                                { id: `pap-${semIdx + 1}-${subIdx + 1}-1`, title: `${subName} - Previous Year Paper (2025).pdf`, type: "Question Paper PDF", date: "Dec 2025", url: `${subId}-paper2025.pdf` }
+                                { id: `pap-${semIdx + 1}-${subIdx + 1}-1`, title: `Previous Year Paper (2025).pdf`, type: "Question Paper PDF", date: "Dec 2025", url: `${subId}-paper2025.pdf` }
                             ]
                         }
                     };
@@ -818,7 +779,7 @@ const app = {
                 param2: this.state.currentParam2
             });
             const urlHash = `#${view}${param ? '/' + param : ''}${param2 ? '/' + param2 : ''}`;
-            window.history.pushState({ view, param, param2 }, '', urlHash);
+            window.history.pushState({ view, param, param2 }, "", urlHash);
         }
 
         this.state.currentView = view;
@@ -831,7 +792,7 @@ const app = {
         }
 
         const content = document.getElementById('app-content');
-        content.innerHTML = '';
+        content.innerHTML = "";
         document.querySelectorAll('.nav-link').forEach($el => $el.classList.remove('active'));
         document.getElementById('main-nav').classList.remove('show');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -879,15 +840,12 @@ const app = {
 
         const lastHistory = this.state.historyStack[this.state.historyStack.length - 1];
         if (lastHistory && lastHistory.view === targetView && lastHistory.param === targetParam) {
-            window.history.back(); 
+            window.history.back();
         } else {
             this.navigate(targetView, targetParam, targetParam2, true);
             const urlHash = `#${targetView}${targetParam ? '/' + targetParam : ''}`;
-            window.history.replaceState({ view: targetView, param: targetParam, param2: targetParam2 }, '', urlHash);
-            
-            if (this.state.historyStack.length > 0) {
-                this.state.historyStack.pop();
-            }
+            window.history.replaceState({ view: targetView, param: targetParam, param2: targetParam2 }, "", urlHash);
+            this.state.historyStack.pop();
         }
     },
 
@@ -950,13 +908,13 @@ const app = {
     },
 
     renderSemesterCards(wrapper) {
-        let html = '';
+        let html = "";
         this.data.semesters.forEach(sem => {
             html += `
             <div class="card cursor-pointer" onclick="app.navigate('semester-detail', '${sem.id}')">
                 <div class="card-header">
                     <h3 class="card-title">${sem.name}</h3>
-                    ${this.getBookmarkBtnTemplate(sem.id, sem.name, 'Semester')}
+                    ${this.getBookmarkBtnTemplate(sem.id, sem.name, 'Semester')} 
                 </div>
                 <p style="font-size: 0.9rem;">${sem.description}</p>
                 <div class="card-meta">
@@ -964,7 +922,7 @@ const app = {
                 </div>
                 <div class="progress-bar"><div class="progress-fill" style="width: 50%"></div></div>
                 <div class="card-action">
-                    <span class="text-accent" style="font-weight:600; font-size:0.9rem;">View Subjects &rarr;</span>
+                    <span class="text-accent" style="font-weight:600; font-size:0.9rem;">View Subjects →</span>
                 </div>
             </div>`;
         });
@@ -994,7 +952,7 @@ const app = {
             <div class="card cursor-pointer" onclick="app.navigate('subject-detail', '${sem.id}', '${sub.id}')">
                 <div class="card-header">
                     <h3 class="card-title">${sub.name}</h3>
-                    ${this.getBookmarkBtnTemplate(sub.id, sub.name, 'Subject')}
+                    ${this.getBookmarkBtnTemplate(sub.id, sub.name, 'Subject')} 
                 </div>
                 <div class="card-meta">
                     <span class="meta-tag">${sub.units.length} ${sub.units.length === 1 ? 'Combined PDF' : 'Units'}</span>
@@ -1002,7 +960,7 @@ const app = {
                     ${sub.hasJournal ? '<span class="meta-tag" style="border-color:var(--accent-color);">Practical Journal</span>' : ''}
                 </div>
                 <div class="card-action">
-                    <span class="text-accent" style="font-weight:600; font-size:0.9rem;">Open Dashboard &rarr;</span>
+                    <span class="text-accent" style="font-weight:600; font-size:0.9rem;">Open Dashboard →</span>
                 </div>
             </div>`;
         });
@@ -1014,6 +972,7 @@ const app = {
         const sem = this.data.semesters.find(s => s.id === semId);
         const sub = sem ? sem.subjects.find(s => s.id === subId) : null;
         if(!sub) return;
+        
         let html = `
         <div class="breadcrumbs view-section" style="margin-top:24px;">
             <span class="crumb" onclick="app.navigate('home')">Home</span>
@@ -1029,16 +988,17 @@ const app = {
                 <h2 class="section-title">${sub.name}</h2>
                 <p>Subject Dashboard: Unit Notes, Assignments & Papers</p>
             </div>
-            ${this.getBookmarkBtnTemplate(sub.id, sub.name, 'Subject')}
+            ${this.getBookmarkBtnTemplate(sub.id, sub.name, 'Subject')} 
         </div>
         <div class="tabs view-section">
-            <button class="tab-btn active" onclick="app.switchTab(this, 'tab-units')">Syllabus & Units (${sub.units.length})</button>
+            <button class="tab-btn active" onclick="app.switchTab(this, 'tab-units')">Units (${sub.units.length})</button>
             <button class="tab-btn" onclick="app.switchTab(this, 'tab-assignments')">Assignments (${sub.academic.assignments.length})</button>
             ${sub.hasJournal ? '<button class="tab-btn" onclick="app.switchTab(this, \'tab-journals\')">Practical Journal</button>' : ''}
             <button class="tab-btn" onclick="app.switchTab(this, 'tab-papers')">Previous Papers</button>
         </div>
         
         <div id="tab-units" class="tab-content active view-section">`;
+        
         sub.units.forEach(unit => {
             html += `
             <div class="accordion open">
@@ -1053,8 +1013,9 @@ const app = {
             });
             html += `</div></div></div>`;
         });
-        html += `</div>
         
+        html += `
+        </div>
         <div id="tab-assignments" class="tab-content view-section">
             <div class="resource-list">
                 ${sub.academic.assignments.length ? sub.academic.assignments.map(a => this.getResourceHTML(a)).join('') : '<div class="empty-state">No assignments available.</div>'}
@@ -1081,17 +1042,16 @@ const app = {
     },
 
     getResourceHTML(res) {
-        const icon = '<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
+        const icon = `<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.10 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>`;
         const pdfUrl = res.url || '#';
         const secureUrl = pdfUrl !== '#' ? `view.html?file=${encodeURIComponent(pdfUrl)}` : '#';
-        
         return `
         <div class="resource-item">
             <div class="resource-info">
                 <div class="resource-icon">${icon}</div>
                 <div>
                     <h4 class="resource-title">${res.title}</h4>
-                    <div class="resource-meta">${res.type} ${res.date ? '• ' + res.date : ''}</div>
+                    <div class="resource-meta">${res.type} ${res.date ? ' • ' + res.date : ''}</div>
                 </div>
             </div>
             <div class="resource-actions">
@@ -1102,7 +1062,7 @@ const app = {
             </div>
         </div>`;
     },
-    
+
     renderBookmarks(container) {
         let html = `
         <div class="section-header view-section" style="margin-top:24px;">
@@ -1113,7 +1073,7 @@ const app = {
         if(this.state.bookmarks.length === 0) {
             html = html.replace('<div class="grid view-section">', '') + `
             <div class="empty-state view-section">
-                <svg viewBox="0 0 24 24" style="width:64px; height:64px;color:var(--border-color); margin-bottom:16px;"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+                <svg viewBox="0 0 24 24" style="width:64px; height:64px;color:var(--border-color); margin-bottom: 16px;"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
                 <h3>No bookmarks yet</h3>
                 <p>Click the bookmark icon on subjects or resources to save them here.</p>
                 <button class="btn btn-primary" style="margin-top: 16px;" onclick="app.navigate('semesters')">Browse Semesters</button>
@@ -1124,11 +1084,13 @@ const app = {
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">${bm.title}</h3>
-                        ${this.getBookmarkBtnTemplate(bm.id, bm.title, bm.type, bm.url)}
+                        ${this.getBookmarkBtnTemplate(bm.id, bm.title, bm.type, bm.url)} 
                     </div>
-                    <div class="card-meta"><span class="meta-tag">${bm.type}</span></div>
+                    <div class="card-meta">
+                        <span class="meta-tag">${bm.type}</span>
+                    </div>
                     <div class="card-action">
-                        <span class="text-accent cursor-pointer" style="font-weight:600; font-size:0.9rem;" onclick="app.resolveBookmarkAction('${bm.id}', '${bm.url || ''}')">Open &rarr;</span>
+                        <span class="text-accent cursor-pointer" style="font-weight:600; font-size:0.9rem;" onclick="app.resolveBookmarkAction('${bm.id}', '${bm.url || ''}')">Open →</span>
                     </div>
                 </div>`;
             });
@@ -1192,13 +1154,8 @@ const app = {
         }
         localStorage.setItem('itsh_bookmarks', JSON.stringify(this.state.bookmarks));
         this.updateBookmarkCount();
-        
         if (this.state.currentView === 'bookmarks') {
             this.renderBookmarks(document.getElementById('app-content'));
-        } else {
-            this.navigate(this.state.currentView,
-                this.state.currentView === 'subject-detail' ? id.split('-').slice(0, 2).join('-') : (this.state.currentView === 'semester-detail' ? id : null),
-                this.state.currentView === 'subject-detail' ? id : null);
         }
     },
 
@@ -1220,16 +1177,12 @@ const app = {
             resultsContainer.innerHTML = '<div class="empty-state">Start typing to search...</div>';
             return;
         }
-        
         query = query.toLowerCase();
         let results = [];
-        
         this.data.semesters.forEach(sem => {
             if(sem.name.toLowerCase().includes(query)) results.push({ type: 'Semester', title: sem.name, id: sem.id, link: `app.navigate('semester-detail', '${sem.id}')` });
-            
             sem.subjects.forEach(sub => {
                 if(sub.name.toLowerCase().includes(query)) results.push({ type: 'Subject', title: sub.name, id: sub.id, link: `app.navigate('subject-detail', '${sem.id}', '${sub.id}')` });
-                
                 sub.units.forEach(unit => {
                     if(unit.name.toLowerCase().includes(query)) {
                         results.push({ type: 'Unit', title: `${unit.name} (${sub.name})`, id: unit.id, link: `app.navigate('subject-detail', '${sem.id}', '${sub.id}')` });
@@ -1240,7 +1193,6 @@ const app = {
                         }
                     });
                 });
-
                 sub.academic.assignments.forEach(ass => {
                     if(ass.title.toLowerCase().includes(query)) {
                         results.push({ type: 'Assignment', title: ass.title, id: ass.id, link: `app.openPDF('${ass.title.replace(/'/g, "\\'")}', '${(ass.url || '').replace(/'/g, "\\'")}')` });
@@ -1248,13 +1200,13 @@ const app = {
                 });
             });
         });
-
+        
         if(results.length === 0) {
-            resultsContainer.innerHTML = '<div class="empty-state">No results found for "' + query + '"</div>';
+            resultsContainer.innerHTML = `<div class="empty-state">No results found for "${query}"</div>`;
             return;
         }
-
-        let html = '';
+        
+        let html = "";
         results.slice(0, 20).forEach(res => {
             const regex = new RegExp(`(${query})`, "gi");
             const highlightedTitle = res.title.replace(regex, "<mark>$1</mark>");
@@ -1262,11 +1214,11 @@ const app = {
             <div class="resource-item cursor-pointer" onclick="${res.link}; app.toggleSearch();">
                 <div class="resource-info">
                     <div>
-                        <h4 class="resource-title" style="margin-bottom:4px;">${highlightedTitle}</h4>
+                        <h4 class="resource-title">${highlightedTitle}</h4>
                         <div class="resource-meta">${res.type}</div>
                     </div>
                 </div>
-                <span class="text-accent">&rarr;</span>
+                <span class="text-accent">→</span>
             </div>`;
         });
         resultsContainer.innerHTML = html;
@@ -1282,7 +1234,9 @@ const app = {
         localStorage.setItem('itsh_theme', presetName);
         document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.theme-btn').forEach(btn => {
-            if(btn.title.toLowerCase().includes(presetName.substring(0,3))) btn.classList.add('active');
+            if(btn.title.toLowerCase().includes(presetName.substring(0,3))) {
+                btn.classList.add('active');
+            }
         });
     },
 
@@ -1295,7 +1249,7 @@ const app = {
     applyTheme() {
         if(this.state.isDark) {
             document.documentElement.setAttribute('data-theme', 'dark');
-            document.getElementById('dark-mode-toggle').innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7c.18 0 .36.02.54.04-.96 2.04-2.47 2.04-4.16 0 2.87 2.33 5.2 5.2 5.2 1.69 0 3.2-.79 4.16-2.04.02.18.04.36.04.54 0 3.86-3.14 7-7 7z"/></svg>';
+            document.getElementById('dark-mode-toggle').innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>';
         } else {
             document.documentElement.setAttribute('data-theme', 'light');
             document.getElementById('dark-mode-toggle').innerHTML = '<svg viewBox="0 0 24 24"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.71l.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8 11h2v-2.95h-2V21.5zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8zM12 5.5c-3.59 0-6.5 2.91-6.5 6.5s2.91 6.5 6.5 6.5 6.5-2.91 6.5-6.5-2.91-6.5-6.5-6.5zm0 11c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5z"/></svg>';
@@ -1310,13 +1264,22 @@ const app = {
         localStorage.setItem('itsh_recent', JSON.stringify(this.state.recentlyViewed));
     },
 
-    getSemesterName(id) { return this.data.semesters.find(s => s.id === id)?.name || ''; },
-    getSubjectName(semId, subId) { return this.data.semesters.find(s => s.id === semId)?.subjects.find(sub => sub.id === subId)?.name || ''; },
-    toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); },
+    getSemesterName(id) { 
+        return this.data.semesters.find(s => s.id === id)?.name || ""; 
+    },
+    
+    getSubjectName(semId, subId) { 
+        return this.data.semesters.find(s => s.id === semId)?.subjects.find(sub => sub.id === subId)?.name || ""; 
+    },
+
+    toggleMobileMenu() { 
+        document.getElementById('main-nav').classList.toggle('show'); 
+    },
 
     setupEventListeners() {
         const searchInput = document.getElementById('search-input');
         let debounceTimer;
+
         searchInput.addEventListener('input', (e) => {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => this.performSearch(e.target.value), 300);
@@ -1328,7 +1291,7 @@ const app = {
                 themePanel.classList.remove('active');
             }
         });
-        
+
         window.addEventListener('popstate', (e) => {
             if (e.state && e.state.view) {
                 if(this.state.historyStack.length > 0) this.state.historyStack.pop();
@@ -1344,29 +1307,28 @@ const app = {
         let touchStartY = 0;
         let touchEndX = 0;
         let touchEndY = 0;
-        touchStartTime = 0;
+        let touchStartTime = 0;
 
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
-            touchStartTime = new Date().getTime(); 
+            touchStartTime = new Date().getTime();
         }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
-            const touchEndTime = new Date().getTime(); 
-            const timeDiff = touchEndTime - touchStartTime; 
-
+            const touchEndTime = new Date().getTime();
+            const timeDiff = touchEndTime - touchStartTime;
             this.handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY, timeDiff);
         }, { passive: true });
     },
-
+    
     handleSwipe(startX, startY, endX, endY, timeDiff) {
         const xDiff = endX - startX;
         const yDiff = Math.abs(endY - startY);
-        const isEdgeSwipe = startX <= 40; 
-        
+        const isEdgeSwipe = startX <= 40;
+
         if (isEdgeSwipe && xDiff > 70 && yDiff < 40 && timeDiff < 400) {
             if (this.state.currentView !== 'home') {
                 this.goBack();
