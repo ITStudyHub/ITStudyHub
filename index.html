@@ -453,16 +453,28 @@ const app = {
         ];
         
         // Practical Journal Map for all 9 subjects
+  //      const customJournalMap = {
+  //          "INTRODUCTION TO PROGRAMMING-I": ["IP1_Practical_Journal.pdf"],
+  //          "WEB DESIGNING-I": ["WD1_Practical_Journal.pdf"],
+  //          "OFFICE AUTOMATION TOOLS": ["OAT_Practical_Journal.pdf"],
+  //          "INTRODUCTION TO PROGRAMMING-II": ["IP2_Practical_Journal.pdf"],
+   //         "WEB DESIGNING-II": ["WD2_Practical_Journal.pdf"],
+   //         "MULTIMEDIA AND ANIMATION": ["MA_Practical_Journal.pdf"],
+  //          "DATABASE MANAGEMENT SYSTEM": ["DBMS_Practical_Journal.pdf"],
+   //         "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": ["OOP_Practical_Journal.pdf"],
+    //        "DATA STRUCTURE": ["DS_Practical_Journal.pdf"]
+ //       };
+
         const customJournalMap = {
-            "INTRODUCTION TO PROGRAMMING-I": ["IP1_Practical_Journal.pdf"],
-            "WEB DESIGNING-I": ["WD1_Practical_Journal.pdf"],
-            "OFFICE AUTOMATION TOOLS": ["OAT_Practical_Journal.pdf"],
-            "INTRODUCTION TO PROGRAMMING-II": ["IP2_Practical_Journal.pdf"],
-            "WEB DESIGNING-II": ["WD2_Practical_Journal.pdf"],
-            "MULTIMEDIA AND ANIMATION": ["MA_Practical_Journal.pdf"],
-            "DATABASE MANAGEMENT SYSTEM": ["DBMS_Practical_Journal.pdf"],
-            "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": ["OOP_Practical_Journal.pdf"],
-            "DATA STRUCTURE": ["DS_Practical_Journal.pdf"]
+            "INTRODUCTION TO PROGRAMMING-I": ["IP1_Practical.pdf"],
+            "WEB DESIGNING-I": ["WD1_Practical.pdf"],
+            "OFFICE AUTOMATION TOOLS": ["OAT_Practical.pdf"],
+            "INTRODUCTION TO PROGRAMMING-II": ["IP2_Practical.pdf"],
+            "WEB DESIGNING-II": ["WD2_Practical.pdf"],
+            "MULTIMEDIA AND ANIMATION": ["MA_Practical.pdf"],
+            "DATABASE MANAGEMENT SYSTEM": ["DBMS_Practical.pdf"],
+            "OBJECT ORIENTED CONCEPTS AND PROGRAMMING": ["OOP_Practical.pdf"],
+            "DATA STRUCTURE": ["DS_Practical.pdf"]
         };
 
         const customPdfMap = {
@@ -775,13 +787,22 @@ const app = {
                         url: file
                     }));
 
-                    const journalsMapped = journalList.map((file, jIdx) => ({
-                        id: `jou-${semIdx + 1}-${subIdx + 1}-${jIdx + 1}`,
-                        title: `${subName} - Practical Journal.pdf`,
+       //             const journalsMapped = journalList.map((file, jIdx) => ({
+       //                 id: `jou-${semIdx + 1}-${subIdx + 1}-${jIdx + 1}`,
+      //                  title: `${subName} - Practical Journal.pdf`,
+       //                 type: "Journal PDF",
+        //                date: "Nov 2026",
+       //                 url: file
+        //            }));
+
+                    const journalsMapped = journalList.map((file, jldx) => ({
+                        id: `jou-${semldx + 1}-${subldx + 1}-${jldx + 1}`,
+                        title: file, 
                         type: "Journal PDF",
                         date: "Nov 2026",
                         url: file
                     }));
+
 
                     return {
                         id: subId,
